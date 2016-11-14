@@ -6,8 +6,8 @@
 package com.github.speedcheetah.SGCA;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.Scanner;
 
 /**
@@ -16,7 +16,9 @@ import java.util.Scanner;
  */
 public class RepositorioEvento {
 
-    public void addEvento(ArrayList eventos) {
+    public void addEvento() {
+
+        ArrayList eventos = new ArrayList();
 
         try (Scanner entrada = new Scanner(System.in)) {
             //Dizem que é uma boa prática colocar o Scanner dentro do try
@@ -37,7 +39,7 @@ public class RepositorioEvento {
                     System.out.print("Data de início (dia): ");
                     int dia = Integer.parseInt(entrada.nextLine());
                     dataInicial.set(ano, mes - 1, dia);
-                }while (testaData(dataInicial));
+                } while (testaData(dataInicial));
 
                 GregorianCalendar dataFinal = new GregorianCalendar();
                 dataFinal.clear();
@@ -50,7 +52,7 @@ public class RepositorioEvento {
                     System.out.print("Data de término (dia): ");
                     int dia = Integer.parseInt(entrada.nextLine());
                     dataFinal.set(ano, mes - 1, dia);
-                }while (testaData(dataFinal));
+                } while (testaData(dataFinal));
 
                 System.out.print("Regional: ");
                 String regional = entrada.nextLine();
@@ -80,7 +82,7 @@ public class RepositorioEvento {
     }
 
     public boolean testaData(GregorianCalendar cal) {
-        try{
+        try {
             cal.getTime();
         } catch (Exception ex) {
             return true;
@@ -88,4 +90,15 @@ public class RepositorioEvento {
 
         return false;
     }
+
+    public void exibirRegional(ArrayList eventos, String regpesq) {
+
+        for (Iterator itr = eventos.iterator(); itr.hasNext();) {
+            Eventos e = (Eventos) itr.next();
+            if (regpesq.equals(e.getRegional())) {
+                System.out.println(e.toString());
+            }
+        }
+    }
+
 }

@@ -25,7 +25,7 @@ public class CalendarioAcademico {
 
         System.out.println("##### Cadastro de eventos #####\n");
 
-        repositorio.addEvento(eventos);
+        repositorio.addEvento();
 
         Collections.sort(eventos);
         eventos.forEach(System.out::println);

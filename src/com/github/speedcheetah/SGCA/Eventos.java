@@ -41,7 +41,7 @@ public class Eventos implements Comparable<Eventos> {
         StringBuilder retorno = new StringBuilder();
         SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
         retorno.append("\n*").append("\nNome do Evento: ").append(nome);
-        if(dataInicial.compareTo(dataFinal) == 0){
+        if (dataInicial.compareTo(dataFinal) == 0) {
             retorno.append("\nData do Evento: ")
                     .append(formato.format(dataInicial.getTime()))
                     .append("\nRegional: ").append(regional)
@@ -90,6 +90,10 @@ public class Eventos implements Comparable<Eventos> {
     @Override
     final public int compareTo(Eventos evento) {
         return this.dataInicial.compareTo(evento.dataInicial);
+    }
+
+    public String getRegional() {
+        return regional;
     }
 
 }
