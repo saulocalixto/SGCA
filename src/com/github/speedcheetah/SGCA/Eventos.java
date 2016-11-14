@@ -40,16 +40,18 @@ public class Eventos implements Comparable<Eventos> {
     final public String toString() {
         StringBuilder retorno = new StringBuilder();
         SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-        retorno.append("\n*").append("\nNome do Evento: ").append(nome)
-                .append("\nData de Ínicio do Evento: ")
-                .append(formato.format(dataInicial.getTime())).append("/");
+        retorno.append("\n*").append("\nNome do Evento: ").append(nome);
         if(dataInicial.compareTo(dataFinal) == 0){
-            retorno.append("\nRegional: ").append(regional)
+            retorno.append("\nData do Evento: ")
+                    .append(formato.format(dataInicial.getTime()))
+                    .append("\nRegional: ").append(regional)
                     .append("\nInstituto sede: ").append(instituto)
                     .append("\nDescrição: ").append(descricao).append("\n");
         } else {
-            retorno.append("\nData de Término do Evento: ")
-                    .append(formato.format(dataFinal.getTime())).append("/")
+            retorno.append("\nData de Ínicio do Evento: ")
+                    .append(formato.format(dataInicial.getTime()))
+                    .append("\nData de Término do Evento: ")
+                    .append(formato.format(dataFinal.getTime()))
                     .append("\nRegional: ").append(regional)
                     .append("\nInstituto sede: ").append(instituto)
                     .append("\nDescrição: ").append(descricao).append("\n");

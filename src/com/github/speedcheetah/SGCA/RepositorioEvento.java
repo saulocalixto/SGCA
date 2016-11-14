@@ -5,6 +5,7 @@
  */
 package com.github.speedcheetah.SGCA;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
@@ -15,7 +16,7 @@ import java.util.Scanner;
  */
 public class RepositorioEvento {
 
-    public void addEvento(Collection eventos) {
+    public void addEvento(ArrayList eventos) {
 
         try (Scanner entrada = new Scanner(System.in)) {
             //Dizem que é uma boa prática colocar o Scanner dentro do try
