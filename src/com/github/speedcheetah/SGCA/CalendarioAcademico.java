@@ -6,7 +6,7 @@
 package com.github.speedcheetah.SGCA;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 
 /**
  *
@@ -19,21 +19,21 @@ public class CalendarioAcademico {
      */
     public static void main(String[] args) {
 
-        Collection eventos = new ArrayList();
+        ArrayList eventos = new ArrayList();
         RepositorioEvento repositorio = new RepositorioEvento();
         //cria um ArrayList que é uma coleção de dados, no caso Eventos.
 
         System.out.println("##### Cadastro de eventos #####\n");
-        
+
         repositorio.addEvento(eventos);
 
-        eventos.forEach(System.out::println); //chama o método toString (sei 
-        //lá como, vi na internet hehe.
-        
-        
+        Collections.sort(eventos);
+        eventos.forEach(System.out::println);
+
+
 
         System.out.println("Fim");
+        System.exit(0);
 
     }
-
 }

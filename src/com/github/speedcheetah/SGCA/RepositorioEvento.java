@@ -6,6 +6,7 @@
 package com.github.speedcheetah.SGCA;
 
 import java.util.Collection;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 /**
@@ -24,11 +25,31 @@ public class RepositorioEvento {
                 System.out.print("Nome: ");
                 String nome = entrada.nextLine();
 
-                String data = "";
-                while(testaData(data)) {
-                    System.out.print("Data (dd/mm/aaa): ");
-                    data = entrada.nextLine();
-                }
+                GregorianCalendar dataInicial = new GregorianCalendar();
+                dataInicial.clear();
+                dataInicial.setLenient(false);
+                do {
+                    System.out.print("Data de início(ano): ");
+                    int ano = Integer.parseInt(entrada.nextLine());
+                    System.out.print("Data de início(mês): ");
+                    int mes = Integer.parseInt(entrada.nextLine());
+                    System.out.print("Data de início (dia): ");
+                    int dia = Integer.parseInt(entrada.nextLine());
+                    dataInicial.set(ano, mes - 1, dia);
+                }while (testaData(dataInicial));
+
+                GregorianCalendar dataFinal = new GregorianCalendar();
+                dataFinal.clear();
+                dataFinal.setLenient(false);
+                do {
+                    System.out.print("Data de término (ano): ");
+                    int ano = Integer.parseInt(entrada.nextLine());
+                    System.out.print("Data de término (mês): ");
+                    int mes = Integer.parseInt(entrada.nextLine());
+                    System.out.print("Data de término (dia): ");
+                    int dia = Integer.parseInt(entrada.nextLine());
+                    dataFinal.set(ano, mes - 1, dia);
+                }while (testaData(dataFinal));
 
                 System.out.print("Regional: ");
                 String regional = entrada.nextLine();
@@ -39,11 +60,12 @@ public class RepositorioEvento {
                 System.out.print("Descrição: ");
                 String descricao = entrada.nextLine();
 
-                Eventos evento = new Eventos(nome, data,
+                Eventos evento = new Eventos(nome, dataInicial, dataFinal,
                         regional, instituto, descricao);
                 //Aqui eu instancio a classe eventos para adicionar os dados.
                 if (eventos.contains(evento)) {
-                    System.err.println("Esse produto já foi adicionado. Utilize outro Evento!");
+                    System.err.println("Esse produto já foi adicionado."
+                            + " Utilize outro Evento!");
                 } else {
                     eventos.add(evento);
                     System.out.println("Evento adicionado.");
@@ -55,15 +77,14 @@ public class RepositorioEvento {
             }
         }
     }
-    
-    public boolean testaData(String data) {
-        if(data.length() == 10) {
-            if(data.charAt(2) == '/') {
-                if(data.charAt(5) == '/') {
-                    return false;
-                }
-            }
+
+    public boolean testaData(GregorianCalendar cal) {
+        try{
+            cal.getTime();
+        } catch (Exception ex) {
+            return true;
         }
-        return true;
+
+        return false;
     }
 }

@@ -5,39 +5,55 @@
  */
 package com.github.speedcheetah.SGCA;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Objects;
 
 /**
  *
  * @author saulognome
  */
-public class Eventos {
+public class Eventos implements Comparable<Eventos> {
 
     private String nome;
-    private String data;
+    private GregorianCalendar dataInicial;
+    private GregorianCalendar dataFinal;
     private String regional;
     private String instituto;
     private String descricao;
     private String identificacaounica;
-    private StringBuilder retorno = new StringBuilder();
 
-    public Eventos(String nome, String data, String regional, String instituto, String descricao) {
+    public Eventos(String nome, GregorianCalendar dataInicial,
+            GregorianCalendar dataFinal, String regional, String instituto,
+            String descricao) {
         this.nome = nome;
-        this.data = data;
+        this.dataInicial = dataInicial;
+        this.dataFinal = dataFinal;
         this.regional = regional;
         this.instituto = instituto;
         this.descricao = descricao;
-        identificacaounica = nome + data + instituto;
-        retorno = retorno.append("\n*********************************")
-                .append("\nNome do Evento: ").append(nome)
-                .append("\nData do Evento: ").append(data)
-                .append("\nRegional: ").append(regional)
-                .append("\nInstituto sede: ").append(instituto)
-                .append("\nDescrição: ").append(descricao).append("\n");
+        identificacaounica = nome + dataInicial + instituto;
     }
 
     @Override
-    public String toString() {
+    final public String toString() {
+        StringBuilder retorno = new StringBuilder();
+        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        retorno.append("\n*").append("\nNome do Evento: ").append(nome)
+                .append("\nData de Ínicio do Evento: ")
+                .append(formato.format(dataInicial.getTime())).append("/");
+        if(dataInicial.compareTo(dataFinal) == 0){
+            retorno.append("\nRegional: ").append(regional)
+                    .append("\nInstituto sede: ").append(instituto)
+                    .append("\nDescrição: ").append(descricao).append("\n");
+        } else {
+            retorno.append("\nData de Término do Evento: ")
+                    .append(formato.format(dataFinal.getTime())).append("/")
+                    .append("\nRegional: ").append(regional)
+                    .append("\nInstituto sede: ").append(instituto)
+                    .append("\nDescrição: ").append(descricao).append("\n");
+        }
         return retorno.toString();
     }
 
@@ -45,14 +61,14 @@ public class Eventos {
     //usarmos um hashmap ou um hashset. Ele cria um código único para cada
     //identificação única.
     @Override
-    public int hashCode() {
+    final public int hashCode() {
         int hash = 7;
         hash = 53 * hash + Objects.hashCode(this.identificacaounica);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    final public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -68,5 +84,10 @@ public class Eventos {
         }
         return true;
     }
-    
+
+    @Override
+    final public int compareTo(Eventos evento) {
+        return this.dataInicial.compareTo(evento.dataInicial);
+    }
+
 }
