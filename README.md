@@ -13,7 +13,7 @@ Bem vindos ao SGCA, Sistema de Gestão de Calendário Acadêmico, um sistema des
 > - [Url do SGCA](https://github.com/speed-cheetah/SGCA) 
 > - Grupo Speed Chetaah
 > 
-> **Integrantes:**
+> **Integrantes Speed Cheetah:**
 
 > - Gustavo Silva Batista
 > - Marcos Rafael
@@ -48,6 +48,6 @@ Mais detalhes de como contribuir e enviar Pull Requests em [GitHub Collaborating
 
 #### <i class="icon-hdd"></i> Copyright e Licença
 
-Copyright (c) 2016. Engenharia de Software - Instituto de Informática (UFG)
-Creative Commons Attribution 4.0 International License.
-Speed Cheetah
+This work is licensed under a [Creative Commons Attribution 4.0 International License.](http://creativecommons.org/licenses/by/4.0/)
+
+**Speed Cheetah** - Fábrica de Software - Instituto de Informática (UFG).
