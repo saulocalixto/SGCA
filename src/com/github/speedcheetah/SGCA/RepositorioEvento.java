@@ -19,118 +19,95 @@ public class RepositorioEvento {
 
     private Regionais regionalEnum;
 
-    public void addEvento(ArrayList<Evento> eventos) {
-        try (Scanner entrada = new Scanner(System.in)) {
-            //Dizem que é uma boa prática colocar o Scanner dentro do try
-            String continuar = "s";
-            while ("s".equalsIgnoreCase(continuar)) {
-                //enquanto for igual a s.
-                System.out.print("Nome: ");
-                String nome = entrada.nextLine();
+    public void addEvento(ArrayList<Evento> eventos, Scanner entrada) {
+        String continuar = "s";
+        while ("s".equalsIgnoreCase(continuar)) {
+            //enquanto for igual a s.
+            System.out.print("Nome: ");
+            String nome = entrada.nextLine();
 
-                GregorianCalendar dataInicial = new GregorianCalendar();
-                dataInicial.setLenient(false);
-                do {
-                    System.out.print("Data de início(dd/mm/aaaa): ");
-                    String data = entrada.nextLine();
-                    ArrayList dataValor = parseData(data);
-                    try {
-                        dataInicial.set(Integer.parseInt(dataValor.get(2).toString()),
-                                Integer.parseInt(dataValor.get(1).toString()) - 1,
-                                Integer.parseInt(dataValor.get(0).toString()));
-                    } catch (NumberFormatException | IndexOutOfBoundsException ex) {
-                        dataInicial.set(-1, -1, -1);
-                    }
-                } while (testaData(dataInicial));
+            GregorianCalendar dataInicial = new GregorianCalendar();
+            dataInicial.setLenient(false);
+            do {
+                System.out.print("Data de início(dd/mm/aaaa): ");
+                String data = entrada.nextLine();
+                ArrayList dataValor = parseData(data);
+                try {
+                    dataInicial.set(Integer.parseInt(dataValor.get(2).toString()),
+                            Integer.parseInt(dataValor.get(1).toString()) - 1,
+                            Integer.parseInt(dataValor.get(0).toString()));
+                } catch (NumberFormatException | IndexOutOfBoundsException ex) {
+                    dataInicial.set(-1, -1, -1);
+                }
+            } while (testaData(dataInicial));
 
-                GregorianCalendar dataFinal = new GregorianCalendar();
-                dataFinal.setLenient(false);
-                do {
-                    System.out.print("Data de término (dd/mm/aaaa): ");
-                    String data = entrada.nextLine();
-                    ArrayList dataValor = parseData(data);
-                    try {
-                        dataFinal.set(Integer.parseInt(dataValor.get(2).toString()),
-                                Integer.parseInt(dataValor.get(1).toString()) - 1,
-                                Integer.parseInt(dataValor.get(0).toString()));
-                    } catch (NumberFormatException | IndexOutOfBoundsException ex) {
-                        dataFinal.set(-1, -1, -1);
-                    }
-                } while (testaData(dataFinal));
-                String maisum = "s";
-                int cont = 0;
-                ArrayList<String> regionalList = new ArrayList();
-                while ("s".equalsIgnoreCase(maisum) && cont < 4) {
+            GregorianCalendar dataFinal = new GregorianCalendar();
+            dataFinal.setLenient(false);
+            do {
+                System.out.print("Data de término (dd/mm/aaaa): ");
+                String data = entrada.nextLine();
+                ArrayList dataValor = parseData(data);
+                try {
+                    dataFinal.set(Integer.parseInt(dataValor.get(2).toString()),
+                            Integer.parseInt(dataValor.get(1).toString()) - 1,
+                            Integer.parseInt(dataValor.get(0).toString()));
+                } catch (NumberFormatException | IndexOutOfBoundsException ex) {
+                    dataFinal.set(-1, -1, -1);
+                }
+            } while (testaData(dataFinal));
+            String maisUm = "s";
+            int cont = 0;
+            ArrayList<String> regionalList = new ArrayList();
+            while ("s".equalsIgnoreCase(maisUm) && cont < 4) {
 
-                    System.out.println("Escolha a regional pelo número correspondente"
-                            + ": ");
-                    System.out.println("1. "
-                            + Regionais.CATALAO.getRepresentacaoTextual());
-                    System.out.println("2. "
-                            + Regionais.GOIAS.getRepresentacaoTextual());
-                    System.out.println("3. "
-                            + Regionais.JATAI.getRepresentacaoTextual());
-                    System.out.println("4. "
-                            + Regionais.GOIANIA.getRepresentacaoTextual());
-                    int numRegional = Integer.parseInt(entrada.nextLine());
-                    String escolhaRegional = null;
+                System.out.println("Escolha a regional pelo número correspondente"
+                        + ": ");
+                System.out.println("1. "
+                        + Regionais.CATALAO.getRepresentacaoTextual());
+                System.out.println("2. "
+                        + Regionais.GOIAS.getRepresentacaoTextual());
+                System.out.println("3. "
+                        + Regionais.JATAI.getRepresentacaoTextual());
+                System.out.println("4. "
+                        + Regionais.GOIANIA.getRepresentacaoTextual());
+                int numRegional = Integer.parseInt(entrada.nextLine());
+                String escolhaRegional =
+                        Regionais.getRepresentacaoTextual(numRegional);
 
-                    switch (numRegional) {
-                        case 1:
-                            escolhaRegional
-                                    = Regionais.CATALAO.getRepresentacaoTextual();
-                            break;
-                        case 2:
-                            escolhaRegional
-                                    = Regionais.GOIAS.getRepresentacaoTextual();
-                            break;
-                        case 3:
-                            escolhaRegional
-                                    = Regionais.JATAI.getRepresentacaoTextual();
-                            break;
-                        case 4:
-                            escolhaRegional
-                                    = Regionais.GOIANIA.getRepresentacaoTextual();
-                            break;
-                        default:
-                            continue;
-                    }
-
-                    if (regionalList.contains(escolhaRegional)) {
-                        System.out.println("Regional já consta cadastrada para "
-                                + "esse evento.");
-                        continue;
-                    }
-
-                    regionalList.add(escolhaRegional);
-                    System.out.println("Deseja cadastrar mais uma regional"
-                            + " para o evento:?");
-                    maisum = entrada.nextLine();
-
-                    cont++;
+                if (regionalList.contains(escolhaRegional)) {
+                    System.out.println("Regional já consta cadastrada para "
+                            + "esse evento.");
+                    continue;
                 }
 
-                System.out.print("Instituto: ");
-                String instituto = entrada.nextLine();
+                regionalList.add(escolhaRegional);
+                System.out.println("Deseja cadastrar mais uma regional"
+                        + " para o evento:?");
+                maisUm = entrada.nextLine();
 
-                System.out.print("Descrição: ");
-                String descricao = entrada.nextLine();
-
-                Evento evento = new Evento(nome, dataInicial, dataFinal,
-                        regionalList, instituto, descricao);
-                //Aqui eu instancio a classe eventos para adicionar os dados.
-                if (eventos.contains(evento)) {
-                    System.err.println("Esse produto já foi adicionado."
-                            + " Utilize outro Evento!");
-                } else {
-                    eventos.add(evento);
-                    System.out.println("Evento adicionado.");
-                }
-
-                System.out.print("Deseja adicionar mais algum evento? (s/n) ");
-
-                continuar = entrada.nextLine();
+                cont++;
             }
+
+            System.out.print("Instituto: ");
+            String instituto = entrada.nextLine();
+
+            System.out.print("Descrição: ");
+            String descricao = entrada.nextLine();
+
+            Evento evento = new Evento(nome, dataInicial, dataFinal,
+                    regionalList, instituto, descricao);
+            //Aqui eu instancio a classe eventos para adicionar os dados.
+            if (eventos.contains(evento)) {
+                System.err.println("Esse produto já foi adicionado."
+                        + " Utilize outro Evento!");
+            } else {
+                eventos.add(evento);
+                System.out.println("Evento adicionado.");
+            }
+
+            System.out.print("Deseja adicionar mais algum evento? (s/n) ");
+
+            continuar = entrada.nextLine();
         }
     }
 
@@ -162,12 +139,8 @@ public class RepositorioEvento {
 
         for (Iterator itr = eventos.iterator(); itr.hasNext();) {
             Evento e = (Evento) itr.next();
-            int cont = 0;
-            for (cont = 0; cont < e.tamRegional(); cont++) {
-                if (e.getRegional(cont).contains(regPesq)) {
-                    System.out.println(e.toString());
-                    break;
-                }
+            if (e.getRegional().contains(regPesq)) {
+                System.out.println(e.toString());
             }
         }
     }

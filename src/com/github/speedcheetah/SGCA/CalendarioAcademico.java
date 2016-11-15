@@ -47,7 +47,7 @@ public class CalendarioAcademico {
                     break;
 
                 case 1:
-                    repositorio.addEvento(eventos);
+                    repositorio.addEvento(eventos, scan);
                     Collections.sort(eventos);
                     break;
 
@@ -56,10 +56,25 @@ public class CalendarioAcademico {
                     break;
 
                 case 3:
-//                    System.out.println("Digite a regional");
-//                    String entrada = scan.nextLine();
-//                    ArrayList<String> regionais = ArrayList();
-//                    repositorio.exibirRegional(eventos, regionais);
+                    System.out.println("Escolha a regional"
+                            + " pelo número correspondente: ");
+                    System.out.println("1. "
+                            + Regionais.CATALAO.getRepresentacaoTextual());
+                    System.out.println("2. "
+                            + Regionais.GOIAS.getRepresentacaoTextual());
+                    System.out.println("3. "
+                            + Regionais.JATAI.getRepresentacaoTextual());
+                    System.out.println("4. "
+                            + Regionais.GOIANIA.getRepresentacaoTextual());
+                    int numRegional;
+                    try {
+                        numRegional = Integer.parseInt(scan.nextLine());
+                    } catch (NumberFormatException ex) {
+                        break;
+                    }
+                    String escolhaRegional
+                            = Regionais.getRepresentacaoTextual(numRegional);
+                    repositorio.exibirRegional(eventos, escolhaRegional);
                     break;
 
                 default:

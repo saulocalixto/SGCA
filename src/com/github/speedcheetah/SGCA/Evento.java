@@ -8,6 +8,7 @@ package com.github.speedcheetah.SGCA;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.Objects;
 
 /**
@@ -45,18 +46,22 @@ public class Evento implements Comparable<Evento> {
                 .append(formato.format(dataInicial.getTime()));
         if (dataInicial.compareTo(dataFinal) == 0) {
             retorno.append("\nRegional(ais): ");
-            for (int cont = 1; cont <= tamRegional(); cont++) {
+            int cont = 1;
+            for (Iterator itr = regional.iterator(); itr.hasNext();) {
                 retorno.append(cont).append(". ")
-                        .append(regional.get(cont)).append("\n");
+                        .append(itr.next()).append("\n");
+                cont++;
             }
             retorno.append("\nInstituto sede: ").append(instituto)
                     .append("\nDescrição: ").append(descricao).append("\n");
         } else {
             retorno.append(" - ").append(formato.format(dataFinal.getTime()));
             retorno.append("\nRegional(ais): ");
-            for (int cont = 1; cont <= tamRegional(); cont++) {
+            int cont = 1;
+            for (Iterator itr = regional.iterator(); itr.hasNext();) {
                 retorno.append(cont).append(". ")
-                        .append(regional.get(cont)).append("\n");
+                        .append(itr.next()).append("\n");
+                cont++;
             }
             retorno.append("\nInstituto sede: ").append(instituto)
                     .append("\nDescrição: ").append(descricao).append("\n");
@@ -95,6 +100,10 @@ public class Evento implements Comparable<Evento> {
     @Override
     final public int compareTo(Evento evento) {
         return this.dataInicial.compareTo(evento.dataInicial);
+    }
+    
+    public ArrayList<String> getRegional() {
+        return this.regional;
     }
 
     public String getRegional(int index) {
