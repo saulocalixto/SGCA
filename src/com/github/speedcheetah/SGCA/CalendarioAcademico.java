@@ -6,7 +6,6 @@
 package com.github.speedcheetah.SGCA;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
 
@@ -57,11 +56,10 @@ public class CalendarioAcademico {
                     break;
 
                 case 3:
-                    System.out.println("Qual(is) a(s) regional(is) que deseja"
-                            + " procurar? (Separe por vírgula.)");
-                    String entrada = scan.nextLine();
-                    ArrayList<String> regionais = repositorio.parseString(entrada);
-                    repositorio.exibirRegional(eventos, regionais);
+//                    System.out.println("Digite a regional");
+//                    String entrada = scan.nextLine();
+//                    ArrayList<String> regionais = ArrayList();
+//                    repositorio.exibirRegional(eventos, regionais);
                     break;
 
                 default:
@@ -69,7 +67,6 @@ public class CalendarioAcademico {
             }
 
         }
-
         System.out.println("Fim");
         System.exit(0);
     }

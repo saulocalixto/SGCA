@@ -17,6 +17,8 @@ import java.util.Scanner;
  */
 public class RepositorioEvento {
 
+    private Regionais regionalEnum;
+
     public void addEvento(ArrayList<Evento> eventos) {
         try (Scanner entrada = new Scanner(System.in)) {
             //Dizem que é uma boa prática colocar o Scanner dentro do try
@@ -55,10 +57,58 @@ public class RepositorioEvento {
                         dataFinal.set(-1, -1, -1);
                     }
                 } while (testaData(dataFinal));
+                String maisum = "s";
+                int cont = 0;
+                ArrayList<String> regionalList = new ArrayList();
+                while ("s".equalsIgnoreCase(maisum) && cont < 4) {
 
-                System.out.print("Regional: ");
-                String regional = entrada.nextLine();
-                ArrayList<String> regionalList = parseString(regional);
+                    System.out.println("Escolha a regional pelo número correspondente"
+                            + ": ");
+                    System.out.println("1. "
+                            + Regionais.CATALAO.getRepresentacaoTextual());
+                    System.out.println("2. "
+                            + Regionais.GOIAS.getRepresentacaoTextual());
+                    System.out.println("3. "
+                            + Regionais.JATAI.getRepresentacaoTextual());
+                    System.out.println("4. "
+                            + Regionais.GOIANIA.getRepresentacaoTextual());
+                    int numRegional = Integer.parseInt(entrada.nextLine());
+                    String escolhaRegional = null;
+
+                    switch (numRegional) {
+                        case 1:
+                            escolhaRegional
+                                    = Regionais.CATALAO.getRepresentacaoTextual();
+                            break;
+                        case 2:
+                            escolhaRegional
+                                    = Regionais.GOIAS.getRepresentacaoTextual();
+                            break;
+                        case 3:
+                            escolhaRegional
+                                    = Regionais.JATAI.getRepresentacaoTextual();
+                            break;
+                        case 4:
+                            escolhaRegional
+                                    = Regionais.GOIANIA.getRepresentacaoTextual();
+                            break;
+                        default:
+                            continue;
+                    }
+
+                    if (regionalList.contains(escolhaRegional)) {
+                        System.out.println("Regional já consta cadastrada para "
+                                + "esse evento.");
+                        continue;
+                    }
+
+                    regionalList.add(escolhaRegional);
+                    System.out.println("Deseja cadastrar mais uma regional"
+                            + " para o evento:?");
+                    maisum = entrada.nextLine();
+
+                    cont++;
+                }
 
                 System.out.print("Instituto: ");
                 String instituto = entrada.nextLine();
@@ -108,23 +158,23 @@ public class RepositorioEvento {
         return valores;
     }
 
-    public void exibirRegional(ArrayList eventos, ArrayList<String> regPesq) {
+    public void exibirRegional(ArrayList eventos, String regPesq) {
 
         for (Iterator itr = eventos.iterator(); itr.hasNext();) {
             Evento e = (Evento) itr.next();
-            for (Iterator itrReg = regPesq.iterator(); itrReg.hasNext();) {
-                String reg = (String) itrReg.next();
-                if (e.getRegional().contains(reg)) {
+            int cont = 0;
+            for (cont = 0; cont < e.tamRegional(); cont++) {
+                if (e.getRegional(cont).contains(regPesq)) {
                     System.out.println(e.toString());
                     break;
                 }
             }
         }
     }
-    
+
     public ArrayList<String> parseString(String s) {
         ArrayList<String> palavras = new ArrayList();
-        if (s.contains(",")){
+        if (s.contains(",")) {
             String[] tempPalavra = s.trim().split(",");
             palavras.addAll(Arrays.asList(tempPalavra));
         } else {

@@ -44,13 +44,21 @@ public class Evento implements Comparable<Evento> {
                 .append("\nData do Evento: ")
                 .append(formato.format(dataInicial.getTime()));
         if (dataInicial.compareTo(dataFinal) == 0) {
-            retorno.append("\nRegional: ").append(regional)
-                    .append("\nInstituto sede: ").append(instituto)
+            retorno.append("\nRegional(ais): ");
+            for (int cont = 1; cont <= tamRegional(); cont++) {
+                retorno.append(cont).append(". ")
+                        .append(regional.get(cont)).append("\n");
+            }
+            retorno.append("\nInstituto sede: ").append(instituto)
                     .append("\nDescrição: ").append(descricao).append("\n");
         } else {
-            retorno.append(" - ").append(formato.format(dataFinal.getTime()))
-                    .append("\nRegional: ").append(regional)
-                    .append("\nInstituto sede: ").append(instituto)
+            retorno.append(" - ").append(formato.format(dataFinal.getTime()));
+            retorno.append("\nRegional(ais): ");
+            for (int cont = 1; cont <= tamRegional(); cont++) {
+                retorno.append(cont).append(". ")
+                        .append(regional.get(cont)).append("\n");
+            }
+            retorno.append("\nInstituto sede: ").append(instituto)
                     .append("\nDescrição: ").append(descricao).append("\n");
         }
         return retorno.toString();
@@ -89,8 +97,12 @@ public class Evento implements Comparable<Evento> {
         return this.dataInicial.compareTo(evento.dataInicial);
     }
 
-    public ArrayList<String> getRegional() {
-        return regional;
+    public String getRegional(int index) {
+        return regional.get(index);
+    }
+
+    public int tamRegional() {
+        return regional.size();
     }
 
 }
