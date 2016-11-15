@@ -78,7 +78,7 @@ public class CalendarioAcademico {
                             = Regionais.CATALAO.escolhaRegional(numRegional);
                     repositorio.exibirRegional(eventos, escolhaRegional);
                     break;
-
+                    
                 default:
                     break;
             }

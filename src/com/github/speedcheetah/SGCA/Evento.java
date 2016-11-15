@@ -113,5 +113,9 @@ public class Evento implements Comparable<Evento> {
     public int tamRegional() {
         return regional.size();
     }
+    
+    public String getNome (){
+        return this.nome;
+    }
 
 }
