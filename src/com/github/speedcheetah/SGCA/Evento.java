@@ -6,6 +6,7 @@
 package com.github.speedcheetah.SGCA;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
@@ -18,14 +19,14 @@ public class Evento implements Comparable<Evento> {
     private String nome;
     private GregorianCalendar dataInicial;
     private GregorianCalendar dataFinal;
-    private String regional;
+    private ArrayList<String> regional;
     private String instituto;
     private String descricao;
     private String identificacaounica;
 
     public Evento(String nome, GregorianCalendar dataInicial,
-            GregorianCalendar dataFinal, String regional, String instituto,
-            String descricao) {
+            GregorianCalendar dataFinal, ArrayList<String> regional,
+            String instituto, String descricao) {
         this.nome = nome;
         this.dataInicial = dataInicial;
         this.dataFinal = dataFinal;
@@ -88,7 +89,7 @@ public class Evento implements Comparable<Evento> {
         return this.dataInicial.compareTo(evento.dataInicial);
     }
 
-    public String getRegional() {
+    public ArrayList<String> getRegional() {
         return regional;
     }
 

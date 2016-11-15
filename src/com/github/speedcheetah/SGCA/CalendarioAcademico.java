@@ -38,7 +38,7 @@ public class CalendarioAcademico {
             try {
                 opcao = Integer.parseInt(scan.nextLine());
             } catch (NumberFormatException ex) {
-                opcao = -1;
+                opcao = 10;
             }
 
             switch (opcao) {
@@ -49,10 +49,10 @@ public class CalendarioAcademico {
 
                 case 1:
                     repositorio.addEvento(eventos);
+                    Collections.sort(eventos);
                     break;
 
                 case 2:
-                    Collections.sort(eventos);
                     eventos.forEach(System.out::println);
                     break;
 
@@ -60,8 +60,7 @@ public class CalendarioAcademico {
                     System.out.println("Qual(is) a(s) regional(is) que deseja"
                             + " procurar? (Separe por vírgula.)");
                     String entrada = scan.nextLine();
-                    ArrayList<String> regionais = parseString(entrada);
-                    Collections.sort(eventos);
+                    ArrayList<String> regionais = repositorio.parseString(entrada);
                     repositorio.exibirRegional(eventos, regionais);
                     break;
 
@@ -73,17 +72,6 @@ public class CalendarioAcademico {
 
         System.out.println("Fim");
         System.exit(0);
-    }
-
-    private static ArrayList<String> parseString(String s) {
-        ArrayList<String> palavras = new ArrayList();
-        if (s.contains(",")){
-            String[] tempPalavra = s.trim().split(",");
-            palavras.addAll(Arrays.asList(tempPalavra));
-        } else {
-            palavras.add(s.trim());
-        }
-        return palavras;
     }
 
 }

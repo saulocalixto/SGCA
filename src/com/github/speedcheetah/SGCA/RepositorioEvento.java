@@ -6,6 +6,7 @@
 package com.github.speedcheetah.SGCA;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -33,8 +34,8 @@ public class RepositorioEvento {
                     ArrayList dataValor = parseData(data);
                     try {
                         dataInicial.set(Integer.parseInt(dataValor.get(2).toString()),
-                            Integer.parseInt(dataValor.get(1).toString()) - 1,
-                            Integer.parseInt(dataValor.get(0).toString()));
+                                Integer.parseInt(dataValor.get(1).toString()) - 1,
+                                Integer.parseInt(dataValor.get(0).toString()));
                     } catch (NumberFormatException | IndexOutOfBoundsException ex) {
                         dataInicial.set(-1, -1, -1);
                     }
@@ -48,8 +49,8 @@ public class RepositorioEvento {
                     ArrayList dataValor = parseData(data);
                     try {
                         dataFinal.set(Integer.parseInt(dataValor.get(2).toString()),
-                            Integer.parseInt(dataValor.get(1).toString()) - 1,
-                            Integer.parseInt(dataValor.get(0).toString()));
+                                Integer.parseInt(dataValor.get(1).toString()) - 1,
+                                Integer.parseInt(dataValor.get(0).toString()));
                     } catch (NumberFormatException | IndexOutOfBoundsException ex) {
                         dataFinal.set(-1, -1, -1);
                     }
@@ -57,6 +58,7 @@ public class RepositorioEvento {
 
                 System.out.print("Regional: ");
                 String regional = entrada.nextLine();
+                ArrayList<String> regionalList = parseString(regional);
 
                 System.out.print("Instituto: ");
                 String instituto = entrada.nextLine();
@@ -65,7 +67,7 @@ public class RepositorioEvento {
                 String descricao = entrada.nextLine();
 
                 Evento evento = new Evento(nome, dataInicial, dataFinal,
-                        regional, instituto, descricao);
+                        regionalList, instituto, descricao);
                 //Aqui eu instancio a classe eventos para adicionar os dados.
                 if (eventos.contains(evento)) {
                     System.err.println("Esse produto já foi adicionado."
@@ -92,7 +94,7 @@ public class RepositorioEvento {
         return false;
     }
 
-    private ArrayList parseData(String data) {
+    public ArrayList parseData(String data) {
         ArrayList valores = new ArrayList();
 
         if (data.length() != 10) {
@@ -106,14 +108,29 @@ public class RepositorioEvento {
         return valores;
     }
 
-    public void exibirRegional(ArrayList eventos, String regPesq) {
+    public void exibirRegional(ArrayList eventos, ArrayList<String> regPesq) {
 
         for (Iterator itr = eventos.iterator(); itr.hasNext();) {
             Evento e = (Evento) itr.next();
-            if (regPesq.equals(e.getRegional())) {
-                System.out.println(e.toString());
+            for (Iterator itrReg = regPesq.iterator(); itrReg.hasNext();) {
+                String reg = (String) itrReg.next();
+                if (e.getRegional().contains(reg)) {
+                    System.out.println(e.toString());
+                    break;
+                }
             }
         }
+    }
+    
+    public ArrayList<String> parseString(String s) {
+        ArrayList<String> palavras = new ArrayList();
+        if (s.contains(",")){
+            String[] tempPalavra = s.trim().split(",");
+            palavras.addAll(Arrays.asList(tempPalavra));
+        } else {
+            palavras.add(s.trim());
+        }
+        return palavras;
     }
 
 }
