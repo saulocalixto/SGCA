@@ -6,7 +6,9 @@
 package com.github.speedcheetah.SGCA;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Scanner;
 
 /**
  *
@@ -21,19 +23,67 @@ public class CalendarioAcademico {
 
         ArrayList eventos = new ArrayList();
         RepositorioEvento repositorio = new RepositorioEvento();
-        //cria um ArrayList que é uma coleção de dados, no caso Eventos.
 
         System.out.println("##### Cadastro de eventos #####\n");
 
-        repositorio.addEvento();
+        int opcao = 1;
+        Scanner scan = new Scanner(System.in);
 
-        Collections.sort(eventos);
-        eventos.forEach(System.out::println);
+        while (opcao != 0) {
+            System.out.println("0 - Sair do programa.");
+            System.out.println("1 - Cadastrar evento novo.");
+            System.out.println("2 - Exibir calendário inteiro.");
+            System.out.println("3 - Pesquisar por regional.");
 
+            try {
+                opcao = Integer.parseInt(scan.nextLine());
+            } catch (NumberFormatException ex) {
+                opcao = -1;
+            }
 
+            switch (opcao) {
+                case 0:
+                    System.out.println("Fim");
+                    System.exit(0);
+                    break;
+
+                case 1:
+                    repositorio.addEvento(eventos);
+                    break;
+
+                case 2:
+                    Collections.sort(eventos);
+                    eventos.forEach(System.out::println);
+                    break;
+
+                case 3:
+                    System.out.println("Qual(is) a(s) regional(is) que deseja"
+                            + " procurar? (Separe por vírgula.)");
+                    String entrada = scan.nextLine();
+                    ArrayList<String> regionais = parseString(entrada);
+                    Collections.sort(eventos);
+                    repositorio.exibirRegional(eventos, regionais);
+                    break;
+
+                default:
+                    break;
+            }
+
+        }
 
         System.out.println("Fim");
         System.exit(0);
-
     }
+
+    private static ArrayList<String> parseString(String s) {
+        ArrayList<String> palavras = new ArrayList();
+        if (s.contains(",")){
+            String[] tempPalavra = s.trim().split(",");
+            palavras.addAll(Arrays.asList(tempPalavra));
+        } else {
+            palavras.add(s.trim());
+        }
+        return palavras;
+    }
+
 }

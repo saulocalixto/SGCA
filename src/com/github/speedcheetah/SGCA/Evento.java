@@ -6,7 +6,6 @@
 package com.github.speedcheetah.SGCA;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
@@ -14,7 +13,7 @@ import java.util.Objects;
  *
  * @author saulognome
  */
-public class Eventos implements Comparable<Eventos> {
+public class Evento implements Comparable<Evento> {
 
     private String nome;
     private GregorianCalendar dataInicial;
@@ -24,7 +23,7 @@ public class Eventos implements Comparable<Eventos> {
     private String descricao;
     private String identificacaounica;
 
-    public Eventos(String nome, GregorianCalendar dataInicial,
+    public Evento(String nome, GregorianCalendar dataInicial,
             GregorianCalendar dataFinal, String regional, String instituto,
             String descricao) {
         this.nome = nome;
@@ -40,18 +39,15 @@ public class Eventos implements Comparable<Eventos> {
     final public String toString() {
         StringBuilder retorno = new StringBuilder();
         SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-        retorno.append("\n*").append("\nNome do Evento: ").append(nome);
+        retorno.append("\n*").append("\nNome do Evento: ").append(nome)
+                .append("\nData do Evento: ")
+                .append(formato.format(dataInicial.getTime()));
         if (dataInicial.compareTo(dataFinal) == 0) {
-            retorno.append("\nData do Evento: ")
-                    .append(formato.format(dataInicial.getTime()))
-                    .append("\nRegional: ").append(regional)
+            retorno.append("\nRegional: ").append(regional)
                     .append("\nInstituto sede: ").append(instituto)
                     .append("\nDescrição: ").append(descricao).append("\n");
         } else {
-            retorno.append("\nData de Ínicio do Evento: ")
-                    .append(formato.format(dataInicial.getTime()))
-                    .append("\nData de Término do Evento: ")
-                    .append(formato.format(dataFinal.getTime()))
+            retorno.append(" - ").append(formato.format(dataFinal.getTime()))
                     .append("\nRegional: ").append(regional)
                     .append("\nInstituto sede: ").append(instituto)
                     .append("\nDescrição: ").append(descricao).append("\n");
@@ -80,7 +76,7 @@ public class Eventos implements Comparable<Eventos> {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Eventos other = (Eventos) obj;
+        final Evento other = (Evento) obj;
         if (!Objects.equals(this.identificacaounica, other.identificacaounica)) {
             return false;
         }
@@ -88,7 +84,7 @@ public class Eventos implements Comparable<Eventos> {
     }
 
     @Override
-    final public int compareTo(Eventos evento) {
+    final public int compareTo(Evento evento) {
         return this.dataInicial.compareTo(evento.dataInicial);
     }
 

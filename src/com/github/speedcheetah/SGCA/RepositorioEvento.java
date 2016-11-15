@@ -16,10 +16,7 @@ import java.util.Scanner;
  */
 public class RepositorioEvento {
 
-    public void addEvento() {
-
-        ArrayList eventos = new ArrayList();
-
+    public void addEvento(ArrayList<Evento> eventos) {
         try (Scanner entrada = new Scanner(System.in)) {
             //Dizem que é uma boa prática colocar o Scanner dentro do try
             String continuar = "s";
@@ -29,29 +26,33 @@ public class RepositorioEvento {
                 String nome = entrada.nextLine();
 
                 GregorianCalendar dataInicial = new GregorianCalendar();
-                dataInicial.clear();
                 dataInicial.setLenient(false);
                 do {
-                    System.out.print("Data de início(ano): ");
-                    int ano = Integer.parseInt(entrada.nextLine());
-                    System.out.print("Data de início(mês): ");
-                    int mes = Integer.parseInt(entrada.nextLine());
-                    System.out.print("Data de início (dia): ");
-                    int dia = Integer.parseInt(entrada.nextLine());
-                    dataInicial.set(ano, mes - 1, dia);
+                    System.out.print("Data de início(dd/mm/aaaa): ");
+                    String data = entrada.nextLine();
+                    ArrayList dataValor = parseData(data);
+                    try {
+                        dataInicial.set(Integer.parseInt(dataValor.get(2).toString()),
+                            Integer.parseInt(dataValor.get(1).toString()) - 1,
+                            Integer.parseInt(dataValor.get(0).toString()));
+                    } catch (NumberFormatException | IndexOutOfBoundsException ex) {
+                        dataInicial.set(-1, -1, -1);
+                    }
                 } while (testaData(dataInicial));
 
                 GregorianCalendar dataFinal = new GregorianCalendar();
-                dataFinal.clear();
                 dataFinal.setLenient(false);
                 do {
-                    System.out.print("Data de término (ano): ");
-                    int ano = Integer.parseInt(entrada.nextLine());
-                    System.out.print("Data de término (mês): ");
-                    int mes = Integer.parseInt(entrada.nextLine());
-                    System.out.print("Data de término (dia): ");
-                    int dia = Integer.parseInt(entrada.nextLine());
-                    dataFinal.set(ano, mes - 1, dia);
+                    System.out.print("Data de término (dd/mm/aaaa): ");
+                    String data = entrada.nextLine();
+                    ArrayList dataValor = parseData(data);
+                    try {
+                        dataFinal.set(Integer.parseInt(dataValor.get(2).toString()),
+                            Integer.parseInt(dataValor.get(1).toString()) - 1,
+                            Integer.parseInt(dataValor.get(0).toString()));
+                    } catch (NumberFormatException | IndexOutOfBoundsException ex) {
+                        dataFinal.set(-1, -1, -1);
+                    }
                 } while (testaData(dataFinal));
 
                 System.out.print("Regional: ");
@@ -63,7 +64,7 @@ public class RepositorioEvento {
                 System.out.print("Descrição: ");
                 String descricao = entrada.nextLine();
 
-                Eventos evento = new Eventos(nome, dataInicial, dataFinal,
+                Evento evento = new Evento(nome, dataInicial, dataFinal,
                         regional, instituto, descricao);
                 //Aqui eu instancio a classe eventos para adicionar os dados.
                 if (eventos.contains(evento)) {
@@ -81,7 +82,7 @@ public class RepositorioEvento {
         }
     }
 
-    public boolean testaData(GregorianCalendar cal) {
+    private boolean testaData(GregorianCalendar cal) {
         try {
             cal.getTime();
         } catch (Exception ex) {
@@ -91,11 +92,25 @@ public class RepositorioEvento {
         return false;
     }
 
-    public void exibirRegional(ArrayList eventos, String regpesq) {
+    private ArrayList parseData(String data) {
+        ArrayList valores = new ArrayList();
+
+        if (data.length() != 10) {
+            return valores;
+        }
+
+        valores.add(data.substring(0, 2));
+        valores.add(data.substring(3, 5));
+        valores.add(data.substring(6, 10));
+
+        return valores;
+    }
+
+    public void exibirRegional(ArrayList eventos, String regPesq) {
 
         for (Iterator itr = eventos.iterator(); itr.hasNext();) {
-            Eventos e = (Eventos) itr.next();
-            if (regpesq.equals(e.getRegional())) {
+            Evento e = (Evento) itr.next();
+            if (regPesq.equals(e.getRegional())) {
                 System.out.println(e.toString());
             }
         }
