@@ -6,11 +6,13 @@ SGCA - SPEED CHEETAH
 *Url do SGCA]https://github.com/speed-cheetah/SGCA)
 * Grupo Speed Cheetah
 * Integrantes:
- 	Gustavo Silva Batista;
-	Marcos Rafael;
-	Rodrigo Coutinho;
-	Saulo Calixto;
-	Thalysson Aroucha,
+ Gustavo Silva Batista;
+Marcos Rafael;
+Rodrigo Coutinho;
+Saulo Calixto;
+Thalysson Aroucha.
+* Professor Orientador:
+Marcelo Ricardo Quinta
 
 ## Descrição do Projeto ##
 
