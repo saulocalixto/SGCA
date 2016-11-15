@@ -48,8 +48,8 @@ public class Evento implements Comparable<Evento> {
             retorno.append("\nRegional(ais): ");
             int cont = 1;
             for (Iterator itr = regional.iterator(); itr.hasNext();) {
-                retorno.append(cont).append(". ")
-                        .append(itr.next()).append("\n");
+                retorno.append("\n").append(cont).append(". ")
+                        .append(itr.next());
                 cont++;
             }
             retorno.append("\nInstituto sede: ").append(instituto)
@@ -59,8 +59,8 @@ public class Evento implements Comparable<Evento> {
             retorno.append("\nRegional(ais): ");
             int cont = 1;
             for (Iterator itr = regional.iterator(); itr.hasNext();) {
-                retorno.append(cont).append(". ")
-                        .append(itr.next()).append("\n");
+                retorno.append("\n").append(cont).append(". ")
+                        .append(itr.next());
                 cont++;
             }
             retorno.append("\nInstituto sede: ").append(instituto)

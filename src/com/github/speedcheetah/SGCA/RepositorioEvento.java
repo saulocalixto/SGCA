@@ -55,10 +55,10 @@ public class RepositorioEvento {
                     dataFinal.set(-1, -1, -1);
                 }
             } while (testaData(dataFinal));
-            String maisUm = "s";
+            String maisum = "s";
             int cont = 0;
             ArrayList<String> regionalList = new ArrayList();
-            while ("s".equalsIgnoreCase(maisUm) && cont < 4) {
+            while ("s".equalsIgnoreCase(maisum) && cont < 4) {
 
                 System.out.println("Escolha a regional pelo número correspondente"
                         + ": ");
@@ -71,8 +71,8 @@ public class RepositorioEvento {
                 System.out.println("4. "
                         + Regionais.GOIANIA.getRepresentacaoTextual());
                 int numRegional = Integer.parseInt(entrada.nextLine());
-                String escolhaRegional =
-                        Regionais.getRepresentacaoTextual(numRegional);
+                
+                String escolhaRegional = Regionais.CATALAO.escolhaRegional(numRegional);
 
                 if (regionalList.contains(escolhaRegional)) {
                     System.out.println("Regional já consta cadastrada para "
@@ -83,7 +83,7 @@ public class RepositorioEvento {
                 regionalList.add(escolhaRegional);
                 System.out.println("Deseja cadastrar mais uma regional"
                         + " para o evento:?");
-                maisUm = entrada.nextLine();
+                maisum = entrada.nextLine();
 
                 cont++;
             }

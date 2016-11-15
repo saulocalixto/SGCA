@@ -34,19 +34,25 @@ public enum Regionais {
         return representacaoTextual;
     }
 
-    public static String getRepresentacaoTextual(int numRegional) {
+    public String escolhaRegional(int numRegional) {
+        String escolhido = null;
         switch (numRegional) {
             case 1:
-                return CATALAO.representacaoTextual;
+                escolhido = CATALAO.getRepresentacaoTextual();
+                break;
             case 2:
-                return GOIAS.representacaoTextual;
+                escolhido = GOIAS.getRepresentacaoTextual();
+                break;
             case 3:
-                return JATAI.representacaoTextual;
+                escolhido = JATAI.getRepresentacaoTextual();
+                break;
             case 4:
-                return GOIANIA.representacaoTextual;
-            default:
-                return null;
+                escolhido = GOIANIA.getRepresentacaoTextual();
+                break;
+
         }
+        
+        return escolhido;
     }
 
 }

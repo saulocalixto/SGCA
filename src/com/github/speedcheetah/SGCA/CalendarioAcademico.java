@@ -56,6 +56,7 @@ public class CalendarioAcademico {
                     break;
 
                 case 3:
+                    Regionais regionalEnum = null;
                     System.out.println("Escolha a regional"
                             + " pelo número correspondente: ");
                     System.out.println("1. "
@@ -70,10 +71,11 @@ public class CalendarioAcademico {
                     try {
                         numRegional = Integer.parseInt(scan.nextLine());
                     } catch (NumberFormatException ex) {
+                        System.out.println("Número inválido.");
                         break;
                     }
                     String escolhaRegional
-                            = Regionais.getRepresentacaoTextual(numRegional);
+                            = Regionais.CATALAO.escolhaRegional(numRegional);
                     repositorio.exibirRegional(eventos, escolhaRegional);
                     break;
 
