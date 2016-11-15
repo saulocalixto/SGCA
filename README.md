@@ -10,8 +10,8 @@ Bem vindos ao SGCA, Sistema de Gestão de Calendário Acadêmico, um sistema des
  Features
 -------------
 
-> - [Url do SGCA](https://github.com/speed-cheetah/SGCA) 
-> - Grupo Speed Chetaah
+> - [SGCA - Repositório](https://github.com/speed-cheetah/SGCA) 
+> - Grupo Speed Cheetah
 > 
 > **Integrantes Speed Cheetah:**
 
