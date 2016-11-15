@@ -39,9 +39,6 @@ O SGCA é um projeto **Open Source**. Qualquer um pode ajudar a melhorá-lo.
 
 Reporte bugs ou faça sugestões utilizando o [Issues/Fórum do Projeto](https://github.com/speed-cheetah/SGCA/issues)
 
-Mais detalhes de como contribuir e enviar Pull Requests em [GitHub Collaborating](https://help.github.com/categories/63/articles).
-[Como colaborar com projetos opensource com GitHub](http://www.youtube.com/watch?v=H3olaBo83As)
-
 #### <i class="icon-pencil"></i> Contribua com o Projeto
 
 Para contribuir basta clicar no botão **Fork**, criar um *Branch*, arrumar o código e enviar um **Pull Request**.
