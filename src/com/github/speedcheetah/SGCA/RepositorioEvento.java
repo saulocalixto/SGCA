@@ -156,11 +156,11 @@ public class RepositorioEvento {
         return palavras;
     }
     
-    public void exibirNome(ArrayList eventos, String regPesq) {
+    public void exibirNome(ArrayList eventos, String nomePesquisa) {
 
         for (Iterator itr = eventos.iterator(); itr.hasNext();) {
             Evento e = (Evento) itr.next();
-            if (regPesq.equals(e.getNome())) {
+            if (nomePesquisa.equals(e.getNome())) {
                 System.out.println(e.toString());
             }else {
                 System.out.println("Evento não encontrado!");
