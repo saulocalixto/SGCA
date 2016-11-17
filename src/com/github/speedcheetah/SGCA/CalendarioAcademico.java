@@ -57,16 +57,8 @@ public class CalendarioAcademico {
                     break;
 
                 case 3:
-                    System.out.println("Escolha a regional"
-                            + " pelo número correspondente: ");
-                    System.out.println("1. "
-                            + Regionais.CATALAO.getRepresentacaoTextual());
-                    System.out.println("2. "
-                            + Regionais.GOIAS.getRepresentacaoTextual());
-                    System.out.println("3. "
-                            + Regionais.JATAI.getRepresentacaoTextual());
-                    System.out.println("4. "
-                            + Regionais.GOIANIA.getRepresentacaoTextual());
+                    
+                    Regionais.CATALAO.mostrarMenu();
                     int numRegional;
                     try {
                         numRegional = Integer.parseInt(scan.nextLine());

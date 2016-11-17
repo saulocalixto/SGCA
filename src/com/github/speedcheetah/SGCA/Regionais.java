@@ -51,8 +51,20 @@ public enum Regionais {
                 break;
 
         }
-        
         return escolhido;
+    }
+
+    public void mostrarMenu() {
+        System.out.println("Escolha a regional pelo número correspondente"
+                    + ": ");
+            System.out.println("1. "
+                    + CATALAO.getRepresentacaoTextual());
+            System.out.println("2. "
+                    + GOIAS.getRepresentacaoTextual());
+            System.out.println("3. "
+                    + JATAI.getRepresentacaoTextual());
+            System.out.println("4. "
+                    + GOIANIA.getRepresentacaoTextual());
     }
 
 }
