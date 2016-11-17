@@ -17,89 +17,28 @@ import java.util.Scanner;
  */
 public class RepositorioEvento {
 
-    private Regionais regionalEnum;
+    Scanner entrada = new Scanner(System.in);
 
-    public void addEvento(ArrayList<Evento> eventos, Scanner entrada) {
+    public void addEvento(ArrayList<Evento> eventos) {
         String continuar = "s";
         while ("s".equalsIgnoreCase(continuar)) {
             //enquanto for igual a s.
-            System.out.print("Nome: ");
-            String nome = entrada.nextLine();
 
-            GregorianCalendar dataInicial = new GregorianCalendar();
-            dataInicial.setLenient(false);
-            do {
-                System.out.print("Data de início(dd/mm/aaaa): ");
-                String data = entrada.nextLine();
-                ArrayList dataValor = parseData(data);
-                try {
-                    dataInicial.set(Integer.parseInt(dataValor.get(2).toString()),
-                            Integer.parseInt(dataValor.get(1).toString()) - 1,
-                            Integer.parseInt(dataValor.get(0).toString()));
-                } catch (NumberFormatException | IndexOutOfBoundsException ex) {
-                    dataInicial.set(-1, -1, -1);
-                }
-            } while (testaData(dataInicial));
+            String nome = cadastrarNome();
 
-            GregorianCalendar dataFinal = new GregorianCalendar();
-            dataFinal.setLenient(false);
-            do {
-                System.out.print("Data de término (dd/mm/aaaa): ");
-                String data = entrada.nextLine();
-                ArrayList dataValor = parseData(data);
-                try {
-                    dataFinal.set(Integer.parseInt(dataValor.get(2).toString()),
-                            Integer.parseInt(dataValor.get(1).toString()) - 1,
-                            Integer.parseInt(dataValor.get(0).toString()));
-                } catch (NumberFormatException | IndexOutOfBoundsException ex) {
-                    dataFinal.set(-1, -1, -1);
-                }
-            } while (testaData(dataFinal));
-            String maisum = "s";
-            int cont = 0;
-            ArrayList<String> regionalList = new ArrayList();
-            while ("s".equalsIgnoreCase(maisum) && cont < 4) {
+            System.out.print("Data de início(dd/mm/aaaa): ");
+            GregorianCalendar dataI = cadastrarData();
 
-                System.out.println("Escolha a regional pelo número correspondente"
-                        + ": ");
-                System.out.println("1. "
-                        + Regionais.CATALAO.getRepresentacaoTextual());
-                System.out.println("2. "
-                        + Regionais.GOIAS.getRepresentacaoTextual());
-                System.out.println("3. "
-                        + Regionais.JATAI.getRepresentacaoTextual());
-                System.out.println("4. "
-                        + Regionais.GOIANIA.getRepresentacaoTextual());
-                int numRegional = Integer.parseInt(entrada.nextLine());
-                
-                String escolhaRegional = Regionais.CATALAO.escolhaRegional(numRegional);
+            System.out.print("Data de final(dd/mm/aaaa): ");
+            GregorianCalendar dataFinal = cadastrarData();
 
-                if (regionalList.contains(escolhaRegional)) {
-                    System.out.println("Regional já consta cadastrada para "
-                            + "esse evento.");
-                    continue;
-                }
-
-                regionalList.add(escolhaRegional);
-                System.out.println("Deseja cadastrar mais uma regional"
-                        + " para o evento:?");
-                maisum = entrada.nextLine();
-
-                cont++;
-            }
-
-            System.out.print("Instituto: ");
-            String instituto = entrada.nextLine();
-
-            System.out.print("Descrição: ");
-            String descricao = entrada.nextLine();
-
-            Evento evento = new Evento(nome, dataInicial, dataFinal,
-                    regionalList, instituto, descricao);
+            Evento evento = new Evento(nome, dataI, dataFinal,
+                    cadastrarRegional(), cadastrarInstituto(),
+                    cadastrarDescricao());
             //Aqui eu instancio a classe eventos para adicionar os dados.
             if (eventos.contains(evento)) {
                 System.err.println("Esse produto já foi adicionado."
-                        + " Utilize outro Evento!");
+                        + " Cadastre outro Evento!");
             } else {
                 eventos.add(evento);
                 System.out.println("Evento adicionado.");
@@ -109,6 +48,84 @@ public class RepositorioEvento {
 
             continuar = entrada.nextLine();
         }
+    }
+
+    public String cadastrarNome() {
+        System.out.println("Digite o nome do Evento:");
+        String nome = entrada.nextLine();
+        return nome.toUpperCase();
+    }
+
+    public ArrayList cadastrarRegional() {
+        String maisum = "s";
+        int cont = 0;
+        ArrayList<String> regionalList = new ArrayList();
+        while ("s".equalsIgnoreCase(maisum) && cont < 4) {
+
+            System.out.println("Escolha a regional pelo número correspondente"
+                    + ": ");
+            System.out.println("1. "
+                    + Regionais.CATALAO.getRepresentacaoTextual());
+            System.out.println("2. "
+                    + Regionais.GOIAS.getRepresentacaoTextual());
+            System.out.println("3. "
+                    + Regionais.JATAI.getRepresentacaoTextual());
+            System.out.println("4. "
+                    + Regionais.GOIANIA.getRepresentacaoTextual());
+            int numRegional = Integer.parseInt(entrada.nextLine());
+
+            String escolhaRegional = Regionais.CATALAO.escolhaRegional(numRegional);
+
+            if (regionalList.contains(escolhaRegional)) {
+                System.out.println("Regional já consta cadastrada para "
+                        + "esse evento.");
+                continue;
+            }
+            if(!regionalList.contains(escolhaRegional)) {
+                regionalList.add(escolhaRegional);
+            } else {
+                System.out.println("Regional já cadastrada.");
+                continue;
+            }
+            System.out.println("Deseja cadastrar mais uma regional"
+                    + " para o evento:?");
+            maisum = entrada.nextLine();
+
+            cont++;
+        }
+
+        return regionalList;
+    }
+
+    public String cadastrarInstituto() {
+        System.out.print("Instituto: ");
+        String instituto = entrada.nextLine();
+        return instituto.toUpperCase();
+    }
+
+    public String cadastrarDescricao() {
+        System.out.print("Descrição: ");
+        String descricao = entrada.nextLine();
+        return descricao.toUpperCase();
+    }
+
+    public GregorianCalendar cadastrarData() {
+
+        GregorianCalendar dataInicial = new GregorianCalendar();
+        dataInicial.setLenient(false);
+        do {
+            String data = entrada.nextLine();
+            ArrayList dataValor = parseData(data);
+            try {
+                dataInicial.set(Integer.parseInt(dataValor.get(2).toString()),
+                        Integer.parseInt(dataValor.get(1).toString()) - 1,
+                        Integer.parseInt(dataValor.get(0).toString()));
+            } catch (NumberFormatException | IndexOutOfBoundsException ex) {
+                dataInicial.set(-1, -1, -1);
+            }
+        } while (testaData(dataInicial));
+
+        return dataInicial;
     }
 
     private boolean testaData(GregorianCalendar cal) {
@@ -155,17 +172,16 @@ public class RepositorioEvento {
         }
         return palavras;
     }
-    
+
     public void exibirNome(ArrayList eventos, String nomePesquisa) {
 
         for (Iterator itr = eventos.iterator(); itr.hasNext();) {
             Evento e = (Evento) itr.next();
             if (nomePesquisa.equals(e.getNome())) {
                 System.out.println(e.toString());
-            }else {
-                System.out.println("Evento não encontrado!");
+                return;
             }
         }
+        System.out.println("Evento não encontrado!");
     }
-
 }

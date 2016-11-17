@@ -33,6 +33,7 @@ public class CalendarioAcademico {
             System.out.println("1 - Cadastrar evento novo.");
             System.out.println("2 - Exibir calendário inteiro.");
             System.out.println("3 - Pesquisar por regional.");
+            System.out.println("4 - Pesquisar por nome.");
 
             try {
                 opcao = Integer.parseInt(scan.nextLine());
@@ -47,7 +48,7 @@ public class CalendarioAcademico {
                     break;
 
                 case 1:
-                    repositorio.addEvento(eventos, scan);
+                    repositorio.addEvento(eventos);
                     Collections.sort(eventos);
                     break;
 
@@ -56,7 +57,6 @@ public class CalendarioAcademico {
                     break;
 
                 case 3:
-                    Regionais regionalEnum = null;
                     System.out.println("Escolha a regional"
                             + " pelo número correspondente: ");
                     System.out.println("1. "
@@ -78,7 +78,10 @@ public class CalendarioAcademico {
                             = Regionais.CATALAO.escolhaRegional(numRegional);
                     repositorio.exibirRegional(eventos, escolhaRegional);
                     break;
-                    
+                case 4 :
+                    System.out.println("Digite o nome do evento:");
+                    String nome = scan.nextLine();
+                    repositorio.exibirNome(eventos, nome);
                 default:
                     break;
             }
