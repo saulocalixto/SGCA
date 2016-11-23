@@ -41,32 +41,27 @@ public class Evento implements Comparable<Evento> {
     final public String toString() {
         StringBuilder retorno = new StringBuilder();
         SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-        retorno.append("\n**********************************").append("\nNome do Evento: ").append(nome)
+        retorno.append("\n**********************************")
+                .append("\nNome do Evento: ")
+                .append(nome)
                 .append("\nData do Evento: ")
                 .append(formato.format(dataInicial.getTime()));
-        if (dataInicial.compareTo(dataFinal) == 0) {
-            retorno.append("\nRegional(ais): ");
-            int cont = 1;
-            for (Iterator itr = regional.iterator(); itr.hasNext();) {
-                retorno.append("\n").append(cont).append(". ")
-                        .append(itr.next());
-                cont++;
-            }
-            retorno.append("\nInstituto sede: ").append(instituto)
-                    .append("\nDescrição: ").append(descricao).append("\n");
-        } else {
-            retorno.append(" - ").append(formato.format(dataFinal.getTime()));
-            retorno.append("\nRegional(ais): ");
-            int cont = 1;
-            for (Iterator itr = regional.iterator(); itr.hasNext();) {
-                retorno.append("\n").append(cont).append(". ")
-                        .append(itr.next());
-                cont++;
-            }
-            retorno.append("\nInstituto sede: ").append(instituto)
-                    .append("\nDescrição: ").append(descricao).append("\n");
+        if ((dataInicial.compareTo(dataFinal)) != 0) {
+            retorno.append(" - ")
+                    .append(formato.format(dataFinal.getTime()));
         }
-        retorno.append("**********************************");
+        retorno.append("\nRegional(ais): ");
+        int cont = 1;
+        for (Iterator itr = regional.iterator(); itr.hasNext();) {
+            retorno.append("\n")
+                    .append(cont).append(". ")
+                    .append(itr.next());
+            cont++;
+        }
+        retorno.append("\nInstituto sede: ").append(instituto)
+                .append("\nDescrição: ").append(descricao).append("\n")
+                .append("**********************************");
+
         return retorno.toString();
     }
 
