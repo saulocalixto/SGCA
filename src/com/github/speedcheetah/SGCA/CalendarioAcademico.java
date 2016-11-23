@@ -103,7 +103,8 @@ public class CalendarioAcademico {
                     pass = scan.nextLine();
                     admin.login(user, pass);
                     if (admin.isOnline()) {
-                        System.out.println("Bem vindo " + admin.getUser());
+                        System.out.println("Bem vindo "
+                                + admin.getUser() + "!");
                     } else {
                         System.out.println("Usuário ou senha incorreto.");
                     }
