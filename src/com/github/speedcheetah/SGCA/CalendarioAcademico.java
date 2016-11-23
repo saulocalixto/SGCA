@@ -22,6 +22,8 @@ public class CalendarioAcademico {
 
         ArrayList eventos = new ArrayList();
         RepositorioEvento repositorio = new RepositorioEvento();
+        Administrador admin = new Administrador("admin", "password");
+        admin.logoff();
 
         System.out.println("##### Cadastro de eventos #####\n");
 
@@ -29,16 +31,22 @@ public class CalendarioAcademico {
         Scanner scan = new Scanner(System.in);
 
         while (opcao != 0) {
+            String user = null, pass = null;
             System.out.println("0 - Sair do programa.");
-            System.out.println("1 - Cadastrar evento novo.");
-            System.out.println("2 - Exibir calendário inteiro.");
-            System.out.println("3 - Pesquisar por regional.");
-            System.out.println("4 - Pesquisar por nome.");
+            System.out.println("1 - Exibir calendário inteiro.");
+            System.out.println("2 - Pesquisar por regional.");
+            System.out.println("3 - Pesquisar por nome.");
+            System.out.println("6 - Registrar Administrador.");
+            System.out.println("7 - Fazer login.");
+            if (admin.isOnline()) {
+                System.out.println("8 - Cadastrar evento novo.");
+                System.out.println("9 - Alterar senha.");
+            }
 
             try {
                 opcao = Integer.parseInt(scan.nextLine());
             } catch (NumberFormatException ex) {
-                opcao = 10;
+                opcao = -1;
             }
 
             switch (opcao) {
@@ -46,17 +54,12 @@ public class CalendarioAcademico {
                     System.out.println("Fim");
                     System.exit(0);
                     break;
-
+                    
                 case 1:
-                    repositorio.addEvento(eventos);
-                    Collections.sort(eventos);
-                    break;
-
-                case 2:
                     eventos.forEach(System.out::println);
                     break;
 
-                case 3:
+                case 2:
                     
                     Regionais.CATALAO.mostrarMenu();
                     int numRegional;
@@ -70,10 +73,61 @@ public class CalendarioAcademico {
                             = Regionais.CATALAO.escolhaRegional(numRegional);
                     repositorio.exibirRegional(eventos, escolhaRegional);
                     break;
-                case 4 :
-                    System.out.println("Digite o nome do evento:");
+                    
+                case 3 :
+                    System.out.print("Digite o nome do evento: ");
                     String nome = scan.nextLine();
                     repositorio.exibirNome(eventos, nome);
+                    
+                case 6:
+                    System.out.print("Confirme o usuário pré-cadastrado: ");
+                    user = scan.nextLine();
+                    System.out.print("Confirme a senha pré-cadastrada: ");
+                    pass = scan.nextLine();
+                    admin.login(user, pass);
+                    if (admin.isOnline()) {
+                        System.out.print("Digite o novo nome de usuário: ");
+                        user = scan.nextLine();
+                        System.out.print("Digite a nova senha: ");
+                        pass = scan.nextLine();
+                        admin = new Administrador(user, pass);
+                    } else {
+                        System.out.println("Usuário ou senha incorreto.");
+                    }
+                    break;
+                    
+                case 7:
+                    System.out.print("Digite o nome de usuário: ");
+                    user = scan.nextLine();
+                    System.out.print("Digite a senha: ");
+                    pass = scan.nextLine();
+                    admin.login(user, pass);
+                    if (admin.isOnline()) {
+                        System.out.println("Bem vindo " + admin.getUser());
+                    } else {
+                        System.out.println("Usuário ou senha incorreto.");
+                    }
+                    break;
+                    
+                case 8:
+                    if (admin.isOnline()) {
+                        repositorio.addEvento(eventos);
+                        Collections.sort(eventos);
+                    } 
+                    break;
+                    
+                case 9:
+                    if (admin.isOnline()) {
+                        System.out.print("Confirme sua senha: ");
+                        pass = scan.nextLine();
+                        if (admin.confirmaSenha(pass)) {
+                            System.out.print("Entre com a nova senha: ");
+                            String newPass = scan.nextLine();
+                            admin.alteraSenha(pass, newPass);
+                        }
+                    }
+                    break;
+                    
                 default:
                     break;
             }

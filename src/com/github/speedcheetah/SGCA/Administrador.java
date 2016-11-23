@@ -28,8 +28,8 @@ package com.github.speedcheetah.SGCA;
  * @author Fenro
  */
 public class Administrador {
-    private final String user;
-    private final String key;
+    private String user;
+    private String key;
     private boolean online = false;
 
     Administrador(String user, String key){
@@ -48,5 +48,19 @@ public class Administrador {
 
     public boolean isOnline() {
         return online;
+    }
+    
+    public String getUser() {
+        return this.user;
+    }
+    
+    public boolean confirmaSenha(String key){
+        return this.key.equals(key);
+    }
+    
+    public void alteraSenha(String key, String newKey) {
+        if (confirmaSenha(key)) {
+            this.key = newKey;
+        }
     }
 }
