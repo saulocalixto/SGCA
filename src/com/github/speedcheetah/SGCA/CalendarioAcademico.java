@@ -40,7 +40,8 @@ public class CalendarioAcademico {
             System.out.println("7 - Fazer login.");
             if (admin.isOnline()) {
                 System.out.println("8 - Cadastrar evento novo.");
-                System.out.println("9 - Alterar senha.");
+                System.out.println("9 - Remover um evento.");
+                System.out.println("10 - Alterar senha.");
             }
 
             try {
@@ -77,7 +78,9 @@ public class CalendarioAcademico {
                 case 3 :
                     System.out.print("Digite o nome do evento: ");
                     String nome = scan.nextLine();
-                    repositorio.exibirNome(eventos, nome);
+                    Evento ev = repositorio.pesquisaNome(eventos, nome);
+                    System.out.println(ev.toString());
+                    break;
                     
                 case 6:
                     System.out.print("Confirme o usuário pré-cadastrado: ");
@@ -114,10 +117,18 @@ public class CalendarioAcademico {
                     if (admin.isOnline()) {
                         repositorio.addEvento(eventos);
                         Collections.sort(eventos);
-                    } 
+                    }
                     break;
                     
                 case 9:
+                    if (admin.isOnline()) {
+                        String nomePesquisa = scan.nextLine();
+                        repositorio.removeNome(eventos,nomePesquisa);
+                    }
+                    break;
+                    
+                    
+                case 10:
                     if (admin.isOnline()) {
                         System.out.print("Confirme sua senha: ");
                         pass = scan.nextLine();

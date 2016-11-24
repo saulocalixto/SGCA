@@ -165,15 +165,21 @@ public class RepositorioEvento {
         return palavras;
     }
 
-    public void exibirNome(ArrayList eventos, String nomePesquisa) {
+    public Evento pesquisaNome(ArrayList eventos, String nomePesquisa) {
 
         for (Iterator itr = eventos.iterator(); itr.hasNext();) {
             Evento e = (Evento) itr.next();
-            if (nomePesquisa.equals(e.getNome())) {
-                System.out.println(e.toString());
-                return;
+            if (nomePesquisa.compareToIgnoreCase(e.getNome()) == 0) {
+                return e;
             }
         }
-        System.out.println("Evento não encontrado!");
+        System.out.println("Evento não encontrado.");
+        return null;
     }
+    
+    public void removeNome (ArrayList eventos, String nomePesquisa) {
+        Evento e = pesquisaNome (eventos,nomePesquisa);
+        eventos.remove(e);
+    }
+    
 }
