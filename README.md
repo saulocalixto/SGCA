@@ -19,7 +19,7 @@ Bem vindos ao SGCA, Sistema de Gestão de Calendário Acadêmico, um sistema des
 > - Marcos Rafael
 > - Rodrigo Coutinho
 > - Saulo Calixto
-> - Thalysson Aroucha
+> - Thallyson Aroucha
 > 
 > **Professor Orientador:**
 >
