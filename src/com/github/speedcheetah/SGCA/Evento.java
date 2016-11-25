@@ -113,5 +113,28 @@ public class Evento implements Comparable<Evento> {
     public String getNome(){
         return this.nome;
     }
-
+    
+    public void setNome(String nome) {  
+        this.nome = nome;  
+    }  
+    
+    public void setDataInicio(GregorianCalendar dataInicial) {  
+        this.dataInicial = dataInicial;  
+    }  
+    
+    public void setDataFinal(GregorianCalendar dataFinal) {  
+        this.dataFinal = dataFinal;  
+    }  
+    
+    public void setInstituto(String instituto) {  
+        this.instituto = instituto;  
+    }
+    
+    public void setDescricao(String descricao) {  
+        this.descricao = descricao;  
+    }  
+    
+    public void setRegional(ArrayList regional){
+        this.regional = regional;
+    }
 }

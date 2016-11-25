@@ -41,7 +41,8 @@ public class CalendarioAcademico {
             if (admin.isOnline()) {
                 System.out.println("8 - Cadastrar evento novo.");
                 System.out.println("9 - Remover um evento.");
-                System.out.println("10 - Alterar senha.");
+                System.out.println("10 - Alterar um evento.");
+                System.out.println("11 - Alterar senha.");
             }
 
             try {
@@ -122,13 +123,24 @@ public class CalendarioAcademico {
                     
                 case 9:
                     if (admin.isOnline()) {
+                        System.out.println("Digite o nome do evento a ser"
+                                + "removido");
                         String nomePesquisa = scan.nextLine();
                         repositorio.removeNome(eventos,nomePesquisa);
                     }
                     break;
-                    
-                    
+                
                 case 10:
+                    if (admin.isOnline()) {
+                        System.out.println("Digite o nome do evento a ser "
+                                + "alterado");
+                        String nomePesquisa = scan.nextLine();
+                        repositorio.alteraNome(eventos,nomePesquisa);
+                    }
+                    break;
+                    
+                    
+                case 11:
                     if (admin.isOnline()) {
                         System.out.print("Confirme sua senha: ");
                         pass = scan.nextLine();

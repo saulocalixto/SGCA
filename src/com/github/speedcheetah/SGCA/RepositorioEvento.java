@@ -181,5 +181,64 @@ public class RepositorioEvento {
         Evento e = pesquisaNome (eventos,nomePesquisa);
         eventos.remove(e);
     }
-    
+
+    public void alteraNome (ArrayList eventos, String nomePesquisa) {
+        int opcao = 1;
+        while (opcao != 0) {
+            System.out.println("O que deseja alterar?");
+            System.out.println("1 - Nome.");
+            System.out.println("2 - Data de inicio.");
+            System.out.println("3 - Data de término.");
+            System.out.println("4 - Regional.");
+            System.out.println("5 - Instituto.");
+            System.out.println("6 - Descrição.");
+            System.out.println("0 - Terminar as alterações");
+            
+            try {
+                opcao = Integer.parseInt(entrada.nextLine());
+            } catch (NumberFormatException ex) {
+                opcao = -1;
+            }
+            Evento mod = pesquisaNome(eventos, nomePesquisa);
+            int index = eventos.indexOf(mod);
+            Evento e = (Evento) eventos.get(index);
+
+            
+            switch (opcao) {
+                case 1:
+                    String novoNome = cadastrarNome();
+                    e.setNome(novoNome);
+                    break;
+                    
+                case 2:
+                    GregorianCalendar novaDataI = cadastrarData();
+                    e.setDataInicio(novaDataI);
+                    break;
+                
+                case 3:
+                    GregorianCalendar novaDataF = cadastrarData();
+                    e.setDataFinal(novaDataF);
+                    break;
+                    
+                case 4:
+                    ArrayList<String> novaRegionalList = cadastrarRegional();
+                    e.setRegional (novaRegionalList);
+                    break;
+                
+                case 5:
+                    String novoInstituto = cadastrarInstituto();
+                    e.setInstituto(novoInstituto);
+                    break;
+                
+                case 6:
+                    String novaDescricao = cadastrarDescricao();
+                    e.setDescricao(novaDescricao);
+                    break;
+                
+                default:
+                    break;
+            }
+        eventos.set(index, e);
+        } 
+    }
 }
