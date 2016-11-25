@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Gustavo Henrique da Silva Batista.
+ * Copyright 2016 Instituto de Informática (UFG) - Fábrica de Software.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal

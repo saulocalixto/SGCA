@@ -1,7 +1,25 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2016 Instituto de Informática (UFG) - Fábrica de Software.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package com.github.speedcheetah.SGCA;
 
@@ -144,7 +162,7 @@ public class RepositorioEvento {
         return valores;
     }
 
-    public void exibirRegional(ArrayList eventos, String regPesq) {
+    public void pesquisarRegional(ArrayList eventos, String regPesq) {
 
         for (Iterator itr = eventos.iterator(); itr.hasNext();) {
             Evento e = (Evento) itr.next();
@@ -165,7 +183,7 @@ public class RepositorioEvento {
         return palavras;
     }
 
-    public Evento pesquisaNome(ArrayList eventos, String nomePesquisa) {
+    public Evento pesquisarNome(ArrayList eventos, String nomePesquisa) {
 
         for (Iterator itr = eventos.iterator(); itr.hasNext();) {
             Evento e = (Evento) itr.next();
@@ -177,12 +195,25 @@ public class RepositorioEvento {
         return null;
     }
     
-    public void removeNome (ArrayList eventos, String nomePesquisa) {
-        Evento e = pesquisaNome (eventos,nomePesquisa);
+    public void pesquisarData(ArrayList eventos, GregorianCalendar dataPesquisa) {
+
+        for (Iterator itr = eventos.iterator(); itr.hasNext();) {
+            Evento e = (Evento) itr.next();
+            if ((dataPesquisa.after(e.getDataInicial())
+                    && dataPesquisa.before(e.getDataFinal()))
+                    || dataPesquisa.equals(e.getDataInicial())
+                    || dataPesquisa.equals(e.getDataFinal())) {
+                System.out.println(e.toString());
+            }
+        }
+    }
+    
+    public void removerEvento (ArrayList eventos, String nomePesquisa) {
+        Evento e = pesquisarNome (eventos,nomePesquisa);
         eventos.remove(e);
     }
 
-    public void alteraNome (ArrayList eventos, String nomePesquisa) {
+    public void alterarEvento (ArrayList eventos, String nomePesquisa) {
         int opcao = 1;
         while (opcao != 0) {
             System.out.println("O que deseja alterar?");
@@ -199,7 +230,7 @@ public class RepositorioEvento {
             } catch (NumberFormatException ex) {
                 opcao = -1;
             }
-            Evento mod = pesquisaNome(eventos, nomePesquisa);
+            Evento mod = pesquisarNome(eventos, nomePesquisa);
             int index = eventos.indexOf(mod);
             Evento e = (Evento) eventos.get(index);
 
