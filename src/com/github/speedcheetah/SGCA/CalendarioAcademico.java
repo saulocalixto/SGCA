@@ -36,6 +36,8 @@ import java.util.logging.Logger;
  */
 public class CalendarioAcademico {
 
+    public static Scanner scan = new Scanner(System.in);
+
     /**
      * @param args the command line arguments
      */
@@ -49,7 +51,6 @@ public class CalendarioAcademico {
         System.out.println("##### Cadastro de eventos #####\n");
 
         int opcao = 1;
-        Scanner scan = new Scanner(System.in);
 
         while (opcao != 0) {
             String user, pass;
@@ -125,7 +126,7 @@ public class CalendarioAcademico {
                 case 4:
                     System.out.print("Digite a data desejada: ");
                     String data = scan.nextLine();
-                    String dataValor[] = repositorio.parseData(data);
+                    String dataValor[] = RepositorioEvento.parseData(data);
                     GregorianCalendar dataPesquisa = new GregorianCalendar();
                     try {
                         dataPesquisa.set(Integer.parseInt(dataValor[2]),
@@ -134,7 +135,14 @@ public class CalendarioAcademico {
                     } catch (NumberFormatException | IndexOutOfBoundsException ex) {
                         dataPesquisa.set(-1, -1, -1);
                     }
-                    repositorio.pesquisarData(eventos, dataPesquisa);
+                     {
+                        try {
+                            repositorio.pesquisarData(eventos, dataPesquisa);
+                        } catch (EventoNaoLocalizadoException ex) {
+                            System.out.println(ex.getMessage());
+                            Logger.getLogger(CalendarioAcademico.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                     break;
 
                 case 5:
@@ -171,7 +179,9 @@ public class CalendarioAcademico {
                 case 7:
                     if (admin.isOnline()) {
                         try {
-                            repositorio.addEvento(eventos);
+                            Evento newEvento = lerEvento();
+                            repositorio.addEvento(eventos, newEvento);
+                            System.out.println("Evento adicionado.");
                             Collections.sort(eventos);
                         } catch (EventoDuplicadoException ex) {
                             System.out.println(ex.getMessage());
@@ -205,11 +215,8 @@ public class CalendarioAcademico {
                         try {
                             repositorio.alterarEvento(eventos, nomePesquisa);
                             Collections.sort(eventos);
-                        } catch (EventoDuplicadoException ex) {
-                            System.out.println(ex.getMessage());
-                            Logger.getLogger(CalendarioAcademico.class.getName())
-                                    .log(Level.SEVERE, null, ex);
-                        } catch (EventoNaoLocalizadoException ex) {
+                        } catch (EventoDuplicadoException
+                                | EventoNaoLocalizadoException ex) {
                             System.out.println(ex.getMessage());
                             Logger.getLogger(CalendarioAcademico.class.getName())
                                     .log(Level.SEVERE, null, ex);
@@ -238,7 +245,7 @@ public class CalendarioAcademico {
         System.exit(0);
     }
 
-    public static void menuModificacao() {
+    public static int menuModificacao() {
         System.out.println("O que deseja alterar?");
         System.out.println("1 - Nome.");
         System.out.println("2 - Data de inicio.");
@@ -247,6 +254,93 @@ public class CalendarioAcademico {
         System.out.println("5 - Instituto.");
         System.out.println("6 - Descrição.");
         System.out.println("0 - Terminar as alterações");
+
+        int opcao;
+        try {
+            opcao = Integer.parseInt(scan.nextLine());
+        } catch (NumberFormatException ex) {
+            opcao = -1;
+        }
+        return opcao;
     }
 
+    public static Evento lerEvento() throws EventoDuplicadoException {
+        String nome = cadastrarNome();
+
+        System.out.print("Data de início(dd/mm/aaaa): ");
+        GregorianCalendar dataI = cadastrarData();
+
+        System.out.print("Data de final(dd/mm/aaaa): ");
+        GregorianCalendar dataFinal = cadastrarData();
+
+        Evento evento = new Evento(nome, dataI, dataFinal,
+                cadastrarRegional(), cadastrarInstituto(),
+                cadastrarDescricao());
+
+        return evento;
+    }
+
+    public static String cadastrarNome() {
+        System.out.println("Digite o nome do Evento:");
+        String nome = scan.nextLine();
+        return nome.toUpperCase();
+    }
+
+    public static ArrayList cadastrarRegional() throws EventoDuplicadoException {
+        String maisUm = "s";
+        int cont = 0;
+        ArrayList<String> regionalList = new ArrayList();
+        while ("s".equalsIgnoreCase(maisUm) && cont < 4) {
+
+            Regionais.CATALAO.mostrarMenu();
+
+            int numRegional = Integer.parseInt(scan.nextLine());
+
+            String escolhaRegional
+                    = Regionais.CATALAO.escolhaRegional(numRegional);
+
+            if (regionalList.contains(escolhaRegional)) {
+                throw new EventoDuplicadoException("Regional já consta"
+                        + " cadastrada para esse evento.");
+            }
+            System.out.println("Deseja cadastrar mais uma regional"
+                    + " para o evento?");
+            maisUm = scan.nextLine();
+
+            cont++;
+        }
+
+        return regionalList;
+    }
+
+    public static String cadastrarInstituto() {
+        System.out.print("Instituto: ");
+        String instituto = scan.nextLine();
+        return instituto.toUpperCase();
+    }
+
+    public static String cadastrarDescricao() {
+        System.out.print("Descrição: ");
+        String descricao = scan.nextLine();
+        return descricao.toUpperCase();
+    }
+
+    public static GregorianCalendar cadastrarData() {
+
+        GregorianCalendar dataInicial = new GregorianCalendar();
+        dataInicial.setLenient(false);
+        do {
+            String data = scan.nextLine();
+            String[] dataValor = RepositorioEvento.parseData(data);
+            try {
+                dataInicial.set(Integer.parseInt(dataValor[2]),
+                        Integer.parseInt(dataValor[1]) - 1,
+                        Integer.parseInt(dataValor[0]));
+            } catch (NumberFormatException | IndexOutOfBoundsException ex) {
+                dataInicial.set(-1, -1, -1);
+            }
+        } while (!RepositorioEvento.testaData(dataInicial));
+
+        return dataInicial;
+    }
 }
