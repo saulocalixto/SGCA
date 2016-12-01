@@ -27,8 +27,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -66,11 +64,11 @@ public class CalendarioAcademico {
             } catch (NumberFormatException ex) {
                 opcao = -1;
             }
-            
+
             if (admin.isOnline() && opcao > 4) {
                 opcao += 2;
             }
-            
+
             System.out.println("\n\n\n");
 
             switch (opcao) {
@@ -85,7 +83,7 @@ public class CalendarioAcademico {
                     } else {
                         eventos.forEach(System.out::println);
                     }
-                    
+
                     waitUser();
                     break;
 
@@ -105,8 +103,7 @@ public class CalendarioAcademico {
                                 .pesquisarRegional(eventos, escolhaRegional);
                         pesquisa.forEach(System.out::println);
                     } catch (EventoNaoLocalizadoException ex) {
-                        Logger.getLogger(CalendarioAcademico.class.getName())
-                                .log(Level.SEVERE, null, ex);
+                        System.out.println(ex.getMessage());
                     }
                     waitUser();
                     break;
@@ -119,8 +116,7 @@ public class CalendarioAcademico {
                         ev = repositorio.pesquisarNome(eventos, nome);
                         System.out.println(ev.toString());
                     } catch (EventoNaoLocalizadoException ex) {
-                        Logger.getLogger(CalendarioAcademico.class.getName())
-                                .log(Level.SEVERE, null, ex);
+                        System.out.println(ex.getMessage());
                     }
                     waitUser();
                     break;
@@ -137,12 +133,10 @@ public class CalendarioAcademico {
                     } catch (NumberFormatException | IndexOutOfBoundsException ex) {
                         dataPesquisa.set(-1, -1, -1);
                     }
-                     {
-                        try {
-                            repositorio.pesquisarData(eventos, dataPesquisa);
-                        } catch (EventoNaoLocalizadoException ex) {
-                            Logger.getLogger(CalendarioAcademico.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                    try {
+                        repositorio.pesquisarData(eventos, dataPesquisa);
+                    } catch (EventoNaoLocalizadoException ex) {
+                        System.out.println(ex.getMessage());
                     }
                     waitUser();
                     break;
@@ -188,8 +182,7 @@ public class CalendarioAcademico {
                             System.out.println("Evento adicionado.");
                             Collections.sort(eventos);
                         } catch (EventoDuplicadoException ex) {
-                            Logger.getLogger(CalendarioAcademico.class.getName())
-                                    .log(Level.SEVERE, null, ex);
+                            System.out.println(ex.getMessage());
                         }
                     }
                     waitUser();
@@ -203,8 +196,7 @@ public class CalendarioAcademico {
                         try {
                             repositorio.removerEvento(eventos, nomePesquisa);
                         } catch (EventoNaoLocalizadoException ex) {
-                            Logger.getLogger(CalendarioAcademico.class.getName())
-                                    .log(Level.SEVERE, null, ex);
+                            System.out.println(ex.getMessage());
                         }
                         Collections.sort(eventos);
                     }
@@ -219,10 +211,8 @@ public class CalendarioAcademico {
                         try {
                             repositorio.alterarEvento(eventos, nomePesquisa);
                             Collections.sort(eventos);
-                        } catch (EventoDuplicadoException
-                                | EventoNaoLocalizadoException ex) {
-                            Logger.getLogger(CalendarioAcademico.class.getName())
-                                    .log(Level.SEVERE, null, ex);
+                        } catch (EventoDuplicadoException | EventoNaoLocalizadoException ex) {
+                            System.out.println(ex.getMessage());
                         }
                     }
                     waitUser();
@@ -307,7 +297,13 @@ public class CalendarioAcademico {
 
             menuRegionais();
 
-            int numRegional = Integer.parseInt(scan.nextLine());
+            int numRegional;
+            
+            try {
+                numRegional = Integer.parseInt(scan.nextLine());
+            } catch (NumberFormatException ex) {
+                numRegional = -1;
+            }
 
             String escolhaRegional
                     = RepositorioEvento.escolhaRegional(numRegional);
@@ -327,18 +323,18 @@ public class CalendarioAcademico {
 
         return regionalList;
     }
-    
+
     public static void menuRegionais() {
         System.out.println("Escolha a regional pelo número correspondente"
-                    + ": ");
-            System.out.println("1. "
-                    + Regionais.CATALAO.getRepresentacaoTextual());
-            System.out.println("2. "
-                    + Regionais.GOIAS.getRepresentacaoTextual());
-            System.out.println("3. "
-                    + Regionais.JATAI.getRepresentacaoTextual());
-            System.out.println("4. "
-                    + Regionais.GOIANIA.getRepresentacaoTextual());
+                + ": ");
+        System.out.println("1. "
+                + Regionais.CATALAO.getRepresentacaoTextual());
+        System.out.println("2. "
+                + Regionais.GOIAS.getRepresentacaoTextual());
+        System.out.println("3. "
+                + Regionais.JATAI.getRepresentacaoTextual());
+        System.out.println("4. "
+                + Regionais.GOIANIA.getRepresentacaoTextual());
     }
 
     public static String cadastrarInstituto() {
@@ -395,7 +391,7 @@ public class CalendarioAcademico {
         System.out.println("5 - Registrar Administrador.");
         System.out.println("6 - Fazer login.");
     }
-    
+
     public static void waitUser() {
         System.out.println("\n\nPressionar a tecla \"ENTER\" retorna ao menu.");
         scan.nextLine();
