@@ -181,7 +181,7 @@ public class RepositorioEvento {
     }
 
     public Evento pesquisarNome(ArrayList eventos, String nomePesquisa)
-            throws RuntimeException{
+            throws EventoNaoLocalizadoException{
 
         for (Iterator itr = eventos.iterator(); itr.hasNext();) {
             Evento e = (Evento) itr.next();
@@ -189,7 +189,7 @@ public class RepositorioEvento {
                 return e;
             }
         }
-        throw new RuntimeException("Evento não encontrado.");
+        throw new EventoNaoLocalizadoException("Evento não encontrado.");
     }
     
     public void pesquisarData(ArrayList eventos, GregorianCalendar dataPesquisa) {
@@ -205,13 +205,14 @@ public class RepositorioEvento {
         }
     }
     
-    public void removerEvento (ArrayList eventos, String nomePesquisa) {
-        Evento e = pesquisarNome (eventos,nomePesquisa);
+    public void removerEvento (ArrayList eventos, String nomePesquisa)
+            throws EventoNaoLocalizadoException {
+        Evento e = pesquisarNome (eventos, nomePesquisa);
         eventos.remove(e);
     }
 
     public void alterarEvento (ArrayList eventos, String nomePesquisa)
-            throws EventoDuplicadoException {
+            throws EventoDuplicadoException, EventoNaoLocalizadoException {
         int opcao = 1;
         while (opcao != 0) {
             CalendarioAcademico.menuModificacao();

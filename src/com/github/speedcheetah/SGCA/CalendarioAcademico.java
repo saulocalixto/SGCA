@@ -111,9 +111,14 @@ public class CalendarioAcademico {
                 case 3:
                     System.out.print("Digite o nome do evento: ");
                     String nome = scan.nextLine();
-                    Evento ev = repositorio.pesquisarNome(eventos, nome);
-                    if (ev != null) {
+                    Evento ev;
+                    try {
+                        ev = repositorio.pesquisarNome(eventos, nome);
                         System.out.println(ev.toString());
+                    } catch (EventoNaoLocalizadoException ex) {
+                        System.out.println(ex.getMessage());
+                        Logger.getLogger(CalendarioAcademico.class.getName())
+                                .log(Level.SEVERE, null, ex);
                     }
                     break;
 
@@ -170,7 +175,8 @@ public class CalendarioAcademico {
                             Collections.sort(eventos);
                         } catch (EventoDuplicadoException ex) {
                             System.out.println(ex.getMessage());
-                            Logger.getLogger(CalendarioAcademico.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(CalendarioAcademico.class.getName())
+                                    .log(Level.SEVERE, null, ex);
                         }
                     }
                     break;
@@ -180,7 +186,13 @@ public class CalendarioAcademico {
                         System.out.println("Digite o nome do evento a ser"
                                 + "removido");
                         String nomePesquisa = scan.nextLine();
-                        repositorio.removerEvento(eventos, nomePesquisa);
+                        try {
+                            repositorio.removerEvento(eventos, nomePesquisa);
+                        } catch (EventoNaoLocalizadoException ex) {
+                            System.out.println(ex.getMessage());
+                            Logger.getLogger(CalendarioAcademico.class.getName())
+                                    .log(Level.SEVERE, null, ex);
+                        }
                         Collections.sort(eventos);
                     }
                     break;
@@ -195,7 +207,12 @@ public class CalendarioAcademico {
                             Collections.sort(eventos);
                         } catch (EventoDuplicadoException ex) {
                             System.out.println(ex.getMessage());
-                            Logger.getLogger(CalendarioAcademico.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(CalendarioAcademico.class.getName())
+                                    .log(Level.SEVERE, null, ex);
+                        } catch (EventoNaoLocalizadoException ex) {
+                            System.out.println(ex.getMessage());
+                            Logger.getLogger(CalendarioAcademico.class.getName())
+                                    .log(Level.SEVERE, null, ex);
                         }
                     }
                     break;
@@ -231,4 +248,5 @@ public class CalendarioAcademico {
         System.out.println("6 - Descrição.");
         System.out.println("0 - Terminar as alterações");
     }
+
 }
