@@ -48,32 +48,30 @@ public class CalendarioAcademico {
         Administrador admin = new Administrador("admin", "password");
         admin.logoff();
 
-        System.out.println("##### Cadastro de eventos #####\n");
+        System.out.println("Bem vindo ao"
+                + " Sistema de Gestão de Calendário Acadêmico.\n");
 
         int opcao = 1;
 
         while (opcao != 0) {
             String user, pass;
-            System.out.println("0 - Sair do programa.");
-            System.out.println("1 - Exibir calendário inteiro.");
-            System.out.println("2 - Pesquisar por regional.");
-            System.out.println("3 - Pesquisar por nome.");
-            System.out.println("4 - Pesquisar por data.");
-            System.out.println("5 - Registrar Administrador.");
-            System.out.println("6 - Fazer login.");
             if (admin.isOnline()) {
-                System.out.println("7 - Cadastrar evento novo.");
-                System.out.println("8 - Remover um evento.");
-                System.out.println("9 - Alterar um evento.");
-                System.out.println("10 - Alterar senha.");
+                menuAdmin();
+            } else {
+                menuGuest();
             }
 
             try {
                 opcao = Integer.parseInt(scan.nextLine());
             } catch (NumberFormatException ex) {
-                System.out.println(ex.getMessage());
                 opcao = -1;
             }
+            
+            if (admin.isOnline() && opcao > 4) {
+                opcao += 2;
+            }
+            
+            System.out.println("\n\n\n");
 
             switch (opcao) {
                 case 0:
@@ -82,31 +80,35 @@ public class CalendarioAcademico {
                     break;
 
                 case 1:
-                    eventos.forEach(System.out::println);
+                    if (eventos.isEmpty()) {
+                        System.out.println("Calendário vazio.");
+                    } else {
+                        eventos.forEach(System.out::println);
+                    }
+                    
+                    waitUser();
                     break;
 
                 case 2:
-
-                    Regionais.CATALAO.mostrarMenu();
+                    menuRegionais();
                     int numRegional;
                     try {
                         numRegional = Integer.parseInt(scan.nextLine());
                     } catch (NumberFormatException ex) {
-                        System.out.println(ex.getMessage());
                         break;
                     }
                     String escolhaRegional
-                            = Regionais.CATALAO.escolhaRegional(numRegional);
+                            = RepositorioEvento.escolhaRegional(numRegional);
                     ArrayList<Evento> pesquisa;
                     try {
                         pesquisa = repositorio
                                 .pesquisarRegional(eventos, escolhaRegional);
                         pesquisa.forEach(System.out::println);
                     } catch (EventoNaoLocalizadoException ex) {
-                        System.out.println(ex.getMessage());
                         Logger.getLogger(CalendarioAcademico.class.getName())
                                 .log(Level.SEVERE, null, ex);
                     }
+                    waitUser();
                     break;
 
                 case 3:
@@ -117,10 +119,10 @@ public class CalendarioAcademico {
                         ev = repositorio.pesquisarNome(eventos, nome);
                         System.out.println(ev.toString());
                     } catch (EventoNaoLocalizadoException ex) {
-                        System.out.println(ex.getMessage());
                         Logger.getLogger(CalendarioAcademico.class.getName())
                                 .log(Level.SEVERE, null, ex);
                     }
+                    waitUser();
                     break;
 
                 case 4:
@@ -139,10 +141,10 @@ public class CalendarioAcademico {
                         try {
                             repositorio.pesquisarData(eventos, dataPesquisa);
                         } catch (EventoNaoLocalizadoException ex) {
-                            System.out.println(ex.getMessage());
                             Logger.getLogger(CalendarioAcademico.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
+                    waitUser();
                     break;
 
                 case 5:
@@ -160,6 +162,7 @@ public class CalendarioAcademico {
                     } else {
                         System.out.println("Usuário ou senha incorreto.");
                     }
+                    waitUser();
                     break;
 
                 case 6:
@@ -174,6 +177,7 @@ public class CalendarioAcademico {
                     } else {
                         System.out.println("Usuário ou senha incorreto.");
                     }
+                    waitUser();
                     break;
 
                 case 7:
@@ -184,11 +188,11 @@ public class CalendarioAcademico {
                             System.out.println("Evento adicionado.");
                             Collections.sort(eventos);
                         } catch (EventoDuplicadoException ex) {
-                            System.out.println(ex.getMessage());
                             Logger.getLogger(CalendarioAcademico.class.getName())
                                     .log(Level.SEVERE, null, ex);
                         }
                     }
+                    waitUser();
                     break;
 
                 case 8:
@@ -199,12 +203,12 @@ public class CalendarioAcademico {
                         try {
                             repositorio.removerEvento(eventos, nomePesquisa);
                         } catch (EventoNaoLocalizadoException ex) {
-                            System.out.println(ex.getMessage());
                             Logger.getLogger(CalendarioAcademico.class.getName())
                                     .log(Level.SEVERE, null, ex);
                         }
                         Collections.sort(eventos);
                     }
+                    waitUser();
                     break;
 
                 case 9:
@@ -217,11 +221,11 @@ public class CalendarioAcademico {
                             Collections.sort(eventos);
                         } catch (EventoDuplicadoException
                                 | EventoNaoLocalizadoException ex) {
-                            System.out.println(ex.getMessage());
                             Logger.getLogger(CalendarioAcademico.class.getName())
                                     .log(Level.SEVERE, null, ex);
                         }
                     }
+                    waitUser();
                     break;
 
                 case 10:
@@ -234,6 +238,14 @@ public class CalendarioAcademico {
                             admin.alteraSenha(pass, newPass);
                         }
                     }
+                    waitUser();
+                    break;
+
+                case 11:
+                    if (admin.isOnline()) {
+                        admin.logoff();
+                    }
+                    waitUser();
                     break;
 
                 default:
@@ -241,7 +253,8 @@ public class CalendarioAcademico {
             }
 
         }
-        System.out.println("Fim");
+        System.out.println("Obrigado por usar nosso"
+                + " Sistema de Gestão de Calendário Acadêmico!");
         System.exit(0);
     }
 
@@ -286,31 +299,46 @@ public class CalendarioAcademico {
         return nome.toUpperCase();
     }
 
-    public static ArrayList cadastrarRegional() throws EventoDuplicadoException {
-        String maisUm = "s";
+    public static ArrayList<String> cadastrarRegional() throws EventoDuplicadoException {
+        String maisUm = "Sim";
         int cont = 0;
         ArrayList<String> regionalList = new ArrayList();
-        while ("s".equalsIgnoreCase(maisUm) && cont < 4) {
+        while ("Sim".equalsIgnoreCase(maisUm) && cont < 4) {
 
-            Regionais.CATALAO.mostrarMenu();
+            menuRegionais();
 
             int numRegional = Integer.parseInt(scan.nextLine());
 
             String escolhaRegional
-                    = Regionais.CATALAO.escolhaRegional(numRegional);
+                    = RepositorioEvento.escolhaRegional(numRegional);
 
             if (regionalList.contains(escolhaRegional)) {
                 throw new EventoDuplicadoException("Regional já consta"
                         + " cadastrada para esse evento.");
+            } else {
+                regionalList.add(escolhaRegional);
             }
             System.out.println("Deseja cadastrar mais uma regional"
-                    + " para o evento?");
+                    + " para o evento? (Sim/Nao)");
             maisUm = scan.nextLine();
 
             cont++;
         }
 
         return regionalList;
+    }
+    
+    public static void menuRegionais() {
+        System.out.println("Escolha a regional pelo número correspondente"
+                    + ": ");
+            System.out.println("1. "
+                    + Regionais.CATALAO.getRepresentacaoTextual());
+            System.out.println("2. "
+                    + Regionais.GOIAS.getRepresentacaoTextual());
+            System.out.println("3. "
+                    + Regionais.JATAI.getRepresentacaoTextual());
+            System.out.println("4. "
+                    + Regionais.GOIANIA.getRepresentacaoTextual());
     }
 
     public static String cadastrarInstituto() {
@@ -342,5 +370,34 @@ public class CalendarioAcademico {
         } while (!RepositorioEvento.testaData(dataInicial));
 
         return dataInicial;
+    }
+
+    private static void menuAdmin() {
+        System.out.println("0 - Sair do programa.");
+        System.out.println("1 - Exibir calendário inteiro.");
+        System.out.println("2 - Pesquisar por regional.");
+        System.out.println("3 - Pesquisar por nome.");
+        System.out.println("4 - Pesquisar por data.");
+        System.out.println("5 - Cadastrar evento novo.");
+        System.out.println("6 - Remover um evento.");
+        System.out.println("7 - Alterar um evento.");
+        System.out.println("8 - Alterar senha.");
+        System.out.println("9 - Fazer logoff.");
+    }
+
+    private static void menuGuest() {
+        System.out.println("0 - Sair do programa.");
+        System.out.println("1 - Exibir calendário inteiro.");
+        System.out.println("2 - Pesquisar por regional.");
+        System.out.println("3 - Pesquisar por nome.");
+        System.out.println("4 - Pesquisar por data.");
+        System.out.println("5 - Registrar Administrador.");
+        System.out.println("6 - Fazer login.");
+    }
+    
+    public static void waitUser() {
+        System.out.println("\n\nPressionar a tecla \"ENTER\" retorna ao menu.");
+        scan.nextLine();
+        System.out.println("\n\n\n\n\n\n\n\n\n");
     }
 }

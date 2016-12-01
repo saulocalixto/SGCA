@@ -33,13 +33,14 @@ public class Administrador {
     private boolean online = false;
 
     Administrador(String user, String key){
-        this.user = user;
-        this.key = key;
+        this.user = user.trim();
+        this.key = key.trim();
         this.online = true;
     }
 
     void login(String user, String key){
-        this.online = this.key.equals(key) && this.user.equals(user);
+        this.online = this.key.equals(key.trim())
+                && this.user.equals(user.trim());
     }
 
     void logoff(){
@@ -55,12 +56,12 @@ public class Administrador {
     }
     
     public boolean confirmaSenha(String key){
-        return this.key.equals(key);
+        return this.key.equals(key.trim());
     }
     
     public void alteraSenha(String key, String newKey) {
-        if (confirmaSenha(key)) {
-            this.key = newKey;
+        if (confirmaSenha(key.trim())) {
+            this.key = newKey.trim();
         }
     }
 }

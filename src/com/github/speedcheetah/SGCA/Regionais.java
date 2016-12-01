@@ -40,9 +40,9 @@ public enum Regionais {
         this.representacaoTextual = representacaoTextual;
     }
 
-    private int representacaoNumerica;
+    private final int representacaoNumerica;
 
-    private String representacaoTextual;
+    private final String representacaoTextual;
 
     public int getRepresentacaoNumerica() {
         return representacaoNumerica;
@@ -51,38 +51,4 @@ public enum Regionais {
     public String getRepresentacaoTextual() {
         return representacaoTextual;
     }
-
-    public String escolhaRegional(int numRegional) {
-        String escolhido = null;
-        switch (numRegional) {
-            case 1:
-                escolhido = CATALAO.getRepresentacaoTextual();
-                break;
-            case 2:
-                escolhido = GOIAS.getRepresentacaoTextual();
-                break;
-            case 3:
-                escolhido = JATAI.getRepresentacaoTextual();
-                break;
-            case 4:
-                escolhido = GOIANIA.getRepresentacaoTextual();
-                break;
-
-        }
-        return escolhido;
-    }
-
-    public void mostrarMenu() {
-        System.out.println("Escolha a regional pelo número correspondente"
-                    + ": ");
-            System.out.println("1. "
-                    + CATALAO.getRepresentacaoTextual());
-            System.out.println("2. "
-                    + GOIAS.getRepresentacaoTextual());
-            System.out.println("3. "
-                    + JATAI.getRepresentacaoTextual());
-            System.out.println("4. "
-                    + GOIANIA.getRepresentacaoTextual());
-    }
-
 }

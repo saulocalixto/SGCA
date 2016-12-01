@@ -63,18 +63,12 @@ public class Evento implements Comparable<Evento> {
                 .append("\nNome do Evento: ")
                 .append(nome)
                 .append("\nData do Evento: ")
-                .append(formato.format(dataInicial.getTime()));
-        if ((dataInicial.compareTo(dataFinal)) != 0) {
-            retorno.append(" - ")
-                    .append(formato.format(dataFinal.getTime()));
-        }
-        retorno.append("\nRegional(ais): ");
-        int cont = 1;
+                .append(formato.format(dataInicial.getTime()))
+                .append(" - ").append(formato.format(dataFinal.getTime()))
+                .append("\nRegional(ais): ");
         for (Iterator itr = regional.iterator(); itr.hasNext();) {
             retorno.append("\n")
-                    .append(cont).append(". ")
                     .append(itr.next());
-            cont++;
         }
         retorno.append("\nInstituto sede: ").append(instituto)
                 .append("\nDescrição: ").append(descricao).append("\n")

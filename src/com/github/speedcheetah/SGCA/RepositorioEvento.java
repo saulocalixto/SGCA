@@ -86,6 +86,25 @@ public class RepositorioEvento {
         }
         throw new EventoNaoLocalizadoException("Evento não encontrado.");
     }
+    
+    public static String escolhaRegional(int numRegional) {
+        String escolhido = null;
+        switch (numRegional) {
+            case 1:
+                escolhido = Regionais.CATALAO.getRepresentacaoTextual();
+                break;
+            case 2:
+                escolhido = Regionais.GOIAS.getRepresentacaoTextual();
+                break;
+            case 3:
+                escolhido = Regionais.JATAI.getRepresentacaoTextual();
+                break;
+            case 4:
+                escolhido = Regionais.GOIANIA.getRepresentacaoTextual();
+                break;
+        }
+        return escolhido;
+    }
 
     public ArrayList<Evento> pesquisarData(ArrayList eventos,
             GregorianCalendar dataPesquisa) throws EventoNaoLocalizadoException {
