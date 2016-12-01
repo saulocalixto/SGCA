@@ -37,7 +37,7 @@ public class RepositorioEvento {
 
     Scanner entrada = new Scanner(System.in);
 
-    public void addEvento(ArrayList<Evento> eventos) {
+    public void addEvento(ArrayList<Evento> eventos) throws EventoDuplicadoException{
         String continuar = "s";
         while ("s".equalsIgnoreCase(continuar)) {
             //enquanto for igual a s.
@@ -55,7 +55,7 @@ public class RepositorioEvento {
                     cadastrarDescricao());
             //Aqui eu instancio a classe eventos para adicionar os dados.
             if (eventos.contains(evento)) {
-                System.err.println("Esse produto já foi adicionado."
+                throw new EventoDuplicadoException("Esse produto já foi adicionado."
                         + " Cadastre outro Evento!");
             } else {
                 eventos.add(evento);
@@ -74,7 +74,7 @@ public class RepositorioEvento {
         return nome.toUpperCase();
     }
 
-    public ArrayList cadastrarRegional() {
+    public ArrayList cadastrarRegional() throws EventoDuplicadoException {
         String maisum = "s";
         int cont = 0;
         ArrayList<String> regionalList = new ArrayList();
@@ -87,15 +87,13 @@ public class RepositorioEvento {
             String escolhaRegional = Regionais.CATALAO.escolhaRegional(numRegional);
 
             if (regionalList.contains(escolhaRegional)) {
-                System.out.println("Regional já consta cadastrada para "
-                        + "esse evento.");
-                continue;
+                throw new EventoDuplicadoException("Regional já consta"
+                        + " cadastrada para esse evento.");
             }
             if (!regionalList.contains(escolhaRegional)) {
                 regionalList.add(escolhaRegional);
             } else {
-                System.out.println("Regional já cadastrada.");
-                continue;
+                throw new EventoDuplicadoException("Regional já cadastrada.");
             }
             System.out.println("Deseja cadastrar mais uma regional"
                     + " para o evento:?");
@@ -125,11 +123,11 @@ public class RepositorioEvento {
         dataInicial.setLenient(false);
         do {
             String data = entrada.nextLine();
-            ArrayList dataValor = parseData(data);
+            String[] dataValor = parseData(data);
             try {
-                dataInicial.set(Integer.parseInt(dataValor.get(2).toString()),
-                        Integer.parseInt(dataValor.get(1).toString()) - 1,
-                        Integer.parseInt(dataValor.get(0).toString()));
+                dataInicial.set(Integer.parseInt(dataValor[2]),
+                        Integer.parseInt(dataValor[1]) - 1,
+                        Integer.parseInt(dataValor[0]));
             } catch (NumberFormatException | IndexOutOfBoundsException ex) {
                 dataInicial.set(-1, -1, -1);
             }
@@ -148,28 +146,27 @@ public class RepositorioEvento {
         return false;
     }
 
-    public ArrayList parseData(String data) {
-        ArrayList valores = new ArrayList();
+    public String[] parseData(String data) {
+        String valores[];
 
-        if (data.length() != 10) {
-            return valores;
-        }
-
-        valores.add(data.substring(0, 2));
-        valores.add(data.substring(3, 5));
-        valores.add(data.substring(6, 10));
+        valores = data.split("/");
 
         return valores;
     }
 
-    public void pesquisarRegional(ArrayList eventos, String regPesq) {
-
+    public ArrayList<Evento> pesquisarRegional(ArrayList eventos, String regPesq)
+            throws EventoNaoLocalizadoException {
+        ArrayList<Evento> eventosRegionais = new ArrayList();
         for (Iterator itr = eventos.iterator(); itr.hasNext();) {
             Evento e = (Evento) itr.next();
             if (e.getRegional().contains(regPesq)) {
-                System.out.println(e.toString());
+                eventosRegionais.add(e);
             }
         }
+        if (eventosRegionais.isEmpty()) {
+            throw new EventoNaoLocalizadoException();
+        }
+        return eventosRegionais;
     }
 
     public ArrayList<String> parseString(String s) {
@@ -183,7 +180,8 @@ public class RepositorioEvento {
         return palavras;
     }
 
-    public Evento pesquisarNome(ArrayList eventos, String nomePesquisa) {
+    public Evento pesquisarNome(ArrayList eventos, String nomePesquisa)
+            throws RuntimeException{
 
         for (Iterator itr = eventos.iterator(); itr.hasNext();) {
             Evento e = (Evento) itr.next();
@@ -191,8 +189,7 @@ public class RepositorioEvento {
                 return e;
             }
         }
-        System.out.println("Evento não encontrado.");
-        return null;
+        throw new RuntimeException("Evento não encontrado.");
     }
     
     public void pesquisarData(ArrayList eventos, GregorianCalendar dataPesquisa) {
@@ -213,17 +210,11 @@ public class RepositorioEvento {
         eventos.remove(e);
     }
 
-    public void alterarEvento (ArrayList eventos, String nomePesquisa) {
+    public void alterarEvento (ArrayList eventos, String nomePesquisa)
+            throws EventoDuplicadoException {
         int opcao = 1;
         while (opcao != 0) {
-            System.out.println("O que deseja alterar?");
-            System.out.println("1 - Nome.");
-            System.out.println("2 - Data de inicio.");
-            System.out.println("3 - Data de término.");
-            System.out.println("4 - Regional.");
-            System.out.println("5 - Instituto.");
-            System.out.println("6 - Descrição.");
-            System.out.println("0 - Terminar as alterações");
+            CalendarioAcademico.menuModificacao();
             
             try {
                 opcao = Integer.parseInt(entrada.nextLine());
