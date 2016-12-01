@@ -366,6 +366,7 @@ public class CalendarioAcademico {
                         Integer.parseInt(dataValor[0]));
             } catch (NumberFormatException | IndexOutOfBoundsException ex) {
                 dataInicial.set(-1, -1, -1);
+                System.out.println("Reinsira a data.");
             }
         } while (!RepositorioEvento.testaData(dataInicial));
 
