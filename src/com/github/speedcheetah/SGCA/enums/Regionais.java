@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Gustavo Henrique da Silva Batista.
+ * Copyright 2016 Instituto de Informática (UFG) - Fábrica de Software.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,18 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.speedcheetah.SGCA;
+package com.github.speedcheetah.SGCA.enums;
 
 /**
  *
- * @author Fenro
+ * @author saulocalixto
  */
-public class EventoNaoLocalizadoException extends Exception{
-    public EventoNaoLocalizadoException() {
-        super("Evento não localizado.");
+public enum Regionais {
+
+    CATALAO(1, "CATALÃO"),
+    GOIAS(2, "GOIÁS"),
+    JATAI(3, "JATAÍ"),
+    GOIANIA(4, "GOIÂNIA");
+
+    Regionais(int representacaoNumerica, String representacaoTextual
+    ) {
+        this.representacaoNumerica = representacaoNumerica;
+        this.representacaoTextual = representacaoTextual;
     }
-    
-    public EventoNaoLocalizadoException(String message) {
-        super(message);
+
+    private final int representacaoNumerica;
+
+    private final String representacaoTextual;
+
+    public int getRepresentacaoNumerica() {
+        return representacaoNumerica;
+    }
+
+    public String getRepresentacaoTextual() {
+        return representacaoTextual;
     }
 }

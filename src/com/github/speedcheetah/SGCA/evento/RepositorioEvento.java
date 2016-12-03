@@ -21,8 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.speedcheetah.SGCA;
+package com.github.speedcheetah.SGCA.evento;
 
+import com.github.speedcheetah.SGCA.CalendarioAcademico;
+import com.github.speedcheetah.SGCA.exception.EventoDuplicadoException;
+import com.github.speedcheetah.SGCA.exception.EventoNaoLocalizadoException;
+import com.github.speedcheetah.SGCA.enums.Regionais;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;

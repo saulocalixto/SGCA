@@ -23,6 +23,14 @@
  */
 package com.github.speedcheetah.SGCA;
 
+import com.github.speedcheetah.SGCA.enums.Regionais;
+import com.github.speedcheetah.SGCA.exception.EventoNaoLocalizadoException;
+import com.github.speedcheetah.SGCA.exception.EventoDuplicadoException;
+import com.github.speedcheetah.SGCA.evento.RepositorioEvento;
+import com.github.speedcheetah.SGCA.evento.Evento;
+import com.github.speedcheetah.SGCA.persistencia.LerArquivo;
+import com.github.speedcheetah.SGCA.persistencia.gravarArquivo;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
@@ -39,12 +47,15 @@ public class CalendarioAcademico {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         ArrayList eventos = new ArrayList();
         RepositorioEvento repositorio = new RepositorioEvento();
         Administrador admin = new Administrador("admin", "password");
         admin.logoff();
+        
+        eventos = LerArquivo.lerEventos(LerArquivo.
+                getBufferedReader2("./src/evento"));
 
         System.out.println("Bem vindo ao"
                 + " Sistema de Gestão de Calendário Acadêmico.\n");
@@ -73,6 +84,7 @@ public class CalendarioAcademico {
 
             switch (opcao) {
                 case 0:
+                    gravarArquivo.gravar(eventos);
                     System.out.println("Fim");
                     System.exit(0);
                     break;
@@ -355,6 +367,25 @@ public class CalendarioAcademico {
         dataInicial.setLenient(false);
         do {
             String data = scan.nextLine();
+            String[] dataValor = RepositorioEvento.parseData(data);
+            try {
+                dataInicial.set(Integer.parseInt(dataValor[2]),
+                        Integer.parseInt(dataValor[1]) - 1,
+                        Integer.parseInt(dataValor[0]));
+            } catch (NumberFormatException | IndexOutOfBoundsException ex) {
+                dataInicial.set(-1, -1, -1);
+                System.out.println("Reinsira a data.");
+            }
+        } while (!RepositorioEvento.testaData(dataInicial));
+
+        return dataInicial;
+    }
+    
+        public static GregorianCalendar inserirData(String data) {
+
+        GregorianCalendar dataInicial = new GregorianCalendar();
+        dataInicial.setLenient(false);
+        do {
             String[] dataValor = RepositorioEvento.parseData(data);
             try {
                 dataInicial.set(Integer.parseInt(dataValor[2]),

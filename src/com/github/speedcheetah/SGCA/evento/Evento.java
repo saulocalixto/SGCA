@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.speedcheetah.SGCA;
+package com.github.speedcheetah.SGCA.evento;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,6 +42,7 @@ public class Evento implements Comparable<Evento> {
     private String instituto;
     private String descricao;
     private String identificacaounica;
+    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
     public Evento(String nome, GregorianCalendar dataInicial,
             GregorianCalendar dataFinal, ArrayList<String> regional,
@@ -58,7 +59,6 @@ public class Evento implements Comparable<Evento> {
     @Override
     final public String toString() {
         StringBuilder retorno = new StringBuilder();
-        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
         retorno.append("\n**********************************")
                 .append("\nNome do Evento: ")
                 .append(nome)
@@ -109,7 +109,7 @@ public class Evento implements Comparable<Evento> {
     final public int compareTo(Evento evento) {
         return this.dataInicial.compareTo(evento.dataInicial);
     }
-    
+
     public ArrayList<String> getRegional() {
         return this.regional;
     }
@@ -117,9 +117,25 @@ public class Evento implements Comparable<Evento> {
     public String getRegional(int index) {
         return regional.get(index);
     }
-    
+
     public GregorianCalendar getDataInicial() {
         return dataInicial;
+    }
+
+    public String getDataInicialStr() {
+        return formato.format(dataInicial.getTime());
+    }
+
+    public String getDataFinalStr() {
+        return formato.format(dataFinal.getTime());
+    }
+
+    public String getInteressado() {
+        return instituto;
+    }
+
+    public String getDescricao() {
+        return descricao;
     }
 
     public GregorianCalendar getDataFinal() {
@@ -129,32 +145,32 @@ public class Evento implements Comparable<Evento> {
     public int tamRegional() {
         return regional.size();
     }
-    
-    public String getNome(){
+
+    public String getNome() {
         return this.nome;
     }
-    
-    public void setNome(String nome) {  
-        this.nome = nome;  
-    }  
-    
-    public void setDataInicio(GregorianCalendar dataInicial) {  
-        this.dataInicial = dataInicial;  
-    }  
-    
-    public void setDataFinal(GregorianCalendar dataFinal) {  
-        this.dataFinal = dataFinal;  
-    }  
-    
-    public void setInstituto(String instituto) {  
-        this.instituto = instituto;  
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
-    
-    public void setDescricao(String descricao) {  
-        this.descricao = descricao;  
-    }  
-    
-    public void setRegional(ArrayList regional){
+
+    public void setDataInicio(GregorianCalendar dataInicial) {
+        this.dataInicial = dataInicial;
+    }
+
+    public void setDataFinal(GregorianCalendar dataFinal) {
+        this.dataFinal = dataFinal;
+    }
+
+    public void setInstituto(String instituto) {
+        this.instituto = instituto;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setRegional(ArrayList regional) {
         this.regional = regional;
     }
 }

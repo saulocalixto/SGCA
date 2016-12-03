@@ -21,18 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.speedcheetah.SGCA;
+package com.github.speedcheetah.SGCA.exception;
 
 /**
  *
  * @author Fenro
  */
-public class EventoDuplicadoException extends Exception{
-    public EventoDuplicadoException() {
-        super("Evento já existe na coleção.");
+public class EventoNaoLocalizadoException extends Exception{
+    public EventoNaoLocalizadoException() {
+        super("Evento não localizado.");
     }
     
-    public EventoDuplicadoException(String message) {
+    public EventoNaoLocalizadoException(String message) {
         super(message);
     }
 }
