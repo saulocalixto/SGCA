@@ -53,7 +53,7 @@ public class CalendarioAcademico {
         RepositorioEvento repositorio = new RepositorioEvento();
         Administrador admin = new Administrador("admin", "password");
         admin.logoff();
-        
+
         eventos = LerArquivo.lerEventos(LerArquivo.
                 getBufferedReader2("./src/evento"));
 
@@ -109,15 +109,77 @@ public class CalendarioAcademico {
                     }
                     String escolhaRegional
                             = RepositorioEvento.escolhaRegional(numRegional);
-                    ArrayList<Evento> pesquisa;
+                    ArrayList<Evento> regional;
+                    ArrayList<Evento> pesquisaData;
+                    System.out.println("Escolha o modo de busca:");
+                    menuBuscaRegional();
+                    int opcaoDeBusca = 2;
                     try {
-                        pesquisa = repositorio
-                                .pesquisarRegional(eventos, escolhaRegional);
-                        pesquisa.forEach(System.out::println);
-                    } catch (EventoNaoLocalizadoException ex) {
-                        System.out.println(ex.getMessage());
+                        opcaoDeBusca = Integer.parseInt(scan.nextLine());
+                    } catch (NumberFormatException ex) {
+                        opcaoDeBusca = -1;
                     }
-                    waitUser();
+
+                    switch (opcaoDeBusca) {
+                        case 0:
+
+                            waitUser();
+                            break;
+                        case 1:
+                            try {
+                                regional = repositorio
+                                        .pesquisarRegional(eventos, escolhaRegional);
+                                regional.forEach(System.out::println);
+                            } catch (EventoNaoLocalizadoException ex) {
+                                System.out.println(ex.getMessage());
+                            }
+                            break;
+                        case 2:
+                            try {
+                                regional = repositorio
+                                        .pesquisarRegional(eventos, escolhaRegional);
+                                System.out.println("Digite o nome do evento:");
+                                String nomePesquisa = scan.nextLine();
+                                Evento ev;
+                                ev = repositorio.
+                                        pesquisarNome(regional, nomePesquisa);
+                                System.out.println(ev.toString());
+                            } catch (EventoNaoLocalizadoException ex) {
+                                System.out.println(ex.getMessage());
+                            }
+                            waitUser();
+
+                            break;
+                        case 3:
+
+                            System.out.print("Digite a data desejada: ");
+                            String data = scan.nextLine();
+                            String dataValor[] = RepositorioEvento
+                                    .parseData(data);
+                            GregorianCalendar dataPesquisa = new GregorianCalendar();
+                            try {
+                                dataPesquisa.set(Integer.parseInt(dataValor[2]),
+                                        Integer.parseInt(dataValor[1]) - 1,
+                                        Integer.parseInt(dataValor[0]));
+                            } catch (NumberFormatException |
+                                    IndexOutOfBoundsException ex) {
+                                dataPesquisa.set(-1, -1, -1);
+                            }
+                            try {
+                                regional = repositorio
+                                        .pesquisarRegional(eventos, escolhaRegional);
+                                pesquisaData = repositorio
+                                        .pesquisarData(regional, dataPesquisa);
+                                System.out.println(pesquisaData);
+                            } catch (EventoNaoLocalizadoException ex) {
+                                System.out.println(ex.getMessage());
+                            }
+                            waitUser();
+
+                            break;
+                        default:
+                            break;
+                    }
                     break;
 
                 case 3:
@@ -310,7 +372,7 @@ public class CalendarioAcademico {
             menuRegionais();
 
             int numRegional;
-            
+
             try {
                 numRegional = Integer.parseInt(scan.nextLine());
             } catch (NumberFormatException ex) {
@@ -380,8 +442,8 @@ public class CalendarioAcademico {
 
         return dataInicial;
     }
-    
-        public static GregorianCalendar inserirData(String data) {
+
+    public static GregorianCalendar inserirData(String data) {
 
         GregorianCalendar dataInicial = new GregorianCalendar();
         dataInicial.setLenient(false);
@@ -403,7 +465,7 @@ public class CalendarioAcademico {
     private static void menuAdmin() {
         System.out.println("0 - Sair do programa.");
         System.out.println("1 - Exibir calendário inteiro.");
-        System.out.println("2 - Pesquisar por regional.");
+        System.out.println("2 - Pesquisar na regional.");
         System.out.println("3 - Pesquisar por nome.");
         System.out.println("4 - Pesquisar por data.");
         System.out.println("5 - Cadastrar evento novo.");
@@ -416,7 +478,7 @@ public class CalendarioAcademico {
     private static void menuGuest() {
         System.out.println("0 - Sair do programa.");
         System.out.println("1 - Exibir calendário inteiro.");
-        System.out.println("2 - Pesquisar por regional.");
+        System.out.println("2 - Pesquisar na regional.");
         System.out.println("3 - Pesquisar por nome.");
         System.out.println("4 - Pesquisar por data.");
         System.out.println("5 - Registrar Administrador.");
@@ -427,5 +489,12 @@ public class CalendarioAcademico {
         System.out.println("\n\nPressionar a tecla \"ENTER\" retorna ao menu.");
         scan.nextLine();
         System.out.println("\n\n\n\n\n\n\n\n\n");
+    }
+
+    private static void menuBuscaRegional() {
+        System.out.println("0 - Retornar ao menu principal.");
+        System.out.println("1 - Exibir calendário da regional.");
+        System.out.println("2 - Pesquisar por nome.");
+        System.out.println("3 - Pesquisar por data.");
     }
 }
