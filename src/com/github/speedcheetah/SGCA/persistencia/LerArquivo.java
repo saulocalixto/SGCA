@@ -7,12 +7,12 @@ package com.github.speedcheetah.SGCA.persistencia;
 
 import com.github.speedcheetah.SGCA.CalendarioAcademico;
 import com.github.speedcheetah.SGCA.evento.Evento;
-import com.github.speedcheetah.SGCA.evento.RepositorioEvento;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 
 /**
@@ -36,26 +36,22 @@ public class LerArquivo {
     public static ArrayList<Evento> lerEventos(BufferedReader br) throws IOException {
 
         ArrayList<Evento> evento = new ArrayList<>();
-
         String nome;
         GregorianCalendar dataI;
         GregorianCalendar dataF;
-        ArrayList<String> regional = new ArrayList();
         String instituto;
         String descricao;
 
         try {
             String linha = br.readLine();
             while (linha != null) {
+                ArrayList<String> regional = new ArrayList();
                 String[] atributo = linha.split("¬");
-                regional.clear();
                 nome = atributo[0];
                 dataI = CalendarioAcademico.inserirData(atributo[1]);
                 dataF = CalendarioAcademico.inserirData(atributo[2]);
                 String[] reg = atributo[3].split(",");
-                for (String aux : reg) {
-                    regional.add(aux);
-                }
+                regional.addAll(Arrays.asList(reg));
                 instituto = atributo[4];
                 descricao = atributo[5];
 

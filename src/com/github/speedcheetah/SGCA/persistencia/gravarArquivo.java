@@ -17,7 +17,7 @@ import java.util.Iterator;
  *
  * @author saulocalixto
  */
-public class GravarArquivo {
+public class gravarArquivo {
 
     public static void gravar(ArrayList<Evento> eventos) throws IOException {
         String gravar = "";
