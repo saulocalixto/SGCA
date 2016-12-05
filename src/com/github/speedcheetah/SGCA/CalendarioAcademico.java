@@ -24,7 +24,7 @@
 package com.github.speedcheetah.SGCA;
 
 import com.github.speedcheetah.SGCA.usuario.Administrador;
-import com.github.speedcheetah.SGCA.enums.Regionais;
+import com.github.speedcheetah.SGCA.enums.Regional;
 import com.github.speedcheetah.SGCA.exception.EventoNaoLocalizadoException;
 import com.github.speedcheetah.SGCA.exception.EventoDuplicadoException;
 import com.github.speedcheetah.SGCA.evento.RepositorioEvento;
@@ -386,13 +386,13 @@ public class CalendarioAcademico {
         System.out.println("Escolha a regional pelo número correspondente"
                 + ": ");
         System.out.println("1. "
-                + Regionais.CATALAO.getRepresentacaoTextual());
+                + Regional.CATALAO.getRepresentacaoTextual());
         System.out.println("2. "
-                + Regionais.GOIAS.getRepresentacaoTextual());
+                + Regional.GOIAS.getRepresentacaoTextual());
         System.out.println("3. "
-                + Regionais.JATAI.getRepresentacaoTextual());
+                + Regional.JATAI.getRepresentacaoTextual());
         System.out.println("4. "
-                + Regionais.GOIANIA.getRepresentacaoTextual());
+                + Regional.GOIANIA.getRepresentacaoTextual());
     }
 
     public static String cadastrarInstituto() {

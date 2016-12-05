@@ -27,14 +27,14 @@ package com.github.speedcheetah.SGCA.enums;
  *
  * @author saulocalixto
  */
-public enum Regionais {
+public enum Regional {
 
     CATALAO(1, "CATALÃO"),
     GOIAS(2, "GOIÁS"),
     JATAI(3, "JATAÍ"),
     GOIANIA(4, "GOIÂNIA");
 
-    Regionais(int representacaoNumerica, String representacaoTextual
+    Regional(int representacaoNumerica, String representacaoTextual
     ) {
         this.representacaoNumerica = representacaoNumerica;
         this.representacaoTextual = representacaoTextual;
