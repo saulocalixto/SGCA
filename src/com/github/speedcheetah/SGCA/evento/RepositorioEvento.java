@@ -106,19 +106,23 @@ public class RepositorioEvento {
             case 4:
                 escolhido = Regionais.GOIANIA.getRepresentacaoTextual();
                 break;
+            default:
+                break;
         }
         return escolhido;
     }
 
     public ArrayList<Evento> pesquisarData(ArrayList eventos,
-            GregorianCalendar dataPesquisa) throws EventoNaoLocalizadoException {
+            GregorianCalendar dataPesquisa)
+            throws EventoNaoLocalizadoException, IllegalArgumentException {
+        if (!testaData(dataPesquisa)) {
+            throw new IllegalArgumentException("Data inválida.");
+        }
         ArrayList<Evento> eventosData = new ArrayList();
         for (Iterator itr = eventos.iterator(); itr.hasNext();) {
             Evento e = (Evento) itr.next();
-            if ((dataPesquisa.after(e.getDataInicial())
-                    && dataPesquisa.before(e.getDataFinal()))
-                    || dataPesquisa.equals(e.getDataInicial())
-                    || dataPesquisa.equals(e.getDataFinal())) {
+            if (!(dataPesquisa.before(e.getDataInicial())
+                    || dataPesquisa.after(e.getDataFinal()))) {
                 eventosData.add(e);
             }
         }

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.speedcheetah.SGCA;
+package com.github.speedcheetah.SGCA.usuario;
 
 /**
  *
@@ -32,18 +32,18 @@ public class Administrador {
     private String key;
     private boolean online = false;
 
-    Administrador(String user, String key){
+    public Administrador(String user, String key){
         this.user = user.trim();
         this.key = key.trim();
         this.online = true;
     }
 
-    void login(String user, String key){
+    public void login(String user, String key){
         this.online = this.key.equals(key.trim())
                 && this.user.equals(user.trim());
     }
 
-    void logoff(){
+    public void logoff(){
         this.online = false;
     }
 

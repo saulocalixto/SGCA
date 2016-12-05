@@ -16,7 +16,7 @@ import java.util.ArrayList;
  *
  * @author saulocalixto
  */
-public class gravarArquivo {
+public class GravarArquivo {
 
     public static void gravar(ArrayList<Evento> eventos) throws IOException {
         String gravar = "";

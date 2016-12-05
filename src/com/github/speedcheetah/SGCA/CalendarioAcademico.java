@@ -23,18 +23,21 @@
  */
 package com.github.speedcheetah.SGCA;
 
+import com.github.speedcheetah.SGCA.usuario.Administrador;
 import com.github.speedcheetah.SGCA.enums.Regionais;
 import com.github.speedcheetah.SGCA.exception.EventoNaoLocalizadoException;
 import com.github.speedcheetah.SGCA.exception.EventoDuplicadoException;
 import com.github.speedcheetah.SGCA.evento.RepositorioEvento;
 import com.github.speedcheetah.SGCA.evento.Evento;
 import com.github.speedcheetah.SGCA.persistencia.LerArquivo;
-import com.github.speedcheetah.SGCA.persistencia.gravarArquivo;
+import com.github.speedcheetah.SGCA.persistencia.GravarArquivo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -84,7 +87,7 @@ public class CalendarioAcademico {
 
             switch (opcao) {
                 case 0:
-                    gravarArquivo.gravar(eventos);
+                    GravarArquivo.gravar(eventos);
                     System.out.println("Fim");
                     System.exit(0);
                     break;
@@ -95,7 +98,6 @@ public class CalendarioAcademico {
                     } else {
                         eventos.forEach(System.out::println);
                     }
-
                     waitUser();
                     break;
 
@@ -110,75 +112,62 @@ public class CalendarioAcademico {
                     String escolhaRegional
                             = RepositorioEvento.escolhaRegional(numRegional);
                     ArrayList<Evento> regional;
-                    ArrayList<Evento> pesquisaData;
-                    System.out.println("Escolha o modo de busca:");
-                    menuBuscaRegional();
-                    int opcaoDeBusca = 2;
                     try {
-                        opcaoDeBusca = Integer.parseInt(scan.nextLine());
-                    } catch (NumberFormatException ex) {
-                        opcaoDeBusca = -1;
+                        regional = repositorio.pesquisarRegional(eventos,
+                                escolhaRegional);
+                    } catch (EventoNaoLocalizadoException ex) {
+                        System.out.println(ex.getMessage());
+                        waitUser();
+                        break;
                     }
-
-                    switch (opcaoDeBusca) {
-                        case 0:
-
-                            waitUser();
-                            break;
-                        case 1:
-                            try {
-                                regional = repositorio
-                                        .pesquisarRegional(eventos, escolhaRegional);
+                    ArrayList<Evento> pesquisaData;
+                    int opcaoDeBusca = -1;
+                    while (opcaoDeBusca != 0) {
+                        System.out.println("Escolha o modo de busca:");
+                        menuBuscaRegional();
+                        try {
+                            opcaoDeBusca = Integer.parseInt(scan.nextLine());
+                        } catch (NumberFormatException ex) {
+                            opcaoDeBusca = -1;
+                        }
+                        switch (opcaoDeBusca) {
+                            case 0:
+                                waitUser();
+                                break;
+                            case 1:
                                 regional.forEach(System.out::println);
-                            } catch (EventoNaoLocalizadoException ex) {
-                                System.out.println(ex.getMessage());
-                            }
-                            break;
-                        case 2:
-                            try {
-                                regional = repositorio
-                                        .pesquisarRegional(eventos, escolhaRegional);
-                                System.out.println("Digite o nome do evento:");
+                                waitUser();
+                                break;
+                            case 2:
+                                System.out.println("Digite"
+                                        + " o nome do evento:");
                                 String nomePesquisa = scan.nextLine();
                                 Evento ev;
-                                ev = repositorio.
-                                        pesquisarNome(regional, nomePesquisa);
-                                System.out.println(ev.toString());
-                            } catch (EventoNaoLocalizadoException ex) {
-                                System.out.println(ex.getMessage());
-                            }
-                            waitUser();
-
-                            break;
-                        case 3:
-
-                            System.out.print("Digite a data desejada: ");
-                            String data = scan.nextLine();
-                            String dataValor[] = RepositorioEvento
-                                    .parseData(data);
-                            GregorianCalendar dataPesquisa = new GregorianCalendar();
-                            try {
-                                dataPesquisa.set(Integer.parseInt(dataValor[2]),
-                                        Integer.parseInt(dataValor[1]) - 1,
-                                        Integer.parseInt(dataValor[0]));
-                            } catch (NumberFormatException |
-                                    IndexOutOfBoundsException ex) {
-                                dataPesquisa.set(-1, -1, -1);
-                            }
-                            try {
-                                regional = repositorio
-                                        .pesquisarRegional(eventos, escolhaRegional);
-                                pesquisaData = repositorio
-                                        .pesquisarData(regional, dataPesquisa);
-                                System.out.println(pesquisaData);
-                            } catch (EventoNaoLocalizadoException ex) {
-                                System.out.println(ex.getMessage());
-                            }
-                            waitUser();
-
-                            break;
-                        default:
-                            break;
+                                try {
+                                    ev = repositorio.
+                                            pesquisarNome(regional, nomePesquisa);
+                                    System.out.println(ev.toString());
+                                } catch (EventoNaoLocalizadoException ex) {
+                                    System.out.println(ex.getMessage());
+                                }
+                                waitUser();
+                                break;
+                            case 3:
+                                System.out.print("Digite a data desejada: ");
+                                GregorianCalendar dataPesquisa = cadastrarData();
+                                try {
+                                    pesquisaData = repositorio
+                                            .pesquisarData(regional, dataPesquisa);
+                                    System.out.println(pesquisaData);
+                                } catch (EventoNaoLocalizadoException
+                                        | IllegalArgumentException ex) {
+                                    System.out.println(ex.getMessage());
+                                }
+                                waitUser();
+                                break;
+                            default:
+                                break;
+                        }
                     }
                     break;
 
@@ -197,19 +186,12 @@ public class CalendarioAcademico {
 
                 case 4:
                     System.out.print("Digite a data desejada: ");
-                    String data = scan.nextLine();
-                    String dataValor[] = RepositorioEvento.parseData(data);
-                    GregorianCalendar dataPesquisa = new GregorianCalendar();
+                    GregorianCalendar dataPesquisa = cadastrarData();
                     try {
-                        dataPesquisa.set(Integer.parseInt(dataValor[2]),
-                                Integer.parseInt(dataValor[1]) - 1,
-                                Integer.parseInt(dataValor[0]));
-                    } catch (NumberFormatException | IndexOutOfBoundsException ex) {
-                        dataPesquisa.set(-1, -1, -1);
-                    }
-                    try {
-                        repositorio.pesquisarData(eventos, dataPesquisa);
-                    } catch (EventoNaoLocalizadoException ex) {
+                        pesquisaData = repositorio.pesquisarData(eventos, dataPesquisa);
+                        pesquisaData.forEach(System.out::println);
+                    } catch (EventoNaoLocalizadoException 
+                            | IllegalArgumentException ex) {
                         System.out.println(ex.getMessage());
                     }
                     waitUser();
@@ -285,7 +267,8 @@ public class CalendarioAcademico {
                         try {
                             repositorio.alterarEvento(eventos, nomePesquisa);
                             Collections.sort(eventos);
-                        } catch (EventoDuplicadoException | EventoNaoLocalizadoException ex) {
+                        } catch (EventoDuplicadoException
+                                | EventoNaoLocalizadoException ex) {
                             System.out.println(ex.getMessage());
                         }
                     }
@@ -324,13 +307,13 @@ public class CalendarioAcademico {
 
     public static int menuModificacao() {
         System.out.println("O que deseja alterar?");
+        System.out.println("0 - Terminar as alterações");
         System.out.println("1 - Nome.");
         System.out.println("2 - Data de inicio.");
         System.out.println("3 - Data de término.");
         System.out.println("4 - Regional.");
         System.out.println("5 - Instituto.");
         System.out.println("6 - Descrição.");
-        System.out.println("0 - Terminar as alterações");
 
         int opcao;
         try {
@@ -363,7 +346,8 @@ public class CalendarioAcademico {
         return nome.toUpperCase();
     }
 
-    public static ArrayList<String> cadastrarRegional() throws EventoDuplicadoException {
+    public static ArrayList<String> cadastrarRegional()
+            throws EventoDuplicadoException {
         String maisUm = "Sim";
         int cont = 0;
         ArrayList<String> regionalList = new ArrayList();

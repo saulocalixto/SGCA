@@ -28,7 +28,7 @@ public class LerArquivo {
         BufferedReader br = new BufferedReader(arquivoTeste);
         return br;
         } catch (FileNotFoundException e) {
-            gravarArquivo.gravar();
+            GravarArquivo.gravar();
             return getBufferedReader2(arquivo); 
         } 
     }
