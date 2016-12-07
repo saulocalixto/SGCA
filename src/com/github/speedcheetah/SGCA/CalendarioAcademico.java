@@ -361,14 +361,7 @@ public class CalendarioAcademico {
                 numRegional = -1;
             }
             
-            if (numRegional == 5) {
-                regionalList.add(RepositorioEvento.escolhaRegional(1));
-                regionalList.add(RepositorioEvento.escolhaRegional(2));
-                regionalList.add(RepositorioEvento.escolhaRegional(3));
-                regionalList.add(RepositorioEvento.escolhaRegional(4));
-                cont = 5;
-            }
-            else if (numRegional > 0 && numRegional < 5){
+            if (numRegional > 0 && numRegional < 5){
                 String escolhaRegional
                         = RepositorioEvento.escolhaRegional(numRegional);
 
@@ -383,6 +376,14 @@ public class CalendarioAcademico {
                 maisUm = scan.nextLine();
 
                 cont++;
+            }
+            else if (numRegional == 5) {
+                regionalList = null;
+                regionalList.add(RepositorioEvento.escolhaRegional(1));
+                regionalList.add(RepositorioEvento.escolhaRegional(2));
+                regionalList.add(RepositorioEvento.escolhaRegional(3));
+                regionalList.add(RepositorioEvento.escolhaRegional(4));
+                cont = 5;
             }
             else {
                 System.out.println("Regional não existe");
@@ -473,7 +474,7 @@ public class CalendarioAcademico {
     private static void menuGuest() {
         System.out.println("0 - Sair do programa.");
         System.out.println("1 - Exibir calendário inteiro.");
-        System.out.println("2 - Pesquisar na regional.");
+        System.out.println("2 - Pesquisar em uma regional.");
         System.out.println("3 - Pesquisar por nome.");
         System.out.println("4 - Pesquisar por data.");
         System.out.println("5 - Registrar Administrador.");
