@@ -360,21 +360,33 @@ public class CalendarioAcademico {
             } catch (NumberFormatException ex) {
                 numRegional = -1;
             }
-
-            String escolhaRegional
-                    = RepositorioEvento.escolhaRegional(numRegional);
-
-            if (regionalList.contains(escolhaRegional)) {
-                throw new EventoDuplicadoException("Regional já consta"
-                        + " cadastrada para esse evento.");
-            } else {
-                regionalList.add(escolhaRegional);
+            
+            if (numRegional == 5) {
+                regionalList.add(RepositorioEvento.escolhaRegional(1));
+                regionalList.add(RepositorioEvento.escolhaRegional(2));
+                regionalList.add(RepositorioEvento.escolhaRegional(3));
+                regionalList.add(RepositorioEvento.escolhaRegional(4));
+                cont = 5;
             }
-            System.out.println("Deseja cadastrar mais uma regional"
-                    + " para o evento? (Sim/Nao)");
-            maisUm = scan.nextLine();
+            else if (numRegional > 0 && numRegional < 5){
+                String escolhaRegional
+                        = RepositorioEvento.escolhaRegional(numRegional);
 
-            cont++;
+                if (regionalList.contains(escolhaRegional)) {
+                    throw new EventoDuplicadoException("Regional já consta"
+                            + " cadastrada para esse evento.");
+                } else {
+                    regionalList.add(escolhaRegional);
+                }
+                System.out.println("Deseja cadastrar mais uma regional"
+                        + " para o evento? (Sim/Nao)");
+                maisUm = scan.nextLine();
+
+                cont++;
+            }
+            else {
+                System.out.println("Regional não existe");
+            }
         }
 
         return regionalList;
@@ -391,6 +403,7 @@ public class CalendarioAcademico {
                 + Regional.JATAI.getRepresentacaoTextual());
         System.out.println("4. "
                 + Regional.GOIANIA.getRepresentacaoTextual());
+        System.out.println("5. Todas as regionais");
     }
 
     public static String cadastrarInstituto() {
