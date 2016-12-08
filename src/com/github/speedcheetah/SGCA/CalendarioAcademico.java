@@ -186,7 +186,8 @@ public class CalendarioAcademico {
                     System.out.print("Digite a data desejada: ");
                     GregorianCalendar dataPesquisa = cadastrarData();
                     try {
-                        pesquisaData = repositorio.pesquisarData(eventos, dataPesquisa);
+                        pesquisaData = repositorio
+                                .pesquisarData(eventos, dataPesquisa);
                         pesquisaData.forEach(System.out::println);
                     } catch (EventoNaoLocalizadoException 
                             | IllegalArgumentException ex) {

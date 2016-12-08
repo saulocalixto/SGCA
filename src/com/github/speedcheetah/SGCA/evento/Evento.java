@@ -119,7 +119,7 @@ public class Evento implements Comparable<Evento> {
     }
 
     public GregorianCalendar getDataInicial() {
-        return dataInicial;
+        return this.dataInicial;
     }
 
     public String getDataInicialStr() {
@@ -139,7 +139,7 @@ public class Evento implements Comparable<Evento> {
     }
 
     public GregorianCalendar getDataFinal() {
-        return dataFinal;
+        return this.dataFinal;
     }
 
     public int tamRegional() {

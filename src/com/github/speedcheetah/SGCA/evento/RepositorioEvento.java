@@ -136,7 +136,7 @@ public class RepositorioEvento {
             GregorianCalendar dataPeriodoinicio,
             GregorianCalendar dataPeriodofim )
             throws EventoNaoLocalizadoException, IllegalArgumentException {
-        if (!(testaData(dataPeriodoinicio) || testaData(dataPeriodofim))) {
+        if (!(testaData(dataPeriodoinicio) && testaData(dataPeriodofim))) {
             throw new IllegalArgumentException("Data inválida.");
         }
         ArrayList<Evento> eventosData = new ArrayList();
