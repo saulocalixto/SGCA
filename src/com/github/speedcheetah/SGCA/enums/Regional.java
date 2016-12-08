@@ -34,6 +34,14 @@ public enum Regional {
     JATAI(3, "JATAÍ"),
     GOIANIA(4, "GOIÂNIA");
 
+    /**
+     * Dentre uma lista definida recebe um Inteiro e uma String que representam
+     * atributos do ENUM Regional.
+     *
+     * @param representacaoNumerica Numero que representa o atributo.
+     * @param representacaoTextual A representação em String do atributo que
+     * corresponde a escolha.
+     */
     Regional(int representacaoNumerica, String representacaoTextual
     ) {
         this.representacaoNumerica = representacaoNumerica;
@@ -44,10 +52,20 @@ public enum Regional {
 
     private final String representacaoTextual;
 
+    /**
+     * Armazena a representação numerica da lista
+     *
+     * @return a representação numerica.
+     */
     public int getRepresentacaoNumerica() {
         return representacaoNumerica;
     }
 
+    /**
+     * Armazena a representação textual da lista.
+     *
+     * @return representação numerica.
+     */
     public String getRepresentacaoTextual() {
         return representacaoTextual;
     }
