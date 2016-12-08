@@ -54,8 +54,9 @@ public class LerArquivo {
                 String[] reg = atributo[3].split(",");
                 regional.addAll(Arrays.asList(reg));
                 instituto = atributo[4];
-                
-                descricao = atributo[5];
+                String[] inte = atributo[5].split(",");
+                interessado.addAll(Arrays.asList(inte));
+                descricao = atributo[6];
 
                 Evento ev = new Evento(nome, dataI, dataF, regional,
                         instituto, interessado, descricao);

@@ -290,4 +290,7 @@ public class Evento implements Comparable<Evento> {
     public void setRegional(ArrayList regional) {
         this.regional = regional;
     }
+    public void setInteressado(ArrayList interessado) {
+        this.interessado = interessado;
+    }
 }

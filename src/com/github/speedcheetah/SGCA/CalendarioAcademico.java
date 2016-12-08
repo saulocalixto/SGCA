@@ -270,7 +270,7 @@ public class CalendarioAcademico {
 
                 case 9:
                     if (admin.isOnline()) {
-                        System.out.println("Digite o nome do evento a ser"
+                        System.out.println("Digite o nome do evento a ser "
                                 + "removido");
                         String nomePesquisa = scan.nextLine();
                         try {
@@ -345,7 +345,8 @@ public class CalendarioAcademico {
         System.out.println("3 - Data de término(dd/mm/aaaa - HH:mm).");
         System.out.println("4 - Regional.");
         System.out.println("5 - Instituto.");
-        System.out.println("6 - Descrição.");
+        System.out.println("6 - Interessado.");
+        System.out.println("7 - Descrição.");
 
         int opcao;
         try {

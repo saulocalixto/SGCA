@@ -306,8 +306,13 @@ public final class RepositorioEvento {
                             = CalendarioAcademico.cadastrarInstituto();
                     e.setInstituto(novoInstituto);
                     break;
-
                 case 6:
+                    ArrayList<String> novoInteressadoList
+                            = CalendarioAcademico.cadastrarInteressado();
+                    e.setInteressado(novoInteressadoList);
+                    break;
+
+                case 7:
                     String novaDescricao
                             = CalendarioAcademico.cadastrarDescricao();
                     e.setDescricao(novaDescricao);
