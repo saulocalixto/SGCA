@@ -9,7 +9,7 @@ package com.github.speedcheetah.SGCA.enums;
  *
  * @author saulocalixto
  */
-public enum Interessados {
+public enum Interessado {
 
     P(1, "PROFESSOR"),
     A(2, "ALUNO"),
@@ -20,7 +20,7 @@ public enum Interessados {
 
     private final String representacaoTextual;
 
-    Interessados(int representacaoNumerica, String representacaoTextual) {
+    Interessado(int representacaoNumerica, String representacaoTextual) {
         this.representacaoNumerica = representacaoNumerica;
         this.representacaoTextual = representacaoTextual;
     }

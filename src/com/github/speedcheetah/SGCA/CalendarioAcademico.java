@@ -23,7 +23,7 @@
  */
 package com.github.speedcheetah.SGCA;
 
-import com.github.speedcheetah.SGCA.enums.Interessados;
+import com.github.speedcheetah.SGCA.enums.Interessado;
 import com.github.speedcheetah.SGCA.usuario.Administrador;
 import com.github.speedcheetah.SGCA.enums.Regional;
 import com.github.speedcheetah.SGCA.exception.EventoNaoLocalizadoException;
@@ -513,13 +513,13 @@ public class CalendarioAcademico {
         System.out.println("Escolha o interessado pelo número correspondente"
                 + ": ");
         System.out.println("1. "
-                + Interessados.P.getRepresentacaoTextual());
+                + Interessado.P.getRepresentacaoTextual());
         System.out.println("2. "
-                + Interessados.A.getRepresentacaoTextual());
+                + Interessado.A.getRepresentacaoTextual());
         System.out.println("3. "
-                + Interessados.S.getRepresentacaoTextual());
+                + Interessado.S.getRepresentacaoTextual());
         System.out.println("4. "
-                + Interessados.C.getRepresentacaoTextual());
+                + Interessado.C.getRepresentacaoTextual());
         System.out.println("5. Todas os Interessados");
     }
 

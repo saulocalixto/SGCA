@@ -24,7 +24,7 @@
 package com.github.speedcheetah.SGCA.evento;
 
 import com.github.speedcheetah.SGCA.CalendarioAcademico;
-import com.github.speedcheetah.SGCA.enums.Interessados;
+import com.github.speedcheetah.SGCA.enums.Interessado;
 import com.github.speedcheetah.SGCA.exception.EventoDuplicadoException;
 import com.github.speedcheetah.SGCA.exception.EventoNaoLocalizadoException;
 import com.github.speedcheetah.SGCA.enums.Regional;
@@ -131,16 +131,16 @@ public final class RepositorioEvento {
         String escolhido = null;
         switch (numRegional) {
             case 1:
-                escolhido = Interessados.P.getRepresentacaoTextual();
+                escolhido = Interessado.P.getRepresentacaoTextual();
                 break;
             case 2:
-                escolhido = Interessados.A.getRepresentacaoTextual();
+                escolhido = Interessado.A.getRepresentacaoTextual();
                 break;
             case 3:
-                escolhido = Interessados.S.getRepresentacaoTextual();
+                escolhido = Interessado.S.getRepresentacaoTextual();
                 break;
             case 4:
-                escolhido = Interessados.C.getRepresentacaoTextual();
+                escolhido = Interessado.C.getRepresentacaoTextual();
                 break;
             default:
                 break;
