@@ -312,6 +312,8 @@ public class CalendarioAcademico {
                             System.out.print("Entre com a nova senha: ");
                             String newPass = scan.nextLine();
                             admin.alteraSenha(pass, newPass);
+                        } else {
+                            System.out.println("Senha incorreta.");
                         }
                     }
                     waitUser();
