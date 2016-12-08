@@ -20,19 +20,32 @@ public enum Interessado {
 
     private final String representacaoTextual;
 
+    /**
+     * Dentre uma lista definida recebe um Inteiro e uma String que representam
+     * atributos do ENUM Interessados.
+     *
+     * @param representacaoNumerica Numero que representa o atributo
+     * @param representacaoTextual A representação em String do atributo que
+     * corresponde a escolha.
+     */
     Interessado(int representacaoNumerica, String representacaoTextual) {
         this.representacaoNumerica = representacaoNumerica;
         this.representacaoTextual = representacaoTextual;
     }
 
+    /**
+     * Recupera e retorna a representação numerica da lista
+     *
+     * @return a representação numerica.
+     */
     public int getRepresentacaoNumerica() {
         return representacaoNumerica;
     }
 
     /**
-     * Armazena a representação textual da lista.
+     * Recupera e retorna a representação textual da lista.
      *
-     * @return representação numerica.
+     * @return representação textual.
      */
     public String getRepresentacaoTextual() {
         return representacaoTextual;

@@ -32,13 +32,15 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+
 /**
  *
  * @author saulocalixto
  */
 public final class RepositorioEvento {
 
-    private RepositorioEvento() { }
+    private RepositorioEvento() {
+    }
 
     public static void addEvento(ArrayList<Evento> eventos, Evento newEvento)
             throws EventoDuplicadoException {
@@ -79,6 +81,14 @@ public final class RepositorioEvento {
         return paramData;
     }
 
+    /**
+     * Pesquisa eventos de uma regional especifica
+     *
+     * @param eventos Lista de eventos
+     * @param regPesq A regional a ser pesquisada
+     * @return uma lista de eventos da regional escolhida
+     * @throws EventoNaoLocalizadoException
+     */
     public static ArrayList<Evento> pesquisarRegional(ArrayList eventos,
             String regPesq) throws EventoNaoLocalizadoException {
         ArrayList<Evento> eventosRegionais = new ArrayList();
@@ -94,6 +104,14 @@ public final class RepositorioEvento {
         return eventosRegionais;
     }
 
+    /**
+     * Pesquisa o nome de um evento.
+     *
+     * @param eventos Lista de eventos.
+     * @param nomePesquisa Nome do evento a ser pesquisado
+     * @return retorna o evento, caso seja encontrado
+     * @throws EventoNaoLocalizadoException
+     */
     public static Evento pesquisarNome(ArrayList eventos, String nomePesquisa)
             throws EventoNaoLocalizadoException {
 
@@ -105,7 +123,13 @@ public final class RepositorioEvento {
         }
         throw new EventoNaoLocalizadoException("Evento não encontrado.");
     }
-    
+
+    /**
+     * Escolhe uma regional
+     *
+     * @param numRegional numero correspondente a regional desejada
+     * @return a regional escolhida
+     */
     public static String escolhaRegional(int numRegional) {
         String escolhido = null;
         switch (numRegional) {
@@ -126,10 +150,16 @@ public final class RepositorioEvento {
         }
         return escolhido;
     }
-    
-    public static String escolhaInteressado(int numRegional) {
+
+    /**
+     * Escolhe o interessado com relação aos eventos cadastrados.
+     *
+     * @param numInteressado numero que representa a escolha do interessado.
+     * @return o interessado nos eventos.
+     */
+    public static String escolhaInteressado(int numInteressado) {
         String escolhido = null;
-        switch (numRegional) {
+        switch (numInteressado) {
             case 1:
                 escolhido = Interessado.P.getRepresentacaoTextual();
                 break;
@@ -148,6 +178,16 @@ public final class RepositorioEvento {
         return escolhido;
     }
 
+    /**
+     * Pesquisa eventos pela data data especificada e retorna os eventos daquela
+     * data.
+     *
+     * @param eventos Lista de eventos
+     * @param dataPesquisa a data a ser pesquisada
+     * @return Uma lista de eventos.
+     * @throws EventoNaoLocalizadoException
+     * @throws IllegalArgumentException
+     */
     public static ArrayList<Evento> pesquisarData(ArrayList eventos,
             GregorianCalendar dataPesquisa)
             throws EventoNaoLocalizadoException, IllegalArgumentException {
@@ -168,9 +208,19 @@ public final class RepositorioEvento {
         return eventosData;
     }
 
+    /**
+     * Pesquisa eventos entre períodos
+     *
+     * @param eventos Lista de eventos.
+     * @param dataPeriodoInicio Data inicial para a pesquisa.
+     * @param dataPeriodoFim Data final da pesquisa.
+     * @return Lista de eventos entre as datas definidas.
+     * @throws EventoNaoLocalizadoException
+     * @throws IllegalArgumentException
+     */
     public static ArrayList<Evento> pesquisarEventoPeriodo(ArrayList eventos,
             GregorianCalendar dataPeriodoInicio,
-            GregorianCalendar dataPeriodoFim )
+            GregorianCalendar dataPeriodoFim)
             throws EventoNaoLocalizadoException, IllegalArgumentException {
         if (!(testaData(dataPeriodoInicio) && testaData(dataPeriodoFim))) {
             throw new IllegalArgumentException("Data inválida.");
@@ -181,7 +231,7 @@ public final class RepositorioEvento {
             if (!((dataPeriodoFim.before(p.getDataInicial()))
                     || (dataPeriodoInicio.after(p.getDataFinal())))) {
                 eventosData.add(p);
-            }                
+            }
         }
         if (eventosData.isEmpty()) {
             throw new EventoNaoLocalizadoException();
@@ -189,13 +239,27 @@ public final class RepositorioEvento {
         return eventosData;
     }
 
-    
+    /**
+     * Pesquisa e remove um evento pelo nome.
+     *
+     * @param eventos Lista de eventos.
+     * @param nomePesquisa Nome do evento a ser pesquisado.
+     * @throws EventoNaoLocalizadoException
+     */
     public static void removerEvento(ArrayList eventos, String nomePesquisa)
             throws EventoNaoLocalizadoException {
         Evento e = pesquisarNome(eventos, nomePesquisa);
         eventos.remove(e);
     }
 
+    /**
+     * Pesquisa e altera um evento.
+     *
+     * @param eventos Lista de eventos.
+     * @param nomePesquisa Nome do evento pesquisado.
+     * @throws EventoDuplicadoException
+     * @throws EventoNaoLocalizadoException
+     */
     public static void alterarEvento(ArrayList eventos, String nomePesquisa)
             throws EventoDuplicadoException, EventoNaoLocalizadoException {
         int opcao = -1;

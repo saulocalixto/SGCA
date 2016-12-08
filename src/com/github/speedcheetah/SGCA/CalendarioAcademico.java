@@ -162,8 +162,7 @@ public class CalendarioAcademico {
                                             .pesquisarData(regional,
                                                     dataPesquisa);
                                     System.out.println(pesquisaData);
-                                } catch (EventoNaoLocalizadoException
-                                        | IllegalArgumentException ex) {
+                                } catch (EventoNaoLocalizadoException | IllegalArgumentException ex) {
                                     System.out.println(ex.getMessage());
                                 }
                                 waitUser();
@@ -183,8 +182,7 @@ public class CalendarioAcademico {
                                             .pesquisarEventoPeriodo(regional,
                                                     dataPeriodoinicio, dataPeriodofim);
                                     pesquisaPeriodo.forEach(System.out::println);
-                                } catch (EventoNaoLocalizadoException
-                                        | IllegalArgumentException ex) {
+                                } catch (EventoNaoLocalizadoException | IllegalArgumentException ex) {
                                     System.out.println(ex.getMessage());
                                 }
                                 waitUser();
@@ -216,8 +214,7 @@ public class CalendarioAcademico {
                         pesquisaData = RepositorioEvento
                                 .pesquisarData(eventos, dataPesquisa);
                         pesquisaData.forEach(System.out::println);
-                    } catch (EventoNaoLocalizadoException
-                            | IllegalArgumentException ex) {
+                    } catch (EventoNaoLocalizadoException | IllegalArgumentException ex) {
                         System.out.println(ex.getMessage());
                     }
                     waitUser();
@@ -232,12 +229,11 @@ public class CalendarioAcademico {
                     GregorianCalendar dataPeriodofim = cadastrarData();
                     try {
                         ArrayList<Evento> pesquisaPeriodo;
-                        pesquisaPeriodo = 
-                                RepositorioEvento.pesquisarEventoPeriodo(eventos,
+                        pesquisaPeriodo
+                                = RepositorioEvento.pesquisarEventoPeriodo(eventos,
                                         dataPeriodoinicio, dataPeriodofim);
                         pesquisaPeriodo.forEach(System.out::println);
-                    } catch (EventoNaoLocalizadoException
-                            | IllegalArgumentException ex) {
+                    } catch (EventoNaoLocalizadoException | IllegalArgumentException ex) {
                         System.out.println(ex.getMessage());
                     }
                     waitUser();
@@ -296,8 +292,7 @@ public class CalendarioAcademico {
                             RepositorioEvento.alterarEvento(eventos,
                                     nomePesquisa);
                             Collections.sort(eventos);
-                        } catch (EventoDuplicadoException
-                                | EventoNaoLocalizadoException ex) {
+                        } catch (EventoDuplicadoException | EventoNaoLocalizadoException ex) {
                             System.out.println(ex.getMessage());
                         }
                     }
@@ -375,7 +370,7 @@ public class CalendarioAcademico {
         GregorianCalendar dataFinal = cadastrarData();
 
         Evento evento = new Evento(nome, dataI, dataFinal, cadastrarRegional(),
-                cadastrarInstituto(), cadastrarInteressado(), 
+                cadastrarInstituto(), cadastrarInteressado(),
                 cadastrarDescricao());
 
         return evento;
@@ -509,6 +504,9 @@ public class CalendarioAcademico {
         System.out.println("5. Todas as regionais");
     }
 
+    /**
+     * Imprime o menu dos interessados no evento
+     */
     public static void menuInteressados() {
         System.out.println("Escolha o interessado pelo número correspondente"
                 + ": ");
@@ -593,10 +591,10 @@ public class CalendarioAcademico {
                     .log(Level.SEVERE, null, ex);
         }
         dataInicial.set(Integer.parseInt(dataValor.get(2)),
-                        Integer.parseInt(dataValor.get(1)) - 1,
-                        Integer.parseInt(dataValor.get(0)),
-                        Integer.parseInt(dataValor.get(3)),
-                        Integer.parseInt(dataValor.get(4)));
+                Integer.parseInt(dataValor.get(1)) - 1,
+                Integer.parseInt(dataValor.get(0)),
+                Integer.parseInt(dataValor.get(3)),
+                Integer.parseInt(dataValor.get(4)));
 
         return dataInicial;
     }

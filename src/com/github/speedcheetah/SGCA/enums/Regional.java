@@ -53,7 +53,7 @@ public enum Regional {
     private final String representacaoTextual;
 
     /**
-     * Armazena a representação numerica da lista
+     * Acessa e retorna a representação numerica da lista
      *
      * @return a representação numerica.
      */
@@ -62,9 +62,9 @@ public enum Regional {
     }
 
     /**
-     * Armazena a representação textual da lista.
+     * Acessa e retorna a representação textual da lista.
      *
-     * @return representação numerica.
+     * @return representação textual.
      */
     public String getRepresentacaoTextual() {
         return representacaoTextual;
