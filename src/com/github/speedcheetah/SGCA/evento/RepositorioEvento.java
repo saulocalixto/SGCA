@@ -52,6 +52,13 @@ public final class RepositorioEvento {
         }
     }
 
+    /**
+     * Recebe uma data e retorna verdadeiro se a data é valida e falso caso
+     * contrario.
+     *
+     * @param cal data para teste.
+     * @return Verdadeiro para data válida e falso caso contrario.
+     */
     public static boolean testaData(GregorianCalendar cal) {
         try {
             cal.getTime();
