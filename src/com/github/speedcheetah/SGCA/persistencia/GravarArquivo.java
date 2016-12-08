@@ -45,7 +45,7 @@ public class GravarArquivo {
             arquivo.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IOException("Não foi possível gravar o arquivo.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,7 +61,7 @@ public class GravarArquivo {
             gravarArq.printf("");
             arquivo.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IOException("Não foi possível gravar o arquivo.");
         } catch (Exception e) {
             e.printStackTrace();
         }

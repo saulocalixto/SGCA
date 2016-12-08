@@ -33,7 +33,8 @@ public class LerArquivo {
         } 
     }
 
-    public static ArrayList<Evento> lerEventos(BufferedReader br) throws IOException {
+    public static ArrayList<Evento> lerEventos(BufferedReader br)
+            throws IOException, Exception {
 
         ArrayList<Evento> evento = new ArrayList<>();
         String nome;
@@ -67,8 +68,7 @@ public class LerArquivo {
             }
             return evento;
         } catch (FileNotFoundException e) {
-
-            return evento;
+            throw new FileNotFoundException("Não foi possível ler do arquivo.");
         }
 
     }

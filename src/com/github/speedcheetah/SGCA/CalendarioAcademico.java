@@ -52,14 +52,18 @@ public class CalendarioAcademico {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         ArrayList eventos = new ArrayList();
         Administrador admin = new Administrador("admin", "password");
         admin.logoff();
 
-        eventos = LerArquivo.lerEventos(LerArquivo.
-                getBufferedReader2("./src/evento"));
+        try {
+            eventos = LerArquivo.lerEventos(LerArquivo.
+                    getBufferedReader2("./src/evento"));
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        }
 
         System.out.println("Bem vindo ao"
                 + " Sistema de Gestão de Calendário Acadêmico.\n");
@@ -88,7 +92,11 @@ public class CalendarioAcademico {
 
             switch (opcao) {
                 case 0:
-                    GravarArquivo.gravar(eventos);
+                    try {
+                        GravarArquivo.gravar(eventos);
+                    } catch (IOException ex) {
+                        System.err.println(ex.getMessage());
+                    }
                     System.out.println("Fim");
                     System.exit(0);
                     break;
@@ -117,7 +125,7 @@ public class CalendarioAcademico {
                         regional = RepositorioEvento.pesquisarRegional(eventos,
                                 escolhaRegional);
                     } catch (EventoNaoLocalizadoException ex) {
-                        System.out.println(ex.getMessage());
+                        System.err.println(ex.getMessage());
                         waitUser();
                         break;
                     }
@@ -149,7 +157,7 @@ public class CalendarioAcademico {
                                             pesquisarNome(regional, nomePesquisa);
                                     System.out.println(ev.toString());
                                 } catch (EventoNaoLocalizadoException ex) {
-                                    System.out.println(ex.getMessage());
+                                    System.err.println(ex.getMessage());
                                 }
                                 waitUser();
                                 break;
@@ -162,8 +170,9 @@ public class CalendarioAcademico {
                                             .pesquisarData(regional,
                                                     dataPesquisa);
                                     System.out.println(pesquisaData);
-                                } catch (EventoNaoLocalizadoException | IllegalArgumentException ex) {
-                                    System.out.println(ex.getMessage());
+                                } catch (EventoNaoLocalizadoException
+                                        | IllegalArgumentException ex) {
+                                    System.err.println(ex.getMessage());
                                 }
                                 waitUser();
                                 break;
@@ -182,8 +191,9 @@ public class CalendarioAcademico {
                                             .pesquisarEventoPeriodo(regional,
                                                     dataPeriodoinicio, dataPeriodofim);
                                     pesquisaPeriodo.forEach(System.out::println);
-                                } catch (EventoNaoLocalizadoException | IllegalArgumentException ex) {
-                                    System.out.println(ex.getMessage());
+                                } catch (EventoNaoLocalizadoException
+                                        | IllegalArgumentException ex) {
+                                    System.err.println(ex.getMessage());
                                 }
                                 waitUser();
                                 break;
@@ -201,7 +211,7 @@ public class CalendarioAcademico {
                         ev = RepositorioEvento.pesquisarNome(eventos, nome);
                         System.out.println(ev.toString());
                     } catch (EventoNaoLocalizadoException ex) {
-                        System.out.println(ex.getMessage());
+                        System.err.println(ex.getMessage());
                     }
                     waitUser();
                     break;
@@ -214,8 +224,9 @@ public class CalendarioAcademico {
                         pesquisaData = RepositorioEvento
                                 .pesquisarData(eventos, dataPesquisa);
                         pesquisaData.forEach(System.out::println);
-                    } catch (EventoNaoLocalizadoException | IllegalArgumentException ex) {
-                        System.out.println(ex.getMessage());
+                    } catch (EventoNaoLocalizadoException
+                            | IllegalArgumentException ex) {
+                        System.err.println(ex.getMessage());
                     }
                     waitUser();
                     break;
@@ -233,8 +244,9 @@ public class CalendarioAcademico {
                                 = RepositorioEvento.pesquisarEventoPeriodo(eventos,
                                         dataPeriodoinicio, dataPeriodofim);
                         pesquisaPeriodo.forEach(System.out::println);
-                    } catch (EventoNaoLocalizadoException | IllegalArgumentException ex) {
-                        System.out.println(ex.getMessage());
+                    } catch (EventoNaoLocalizadoException
+                            | IllegalArgumentException ex) {
+                        System.err.println(ex.getMessage());
                     }
                     waitUser();
                     break;
@@ -262,7 +274,7 @@ public class CalendarioAcademico {
                             System.out.println("Evento adicionado.");
                             Collections.sort(eventos);
                         } catch (EventoDuplicadoException ex) {
-                            System.out.println(ex.getMessage());
+                            System.err.println(ex.getMessage());
                         }
                     }
                     waitUser();
@@ -276,7 +288,7 @@ public class CalendarioAcademico {
                         try {
                             RepositorioEvento.removerEvento(eventos, nomePesquisa);
                         } catch (EventoNaoLocalizadoException ex) {
-                            System.out.println(ex.getMessage());
+                            System.err.println(ex.getMessage());
                         }
                         Collections.sort(eventos);
                     }
@@ -292,8 +304,9 @@ public class CalendarioAcademico {
                             RepositorioEvento.alterarEvento(eventos,
                                     nomePesquisa);
                             Collections.sort(eventos);
-                        } catch (EventoDuplicadoException | EventoNaoLocalizadoException ex) {
-                            System.out.println(ex.getMessage());
+                        } catch (EventoDuplicadoException
+                                | EventoNaoLocalizadoException ex) {
+                            System.err.println(ex.getMessage());
                         }
                     }
                     waitUser();
@@ -580,23 +593,21 @@ public class CalendarioAcademico {
      * @param data String da data a ser inserida.
      * @return a data inicial válida.
      */
-    public static GregorianCalendar inserirData(String data) {
+    public static GregorianCalendar inserirData(String data) throws Exception {
 
         GregorianCalendar dataInicial = new GregorianCalendar();
         dataInicial.setLenient(false);
         List<String> dataValor = new ArrayList();
         try {
             dataValor = RepositorioEvento.parseData(data);
-        } catch (Exception ex) {
-            Logger.getLogger(CalendarioAcademico.class.getName())
-                    .log(Level.SEVERE, null, ex);
-        }
-        dataInicial.set(Integer.parseInt(dataValor.get(2)),
+            dataInicial.set(Integer.parseInt(dataValor.get(2)),
                 Integer.parseInt(dataValor.get(1)) - 1,
                 Integer.parseInt(dataValor.get(0)),
                 Integer.parseInt(dataValor.get(3)),
                 Integer.parseInt(dataValor.get(4)));
-
+        } catch (Exception ex) {
+            throw new Exception("Não foi possível inserir a data: " + data, ex);
+        }
         return dataInicial;
     }
 
