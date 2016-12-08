@@ -286,11 +286,13 @@ public class CalendarioAcademico {
                                 + "removido");
                         String nomePesquisa = scan.nextLine();
                         try {
-                            RepositorioEvento.removerEvento(eventos, nomePesquisa);
+                            RepositorioEvento.removerEvento(eventos,
+                                    nomePesquisa);
+                            System.out.println("Evento removido com sucesso.");
+                            Collections.sort(eventos);
                         } catch (EventoNaoLocalizadoException ex) {
                             System.err.println(ex.getMessage());
                         }
-                        Collections.sort(eventos);
                     }
                     waitUser();
                     break;
@@ -303,6 +305,7 @@ public class CalendarioAcademico {
                         try {
                             RepositorioEvento.alterarEvento(eventos,
                                     nomePesquisa);
+                            System.out.println("Evento alterado com sucesso.");
                             Collections.sort(eventos);
                         } catch (EventoDuplicadoException
                                 | EventoNaoLocalizadoException ex) {
