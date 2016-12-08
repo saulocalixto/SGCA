@@ -46,6 +46,7 @@ public class LerArquivo {
             String linha = br.readLine();
             while (linha != null) {
                 ArrayList<String> regional = new ArrayList();
+                ArrayList<String> interessado = new ArrayList();
                 String[] atributo = linha.split("¬");
                 nome = atributo[0];
                 dataI = CalendarioAcademico.inserirData(atributo[1]);
@@ -53,10 +54,11 @@ public class LerArquivo {
                 String[] reg = atributo[3].split(",");
                 regional.addAll(Arrays.asList(reg));
                 instituto = atributo[4];
+                
                 descricao = atributo[5];
 
                 Evento ev = new Evento(nome, dataI, dataF, regional,
-                        instituto, descricao);
+                        instituto, interessado, descricao);
 
                 evento.add(ev);
 

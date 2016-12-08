@@ -23,6 +23,7 @@
  */
 package com.github.speedcheetah.SGCA;
 
+import com.github.speedcheetah.SGCA.enums.Interessados;
 import com.github.speedcheetah.SGCA.usuario.Administrador;
 import com.github.speedcheetah.SGCA.enums.Regional;
 import com.github.speedcheetah.SGCA.exception.EventoNaoLocalizadoException;
@@ -353,8 +354,8 @@ public class CalendarioAcademico {
         System.out.print("Data de final(dd/mm/aaaa): ");
         GregorianCalendar dataFinal = cadastrarData();
 
-        Evento evento = new Evento(nome, dataI, dataFinal,
-                cadastrarRegional(), cadastrarInstituto(),
+        Evento evento = new Evento(nome, dataI, dataFinal, cadastrarRegional(),
+                cadastrarInstituto(), cadastrarInteressado(), 
                 cadastrarDescricao());
 
         return evento;
@@ -410,18 +411,65 @@ public class CalendarioAcademico {
 
                 cont++;
             } else if (numRegional == 5) {
-                regionalList = null;
-                regionalList.add(RepositorioEvento.escolhaRegional(1));
-                regionalList.add(RepositorioEvento.escolhaRegional(2));
-                regionalList.add(RepositorioEvento.escolhaRegional(3));
-                regionalList.add(RepositorioEvento.escolhaRegional(4));
-                cont = 5;
+                ArrayList<String> todasRegionais = new ArrayList();
+                todasRegionais.add(RepositorioEvento.escolhaRegional(1));
+                todasRegionais.add(RepositorioEvento.escolhaRegional(2));
+                todasRegionais.add(RepositorioEvento.escolhaRegional(3));
+                todasRegionais.add(RepositorioEvento.escolhaRegional(4));
+                return todasRegionais;
             } else {
                 System.out.println("Regional não existe");
             }
         }
 
         return regionalList;
+    }
+
+    public static ArrayList<String> cadastrarInteressado()
+            throws EventoDuplicadoException {
+        String maisUm = "Sim";
+        int cont = 0;
+        ArrayList<String> interessadoList = new ArrayList();
+        while ("Sim".equalsIgnoreCase(maisUm) && cont < 4) {
+
+            menuInteressados();
+
+            int numInteressados;
+
+            try {
+                numInteressados = Integer.parseInt(scan.nextLine());
+            } catch (NumberFormatException ex) {
+                numInteressados = -1;
+            }
+
+            if (numInteressados > 0 && numInteressados < 5) {
+                String escolhaInteressado
+                        = RepositorioEvento.escolhaInteressado(numInteressados);
+
+                if (interessadoList.contains(escolhaInteressado)) {
+                    throw new EventoDuplicadoException("Interessado já consta"
+                            + " cadastrada para esse evento.");
+                } else {
+                    interessadoList.add(escolhaInteressado);
+                }
+                System.out.println("Deseja cadastrar mais um interessado?"
+                        + " para o evento? (Sim/Nao)");
+                maisUm = scan.nextLine();
+
+                cont++;
+            } else if (numInteressados == 5) {
+                ArrayList<String> todosInteressados = new ArrayList();
+                todosInteressados.add(RepositorioEvento.escolhaInteressado(1));
+                todosInteressados.add(RepositorioEvento.escolhaInteressado(2));
+                todosInteressados.add(RepositorioEvento.escolhaInteressado(3));
+                todosInteressados.add(RepositorioEvento.escolhaInteressado(4));
+                return todosInteressados;
+            } else {
+                System.out.println("Interessado não existe");
+            }
+        }
+
+        return interessadoList;
     }
 
     /**
@@ -439,6 +487,20 @@ public class CalendarioAcademico {
         System.out.println("4. "
                 + Regional.GOIANIA.getRepresentacaoTextual());
         System.out.println("5. Todas as regionais");
+    }
+
+    public static void menuInteressados() {
+        System.out.println("Escolha o interessado pelo número correspondente"
+                + ": ");
+        System.out.println("1. "
+                + Interessados.P.getRepresentacaoTextual());
+        System.out.println("2. "
+                + Interessados.A.getRepresentacaoTextual());
+        System.out.println("3. "
+                + Interessados.S.getRepresentacaoTextual());
+        System.out.println("4. "
+                + Interessados.C.getRepresentacaoTextual());
+        System.out.println("5. Todas os Interessados");
     }
 
     /**

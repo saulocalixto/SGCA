@@ -25,13 +25,17 @@ public class GravarArquivo {
         try {
             for (Evento aux : eventos) {
                 ArrayList <String> reg = aux.getRegional();
+                ArrayList <String> interessado = aux.getRegional();
                 gravar += aux.getNome() + "¬" + aux.getDataInicialStr() + "¬"
                         + aux.getDataFinalStr() + "¬";
                 for (Iterator itr = reg.iterator(); itr.hasNext();) {
                     gravar = gravar + itr.next() + ",";
                 }
-                gravar = gravar + "¬" + aux.getInteressado() + "¬"
-                        + aux.getDescricao() + "\n";
+                gravar = gravar + "¬" + aux.getInstituto()+ "¬";
+                for (Iterator itr = interessado.iterator(); itr.hasNext();) {
+                    gravar = gravar + itr.next() + ",";
+                }
+                gravar = gravar + "¬" + aux.getDescricao() + "\n";
             }
 
             FileWriter arquivo;
