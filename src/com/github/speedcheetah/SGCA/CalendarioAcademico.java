@@ -23,6 +23,7 @@
  */
 package com.github.speedcheetah.SGCA;
 
+import com.github.speedcheetah.SGCA.enums.Interessados;
 import com.github.speedcheetah.SGCA.usuario.Administrador;
 import com.github.speedcheetah.SGCA.enums.Regional;
 import com.github.speedcheetah.SGCA.exception.EventoNaoLocalizadoException;
@@ -79,7 +80,7 @@ public class CalendarioAcademico {
                 opcao = -1;
             }
 
-            if (admin.isOnline() && opcao > 4) {
+            if (admin.isOnline() && opcao > 5) {
                 opcao += 2;
             }
 
@@ -219,26 +220,8 @@ public class CalendarioAcademico {
                     }
                     waitUser();
                     break;
-
-                case 6:
-                    System.out.print("Confirme o usuário pré-cadastrado: ");
-                    user = scan.nextLine();
-                    System.out.print("Confirme a senha pré-cadastrada: ");
-                    pass = scan.nextLine();
-                    admin.login(user, pass);
-                    if (admin.isOnline()) {
-                        System.out.print("Digite o novo nome de usuário: ");
-                        user = scan.nextLine();
-                        System.out.print("Digite a nova senha: ");
-                        pass = scan.nextLine();
-                        admin = new Administrador(user, pass);
-                    } else {
-                        System.out.println("Usuário ou senha incorreto.");
-                    }
-                    waitUser();
-                    break;
-
-                case 7:
+                    
+                    case 6:
                     System.out.print("Digite o nome de usuário: ");
                     user = scan.nextLine();
                     System.out.print("Digite a senha: ");
@@ -310,8 +293,21 @@ public class CalendarioAcademico {
                     }
                     waitUser();
                     break;
-
+                    
                 case 12:
+                    if (admin.isOnline()) {
+                        System.out.print("Digite o novo nome de usuário: ");
+                        user = scan.nextLine();
+                        System.out.print("Digite a nova senha: ");
+                        pass = scan.nextLine();
+                        admin = new Administrador(user, pass);
+                    } else {
+                        System.out.println("Usuário ou senha incorreto.");
+                    }
+                    waitUser();
+                    break;
+
+                case 13:
                     if (admin.isOnline()) {
                         admin.logoff();
                     }
@@ -366,8 +362,8 @@ public class CalendarioAcademico {
         System.out.print("Data final(dd/mm/aaaa - HH:mm): ");
         GregorianCalendar dataFinal = cadastrarData();
 
-        Evento evento = new Evento(nome, dataI, dataFinal,
-                cadastrarRegional(), cadastrarInstituto(),
+        Evento evento = new Evento(nome, dataI, dataFinal, cadastrarRegional(),
+                cadastrarInstituto(), cadastrarInteressado(), 
                 cadastrarDescricao());
 
         return evento;
@@ -423,18 +419,65 @@ public class CalendarioAcademico {
 
                 cont++;
             } else if (numRegional == 5) {
-                regionalList = null;
-                regionalList.add(RepositorioEvento.escolhaRegional(1));
-                regionalList.add(RepositorioEvento.escolhaRegional(2));
-                regionalList.add(RepositorioEvento.escolhaRegional(3));
-                regionalList.add(RepositorioEvento.escolhaRegional(4));
-                cont = 5;
+                ArrayList<String> todasRegionais = new ArrayList();
+                todasRegionais.add(RepositorioEvento.escolhaRegional(1));
+                todasRegionais.add(RepositorioEvento.escolhaRegional(2));
+                todasRegionais.add(RepositorioEvento.escolhaRegional(3));
+                todasRegionais.add(RepositorioEvento.escolhaRegional(4));
+                return todasRegionais;
             } else {
                 System.out.println("Regional não existe");
             }
         }
 
         return regionalList;
+    }
+
+    public static ArrayList<String> cadastrarInteressado()
+            throws EventoDuplicadoException {
+        String maisUm = "Sim";
+        int cont = 0;
+        ArrayList<String> interessadoList = new ArrayList();
+        while ("Sim".equalsIgnoreCase(maisUm) && cont < 4) {
+
+            menuInteressados();
+
+            int numInteressados;
+
+            try {
+                numInteressados = Integer.parseInt(scan.nextLine());
+            } catch (NumberFormatException ex) {
+                numInteressados = -1;
+            }
+
+            if (numInteressados > 0 && numInteressados < 5) {
+                String escolhaInteressado
+                        = RepositorioEvento.escolhaInteressado(numInteressados);
+
+                if (interessadoList.contains(escolhaInteressado)) {
+                    throw new EventoDuplicadoException("Interessado já consta"
+                            + " cadastrada para esse evento.");
+                } else {
+                    interessadoList.add(escolhaInteressado);
+                }
+                System.out.println("Deseja cadastrar mais um interessado?"
+                        + " para o evento? (Sim/Nao)");
+                maisUm = scan.nextLine();
+
+                cont++;
+            } else if (numInteressados == 5) {
+                ArrayList<String> todosInteressados = new ArrayList();
+                todosInteressados.add(RepositorioEvento.escolhaInteressado(1));
+                todosInteressados.add(RepositorioEvento.escolhaInteressado(2));
+                todosInteressados.add(RepositorioEvento.escolhaInteressado(3));
+                todosInteressados.add(RepositorioEvento.escolhaInteressado(4));
+                return todosInteressados;
+            } else {
+                System.out.println("Interessado não existe");
+            }
+        }
+
+        return interessadoList;
     }
 
     /**
@@ -452,6 +495,20 @@ public class CalendarioAcademico {
         System.out.println("4. "
                 + Regional.GOIANIA.getRepresentacaoTextual());
         System.out.println("5. Todas as regionais");
+    }
+
+    public static void menuInteressados() {
+        System.out.println("Escolha o interessado pelo número correspondente"
+                + ": ");
+        System.out.println("1. "
+                + Interessados.P.getRepresentacaoTextual());
+        System.out.println("2. "
+                + Interessados.A.getRepresentacaoTextual());
+        System.out.println("3. "
+                + Interessados.S.getRepresentacaoTextual());
+        System.out.println("4. "
+                + Interessados.C.getRepresentacaoTextual());
+        System.out.println("5. Todas os Interessados");
     }
 
     /**
@@ -546,7 +603,8 @@ public class CalendarioAcademico {
         System.out.println("7 - Remover um evento.");
         System.out.println("8 - Alterar um evento.");
         System.out.println("9 - Alterar senha.");
-        System.out.println("10 - Fazer logoff.");
+        System.out.println("10 - Registrar um novo administrador");
+        System.out.println("11 - Fazer logoff.");
     }
 
     /**
@@ -559,8 +617,7 @@ public class CalendarioAcademico {
         System.out.println("3 - Pesquisar por nome.");
         System.out.println("4 - Pesquisar por data.");
         System.out.println("5 - Pesquisar por período.");
-        System.out.println("6 - Registrar Administrador.");
-        System.out.println("7 - Fazer login.");
+        System.out.println("6 - Fazer login.");
     }
 
     /**

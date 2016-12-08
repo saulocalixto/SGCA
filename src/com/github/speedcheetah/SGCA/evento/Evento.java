@@ -39,6 +39,7 @@ public class Evento implements Comparable<Evento> {
     private GregorianCalendar dataInicial;
     private GregorianCalendar dataFinal;
     private ArrayList<String> regional;
+    private ArrayList<String> interessado;
     private String instituto;
     private String descricao;
     private String identificacaounica;
@@ -51,17 +52,19 @@ public class Evento implements Comparable<Evento> {
      * @param dataInicial GregorianCalendar indicando a data inicial do evento.
      * @param dataFinal GregorianCalendar Indicando a data final do evento.
      * @param regional Dentre uma lista define uma regional.
+     * @param interessado Interessados no evento.
      * @param instituto String define um instituto interessado pelo evento.
      * @param descricao String descrições e demais informações que possam ser
      * relevantes.
      */
     public Evento(String nome, GregorianCalendar dataInicial,
             GregorianCalendar dataFinal, ArrayList<String> regional,
-            String instituto, String descricao) {
+            String instituto, ArrayList<String> interessado, String descricao) {
         this.nome = nome;
         this.dataInicial = dataInicial;
         this.dataFinal = dataFinal;
         this.regional = regional;
+        this.interessado = interessado;
         this.instituto = instituto;
         this.descricao = descricao;
         identificacaounica = nome + dataInicial + instituto;
@@ -87,7 +90,12 @@ public class Evento implements Comparable<Evento> {
                     .append(itr.next());
         }
         retorno.append("\nInstituto sede: ").append(instituto)
-                .append("\nDescrição: ").append(descricao).append("\n")
+                .append("\nInteressados :");
+        for (Iterator itr = interessado.iterator(); itr.hasNext();) {
+            retorno.append("\n")
+                    .append(itr.next());
+        }
+        retorno.append("\nDescrição: ").append(descricao).append("\n")
                 .append("**********************************");
 
         return retorno.toString();
@@ -162,6 +170,10 @@ public class Evento implements Comparable<Evento> {
         return regional.get(index);
     }
 
+    public ArrayList<String> getInteressados() {
+        return this.interessado;
+    }
+
     /**
      * Recupera e retorna a data inicial do evento.
      *
@@ -184,7 +196,7 @@ public class Evento implements Comparable<Evento> {
      *
      * @return o instituto interessado.
      */
-    public String getInteressado() {
+    public String getInstituto() {
         return instituto;
     }
 
