@@ -159,8 +159,30 @@ public class CalendarioAcademico {
                                 GregorianCalendar dataPesquisa = cadastrarData();
                                 try {
                                     pesquisaData = RepositorioEvento
-                                            .pesquisarData(regional, dataPesquisa);
+                                            .pesquisarData(regional,
+                                                    dataPesquisa);
                                     System.out.println(pesquisaData);
+                                } catch (EventoNaoLocalizadoException
+                                        | IllegalArgumentException ex) {
+                                    System.out.println(ex.getMessage());
+                                }
+                                waitUser();
+                                break;
+                            case 4:
+                                System.out.print("Digite o início do período"
+                                        + "(dd/mm/aaaa - HH:mm): ");
+                                GregorianCalendar dataPeriodoinicio
+                                        = cadastrarData();
+                                System.out.print("Digite o término do período"
+                                        + "(dd/mm/aaaa - HH:mm): ");
+                                GregorianCalendar dataPeriodofim
+                                        = cadastrarData();
+                                try {
+                                    ArrayList<Evento> pesquisaPeriodo;
+                                    pesquisaPeriodo = RepositorioEvento
+                                            .pesquisarEventoPeriodo(eventos,
+                                                    dataPeriodoinicio, dataPeriodofim);
+                                    pesquisaPeriodo.forEach(System.out::println);
                                 } catch (EventoNaoLocalizadoException
                                         | IllegalArgumentException ex) {
                                     System.out.println(ex.getMessage());
@@ -220,8 +242,8 @@ public class CalendarioAcademico {
                     }
                     waitUser();
                     break;
-                    
-                    case 6:
+
+                case 6:
                     System.out.print("Digite o nome de usuário: ");
                     user = scan.nextLine();
                     System.out.print("Digite a senha: ");
@@ -271,7 +293,8 @@ public class CalendarioAcademico {
                                 + "alterado");
                         String nomePesquisa = scan.nextLine();
                         try {
-                            RepositorioEvento.alterarEvento(eventos, nomePesquisa);
+                            RepositorioEvento.alterarEvento(eventos,
+                                    nomePesquisa);
                             Collections.sort(eventos);
                         } catch (EventoDuplicadoException
                                 | EventoNaoLocalizadoException ex) {
@@ -293,21 +316,8 @@ public class CalendarioAcademico {
                     }
                     waitUser();
                     break;
-                    
-                case 12:
-                    if (admin.isOnline()) {
-                        System.out.print("Digite o novo nome de usuário: ");
-                        user = scan.nextLine();
-                        System.out.print("Digite a nova senha: ");
-                        pass = scan.nextLine();
-                        admin = new Administrador(user, pass);
-                    } else {
-                        System.out.println("Usuário ou senha incorreto.");
-                    }
-                    waitUser();
-                    break;
 
-                case 13:
+                case 12:
                     if (admin.isOnline()) {
                         admin.logoff();
                     }
@@ -603,8 +613,7 @@ public class CalendarioAcademico {
         System.out.println("7 - Remover um evento.");
         System.out.println("8 - Alterar um evento.");
         System.out.println("9 - Alterar senha.");
-        System.out.println("10 - Registrar um novo administrador");
-        System.out.println("11 - Fazer logoff.");
+        System.out.println("10 - Fazer logoff.");
     }
 
     /**
@@ -639,5 +648,6 @@ public class CalendarioAcademico {
         System.out.println("1 - Exibir calendário da regional.");
         System.out.println("2 - Pesquisar por nome.");
         System.out.println("3 - Pesquisar por data.");
+        System.out.println("4 - Pesquisar por período.");
     }
 }
