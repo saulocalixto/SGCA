@@ -157,8 +157,7 @@ public class CalendarioAcademico {
                                     pesquisaData = repositorio
                                             .pesquisarData(regional, dataPesquisa);
                                     System.out.println(pesquisaData);
-                                } catch (EventoNaoLocalizadoException
-                                        | IllegalArgumentException ex) {
+                                } catch (EventoNaoLocalizadoException | IllegalArgumentException ex) {
                                     System.out.println(ex.getMessage());
                                 }
                                 waitUser();
@@ -189,8 +188,7 @@ public class CalendarioAcademico {
                         pesquisaData = repositorio
                                 .pesquisarData(eventos, dataPesquisa);
                         pesquisaData.forEach(System.out::println);
-                    } catch (EventoNaoLocalizadoException 
-                            | IllegalArgumentException ex) {
+                    } catch (EventoNaoLocalizadoException | IllegalArgumentException ex) {
                         System.out.println(ex.getMessage());
                     }
                     waitUser();
@@ -202,18 +200,15 @@ public class CalendarioAcademico {
                     System.out.print("Digite o término do período: ");
                     GregorianCalendar dataPeriodofim = cadastrarData();
                     try {
-                ArrayList<Evento> pesquisaPeriodo;
-                pesquisaPeriodo = repositorio.pesquisarEventoperiodo
-                                   (eventos, dataPeriodoinicio, dataPeriodofim);
+                        ArrayList<Evento> pesquisaPeriodo;
+                        pesquisaPeriodo = repositorio.pesquisarEventoperiodo(eventos, dataPeriodoinicio, dataPeriodofim);
                         pesquisaPeriodo.forEach(System.out::println);
-                    } catch (EventoNaoLocalizadoException 
-                            | IllegalArgumentException ex) {
+                    } catch (EventoNaoLocalizadoException | IllegalArgumentException ex) {
                         System.out.println(ex.getMessage());
                     }
                     waitUser();
                     break;
 
-                
                 case 6:
                     System.out.print("Confirme o usuário pré-cadastrado: ");
                     user = scan.nextLine();
@@ -284,8 +279,7 @@ public class CalendarioAcademico {
                         try {
                             repositorio.alterarEvento(eventos, nomePesquisa);
                             Collections.sort(eventos);
-                        } catch (EventoDuplicadoException
-                                | EventoNaoLocalizadoException ex) {
+                        } catch (EventoDuplicadoException | EventoNaoLocalizadoException ex) {
                             System.out.println(ex.getMessage());
                         }
                     }
@@ -322,7 +316,12 @@ public class CalendarioAcademico {
         System.exit(0);
     }
 
-
+    /**
+     * O método imprime uma lista de opçãos a serem escolhidas.
+     *
+     * @return Retorna um numero inteiro da opção do menu de modificação.
+     * @throws NumberFormatException
+     */
     public static int menuModificacao() {
         System.out.println("O que deseja alterar?");
         System.out.println("0 - Terminar as alterações");
@@ -342,6 +341,10 @@ public class CalendarioAcademico {
         return opcao;
     }
 
+    /**
+     *
+     * @return @throws EventoDuplicadoException
+     */
     public static Evento lerEvento() throws EventoDuplicadoException {
         String nome = cadastrarNome();
 
@@ -358,12 +361,23 @@ public class CalendarioAcademico {
         return evento;
     }
 
+    /**
+     * Faz a leitura do nome do evento passado pelo usuario e adiciona no evento
+     *
+     * @return Cadastra nome do evento
+     */
     public static String cadastrarNome() {
         System.out.println("Digite o nome do Evento:");
         String nome = scan.nextLine();
         return nome.toUpperCase();
     }
 
+    /**
+     * Cadastra uma regional a partir de uma lista.
+     *
+     * @return retorna uma lista de regionais
+     * @throws EventoDuplicadoException
+     */
     public static ArrayList<String> cadastrarRegional()
             throws EventoDuplicadoException {
         String maisUm = "Sim";
@@ -380,8 +394,8 @@ public class CalendarioAcademico {
             } catch (NumberFormatException ex) {
                 numRegional = -1;
             }
-            
-            if (numRegional > 0 && numRegional < 5){
+
+            if (numRegional > 0 && numRegional < 5) {
                 String escolhaRegional
                         = RepositorioEvento.escolhaRegional(numRegional);
 
@@ -396,16 +410,14 @@ public class CalendarioAcademico {
                 maisUm = scan.nextLine();
 
                 cont++;
-            }
-            else if (numRegional == 5) {
+            } else if (numRegional == 5) {
                 regionalList = null;
                 regionalList.add(RepositorioEvento.escolhaRegional(1));
                 regionalList.add(RepositorioEvento.escolhaRegional(2));
                 regionalList.add(RepositorioEvento.escolhaRegional(3));
                 regionalList.add(RepositorioEvento.escolhaRegional(4));
                 cont = 5;
-            }
-            else {
+            } else {
                 System.out.println("Regional não existe");
             }
         }
@@ -413,6 +425,9 @@ public class CalendarioAcademico {
         return regionalList;
     }
 
+    /**
+     * Imprime o menu das regionais.
+     */
     public static void menuRegionais() {
         System.out.println("Escolha a regional pelo número correspondente"
                 + ": ");
@@ -427,18 +442,35 @@ public class CalendarioAcademico {
         System.out.println("5. Todas as regionais");
     }
 
+    /**
+     * Cadastra instituto e adiciona ao Evento.
+     *
+     * @return Adiciona o instituto no objeto Evento.
+     */
     public static String cadastrarInstituto() {
         System.out.print("Instituto: ");
         String instituto = scan.nextLine();
         return instituto.toUpperCase();
     }
 
+    /**
+     * Cadastra descrição do evento.
+     *
+     * @return Adiciona uma descrição ao Evento.
+     */
     public static String cadastrarDescricao() {
         System.out.print("Descrição: ");
         String descricao = scan.nextLine();
         return descricao.toUpperCase();
     }
 
+    /**
+     * Cadastra data do evento.
+     *
+     * @return A data inicial.
+     * @throws NumberFormatException
+     * @throws IndexOutOfBoundsException
+     */
     public static GregorianCalendar cadastrarData() {
 
         GregorianCalendar dataInicial = new GregorianCalendar();
@@ -459,6 +491,13 @@ public class CalendarioAcademico {
         return dataInicial;
     }
 
+    /**
+     * Verifica se a data é válida, caso não seja pede para que seja inseria
+     * uma, data válida.
+     *
+     * @param data String da data a ser inserida.
+     * @return a data inicial válida.
+     */
     public static GregorianCalendar inserirData(String data) {
 
         GregorianCalendar dataInicial = new GregorianCalendar();
@@ -478,6 +517,9 @@ public class CalendarioAcademico {
         return dataInicial;
     }
 
+    /**
+     * Imprime o menu do administrador.
+     */
     private static void menuAdmin() {
         System.out.println("0 - Sair do programa.");
         System.out.println("1 - Exibir calendário inteiro.");
@@ -492,8 +534,10 @@ public class CalendarioAcademico {
         System.out.println("10 - Fazer logoff.");
     }
 
-
-        private static void menuGuest() {
+    /**
+     * Imprime o menu do usuario normal.
+     */
+    private static void menuGuest() {
         System.out.println("0 - Sair do programa.");
         System.out.println("1 - Exibir calendário inteiro.");
         System.out.println("2 - Pesquisar em uma regional.");
@@ -504,13 +548,20 @@ public class CalendarioAcademico {
         System.out.println("7 - Fazer login.");
     }
 
-
+    /**
+     * Aguarda o usuario pressionar a tecla enter e imprime uma mensagem,
+     * retorna para o usuario para o menu.
+     *
+     */
     public static void waitUser() {
         System.out.println("\n\nPressionar a tecla \"ENTER\" retorna ao menu.");
         scan.nextLine();
         System.out.println("\n\n\n\n\n\n\n\n\n");
     }
 
+    /**
+     * Imprime o menu para a busca avançada na regional.
+     */
     private static void menuBuscaRegional() {
         System.out.println("0 - Retornar ao menu principal.");
         System.out.println("1 - Exibir calendário da regional.");
