@@ -78,7 +78,7 @@ public class CalendarioAcademico {
                 opcao = -1;
             }
 
-            if (admin.isOnline() && opcao > 4) {
+            if (admin.isOnline() && opcao > 5) {
                 opcao += 2;
             }
 
@@ -208,26 +208,8 @@ public class CalendarioAcademico {
                     }
                     waitUser();
                     break;
-
-                case 6:
-                    System.out.print("Confirme o usuário pré-cadastrado: ");
-                    user = scan.nextLine();
-                    System.out.print("Confirme a senha pré-cadastrada: ");
-                    pass = scan.nextLine();
-                    admin.login(user, pass);
-                    if (admin.isOnline()) {
-                        System.out.print("Digite o novo nome de usuário: ");
-                        user = scan.nextLine();
-                        System.out.print("Digite a nova senha: ");
-                        pass = scan.nextLine();
-                        admin = new Administrador(user, pass);
-                    } else {
-                        System.out.println("Usuário ou senha incorreto.");
-                    }
-                    waitUser();
-                    break;
-
-                case 7:
+                    
+                    case 6:
                     System.out.print("Digite o nome de usuário: ");
                     user = scan.nextLine();
                     System.out.print("Digite a senha: ");
@@ -298,8 +280,21 @@ public class CalendarioAcademico {
                     }
                     waitUser();
                     break;
-
+                    
                 case 12:
+                    if (admin.isOnline()) {
+                        System.out.print("Digite o novo nome de usuário: ");
+                        user = scan.nextLine();
+                        System.out.print("Digite a nova senha: ");
+                        pass = scan.nextLine();
+                        admin = new Administrador(user, pass);
+                    } else {
+                        System.out.println("Usuário ou senha incorreto.");
+                    }
+                    waitUser();
+                    break;
+
+                case 13:
                     if (admin.isOnline()) {
                         admin.logoff();
                     }
@@ -592,7 +587,8 @@ public class CalendarioAcademico {
         System.out.println("7 - Remover um evento.");
         System.out.println("8 - Alterar um evento.");
         System.out.println("9 - Alterar senha.");
-        System.out.println("10 - Fazer logoff.");
+        System.out.println("10 - Registrar um novo administrador");
+        System.out.println("11 - Fazer logoff.");
     }
 
     /**
@@ -605,8 +601,7 @@ public class CalendarioAcademico {
         System.out.println("3 - Pesquisar por nome.");
         System.out.println("4 - Pesquisar por data.");
         System.out.println("5 - Pesquisar por período.");
-        System.out.println("6 - Registrar Administrador.");
-        System.out.println("7 - Fazer login.");
+        System.out.println("6 - Fazer login.");
     }
 
     /**
