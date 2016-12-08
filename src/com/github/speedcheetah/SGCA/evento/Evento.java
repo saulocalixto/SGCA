@@ -44,7 +44,7 @@ public class Evento implements Comparable<Evento> {
     private String descricao;
     private final String identificacaounica;
     private final SimpleDateFormat formato =
-            new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            new SimpleDateFormat("dd/MM/yyyy - HH:mm");
 
     /**
      * Adiciona os atributos necessarios a classe.
@@ -84,7 +84,7 @@ public class Evento implements Comparable<Evento> {
                 .append(nome)
                 .append("\nData do Evento: ")
                 .append(formato.format(dataInicial.getTime()))
-                .append(" - ").append(formato.format(dataFinal.getTime()))
+                .append(" | ").append(formato.format(dataFinal.getTime()))
                 .append("\nRegional(ais): ");
         for (Iterator itr = regional.iterator(); itr.hasNext();) {
             retorno.append("\n")

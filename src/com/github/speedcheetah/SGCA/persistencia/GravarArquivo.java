@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -24,6 +25,8 @@ public class GravarArquivo {
 
         try {
             for (Evento aux : eventos) {
+                final SimpleDateFormat formato =
+            new SimpleDateFormat("dd/MM/yyyy HH:mm");
                 ArrayList <String> reg = aux.getRegional();
                 ArrayList <String> interessado = aux.getRegional();
                 gravar += aux.getNome() + "¬" + aux.getDataInicialStr() + "¬"
