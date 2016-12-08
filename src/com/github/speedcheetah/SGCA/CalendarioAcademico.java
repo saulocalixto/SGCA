@@ -180,7 +180,7 @@ public class CalendarioAcademico {
                                 try {
                                     ArrayList<Evento> pesquisaPeriodo;
                                     pesquisaPeriodo = RepositorioEvento
-                                            .pesquisarEventoPeriodo(eventos,
+                                            .pesquisarEventoPeriodo(regional,
                                                     dataPeriodoinicio, dataPeriodofim);
                                     pesquisaPeriodo.forEach(System.out::println);
                                 } catch (EventoNaoLocalizadoException
