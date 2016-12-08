@@ -196,6 +196,24 @@ public class CalendarioAcademico {
                     break;
 
                 case 5:
+                    System.out.print("Digite o início do período: ");
+                    GregorianCalendar dataPeriodoinicio = cadastrarData();
+                    System.out.print("Digite o término do período: ");
+                    GregorianCalendar dataPeriodofim = cadastrarData();
+                    try {
+                ArrayList<Evento> pesquisaPeriodo;
+                pesquisaPeriodo = repositorio.pesquisarEventoperiodo
+                                   (eventos, dataPeriodoinicio, dataPeriodofim);
+                        pesquisaPeriodo.forEach(System.out::println);
+                    } catch (EventoNaoLocalizadoException 
+                            | IllegalArgumentException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                    waitUser();
+                    break;
+
+                
+                case 6:
                     System.out.print("Confirme o usuário pré-cadastrado: ");
                     user = scan.nextLine();
                     System.out.print("Confirme a senha pré-cadastrada: ");
@@ -213,7 +231,7 @@ public class CalendarioAcademico {
                     waitUser();
                     break;
 
-                case 6:
+                case 7:
                     System.out.print("Digite o nome de usuário: ");
                     user = scan.nextLine();
                     System.out.print("Digite a senha: ");
@@ -228,7 +246,7 @@ public class CalendarioAcademico {
                     waitUser();
                     break;
 
-                case 7:
+                case 8:
                     if (admin.isOnline()) {
                         try {
                             Evento newEvento = lerEvento();
@@ -242,7 +260,7 @@ public class CalendarioAcademico {
                     waitUser();
                     break;
 
-                case 8:
+                case 9:
                     if (admin.isOnline()) {
                         System.out.println("Digite o nome do evento a ser"
                                 + "removido");
@@ -257,7 +275,7 @@ public class CalendarioAcademico {
                     waitUser();
                     break;
 
-                case 9:
+                case 10:
                     if (admin.isOnline()) {
                         System.out.println("Digite o nome do evento a ser "
                                 + "alterado");
@@ -273,7 +291,7 @@ public class CalendarioAcademico {
                     waitUser();
                     break;
 
-                case 10:
+                case 11:
                     if (admin.isOnline()) {
                         System.out.print("Confirme sua senha: ");
                         pass = scan.nextLine();
@@ -286,7 +304,7 @@ public class CalendarioAcademico {
                     waitUser();
                     break;
 
-                case 11:
+                case 12:
                     if (admin.isOnline()) {
                         admin.logoff();
                     }
@@ -302,6 +320,7 @@ public class CalendarioAcademico {
                 + " Sistema de Gestão de Calendário Acadêmico!");
         System.exit(0);
     }
+
 
     public static int menuModificacao() {
         System.out.println("O que deseja alterar?");
@@ -464,22 +483,26 @@ public class CalendarioAcademico {
         System.out.println("2 - Pesquisar na regional.");
         System.out.println("3 - Pesquisar por nome.");
         System.out.println("4 - Pesquisar por data.");
-        System.out.println("5 - Cadastrar evento novo.");
-        System.out.println("6 - Remover um evento.");
-        System.out.println("7 - Alterar um evento.");
-        System.out.println("8 - Alterar senha.");
-        System.out.println("9 - Fazer logoff.");
+        System.out.println("5 - Pesquisar por período.");
+        System.out.println("6 - Cadastrar evento novo.");
+        System.out.println("7 - Remover um evento.");
+        System.out.println("8 - Alterar um evento.");
+        System.out.println("9 - Alterar senha.");
+        System.out.println("10 - Fazer logoff.");
     }
 
-    private static void menuGuest() {
+
+        private static void menuGuest() {
         System.out.println("0 - Sair do programa.");
         System.out.println("1 - Exibir calendário inteiro.");
         System.out.println("2 - Pesquisar em uma regional.");
         System.out.println("3 - Pesquisar por nome.");
         System.out.println("4 - Pesquisar por data.");
-        System.out.println("5 - Registrar Administrador.");
-        System.out.println("6 - Fazer login.");
+        System.out.println("5 - Pesquisar por período.");
+        System.out.println("6 - Registrar Administrador.");
+        System.out.println("7 - Fazer login.");
     }
+
 
     public static void waitUser() {
         System.out.println("\n\nPressionar a tecla \"ENTER\" retorna ao menu.");

@@ -132,6 +132,35 @@ public class RepositorioEvento {
         return eventosData;
     }
 
+    public ArrayList<Evento> pesquisarEventoperiodo(ArrayList eventos,
+            GregorianCalendar dataPeriodoinicio,
+            GregorianCalendar dataPeriodofim )
+            throws EventoNaoLocalizadoException, IllegalArgumentException {
+        if (!(testaData(dataPeriodoinicio) || testaData(dataPeriodofim))) {
+            throw new IllegalArgumentException("Data inválida.");
+        }
+        ArrayList<Evento> eventosData = new ArrayList();
+        for (Iterator itr = eventos.iterator(); itr.hasNext();) {
+            Evento p = (Evento) itr.next();
+            if ((dataPeriodoinicio.before(p.getDataInicial())
+                    && dataPeriodofim.after(p.getDataFinal())) || 
+                    !dataPeriodoinicio.before(p.getDataInicial()) && 
+                    dataPeriodoinicio.before(p.getDataFinal()) || 
+                    dataPeriodofim.after(p.getDataInicial()) && 
+                    dataPeriodofim.before(p.getDataFinal()) || 
+                    !dataPeriodoinicio.before(p.getDataInicial()) && 
+                    !dataPeriodoinicio.before(p.getDataFinal())) 
+                    eventosData.add(p);     
+            
+                                            
+        }
+        if (eventosData.isEmpty()) {
+            throw new EventoNaoLocalizadoException();
+        }
+        return eventosData;
+    }
+
+    
     public void removerEvento(ArrayList eventos, String nomePesquisa)
             throws EventoNaoLocalizadoException {
         Evento e = pesquisarNome(eventos, nomePesquisa);
