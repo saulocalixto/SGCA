@@ -142,15 +142,12 @@ public class RepositorioEvento {
         ArrayList<Evento> eventosData = new ArrayList();
         for (Iterator itr = eventos.iterator(); itr.hasNext();) {
             Evento p = (Evento) itr.next();
-            if ((dataPeriodoinicio.before(p.getDataInicial())
-                    && dataPeriodofim.after(p.getDataFinal())) || 
-                    !dataPeriodoinicio.before(p.getDataInicial()) && 
-                    dataPeriodoinicio.before(p.getDataFinal()) || 
-                    dataPeriodofim.after(p.getDataInicial()) && 
-                    dataPeriodofim.before(p.getDataFinal()) || 
-                    !dataPeriodoinicio.before(p.getDataInicial()) && 
-                    !dataPeriodoinicio.before(p.getDataFinal())) 
-                    eventosData.add(p);     
+            if (((dataPeriodoinicio.before(p.getDataInicial()))
+                    && (dataPeriodofim.after(p.getDataInicial()))) ||
+                    (dataPeriodoinicio.after(p.getDataInicial()) &&
+                    dataPeriodofim.before(p.getDataFinal())) ) {
+                eventosData.add(p);
+            }   
             
                                             
         }
