@@ -35,7 +35,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -51,7 +54,6 @@ public class CalendarioAcademico {
     public static void main(String[] args) throws IOException {
 
         ArrayList eventos = new ArrayList();
-        RepositorioEvento repositorio = new RepositorioEvento();
         Administrador admin = new Administrador("admin", "password");
         admin.logoff();
 
@@ -111,7 +113,7 @@ public class CalendarioAcademico {
                             = RepositorioEvento.escolhaRegional(numRegional);
                     ArrayList<Evento> regional;
                     try {
-                        regional = repositorio.pesquisarRegional(eventos,
+                        regional = RepositorioEvento.pesquisarRegional(eventos,
                                 escolhaRegional);
                     } catch (EventoNaoLocalizadoException ex) {
                         System.out.println(ex.getMessage());
@@ -142,7 +144,7 @@ public class CalendarioAcademico {
                                 String nomePesquisa = scan.nextLine();
                                 Evento ev;
                                 try {
-                                    ev = repositorio.
+                                    ev = RepositorioEvento.
                                             pesquisarNome(regional, nomePesquisa);
                                     System.out.println(ev.toString());
                                 } catch (EventoNaoLocalizadoException ex) {
@@ -151,13 +153,15 @@ public class CalendarioAcademico {
                                 waitUser();
                                 break;
                             case 3:
-                                System.out.print("Digite a data desejada: ");
+                                System.out.print("Digite a data desejada"
+                                        + "(dd/mm/aaaa - HH:mm): ");
                                 GregorianCalendar dataPesquisa = cadastrarData();
                                 try {
-                                    pesquisaData = repositorio
+                                    pesquisaData = RepositorioEvento
                                             .pesquisarData(regional, dataPesquisa);
                                     System.out.println(pesquisaData);
-                                } catch (EventoNaoLocalizadoException | IllegalArgumentException ex) {
+                                } catch (EventoNaoLocalizadoException
+                                        | IllegalArgumentException ex) {
                                     System.out.println(ex.getMessage());
                                 }
                                 waitUser();
@@ -173,7 +177,7 @@ public class CalendarioAcademico {
                     String nome = scan.nextLine();
                     Evento ev;
                     try {
-                        ev = repositorio.pesquisarNome(eventos, nome);
+                        ev = RepositorioEvento.pesquisarNome(eventos, nome);
                         System.out.println(ev.toString());
                     } catch (EventoNaoLocalizadoException ex) {
                         System.out.println(ex.getMessage());
@@ -182,28 +186,35 @@ public class CalendarioAcademico {
                     break;
 
                 case 4:
-                    System.out.print("Digite a data desejada: ");
+                    System.out.print("Digite a data desejada"
+                            + "(dd/mm/aaaa - HH:mm): ");
                     GregorianCalendar dataPesquisa = cadastrarData();
                     try {
-                        pesquisaData = repositorio
+                        pesquisaData = RepositorioEvento
                                 .pesquisarData(eventos, dataPesquisa);
                         pesquisaData.forEach(System.out::println);
-                    } catch (EventoNaoLocalizadoException | IllegalArgumentException ex) {
+                    } catch (EventoNaoLocalizadoException
+                            | IllegalArgumentException ex) {
                         System.out.println(ex.getMessage());
                     }
                     waitUser();
                     break;
 
                 case 5:
-                    System.out.print("Digite o início do período: ");
+                    System.out.print("Digite o início do período"
+                            + "(dd/mm/aaaa - HH:mm): ");
                     GregorianCalendar dataPeriodoinicio = cadastrarData();
-                    System.out.print("Digite o término do período: ");
+                    System.out.print("Digite o término do período"
+                            + "(dd/mm/aaaa - HH:mm): ");
                     GregorianCalendar dataPeriodofim = cadastrarData();
                     try {
                         ArrayList<Evento> pesquisaPeriodo;
-                        pesquisaPeriodo = repositorio.pesquisarEventoperiodo(eventos, dataPeriodoinicio, dataPeriodofim);
+                        pesquisaPeriodo = 
+                                RepositorioEvento.pesquisarEventoPeriodo(eventos,
+                                        dataPeriodoinicio, dataPeriodofim);
                         pesquisaPeriodo.forEach(System.out::println);
-                    } catch (EventoNaoLocalizadoException | IllegalArgumentException ex) {
+                    } catch (EventoNaoLocalizadoException
+                            | IllegalArgumentException ex) {
                         System.out.println(ex.getMessage());
                     }
                     waitUser();
@@ -246,7 +257,7 @@ public class CalendarioAcademico {
                     if (admin.isOnline()) {
                         try {
                             Evento newEvento = lerEvento();
-                            repositorio.addEvento(eventos, newEvento);
+                            RepositorioEvento.addEvento(eventos, newEvento);
                             System.out.println("Evento adicionado.");
                             Collections.sort(eventos);
                         } catch (EventoDuplicadoException ex) {
@@ -262,7 +273,7 @@ public class CalendarioAcademico {
                                 + "removido");
                         String nomePesquisa = scan.nextLine();
                         try {
-                            repositorio.removerEvento(eventos, nomePesquisa);
+                            RepositorioEvento.removerEvento(eventos, nomePesquisa);
                         } catch (EventoNaoLocalizadoException ex) {
                             System.out.println(ex.getMessage());
                         }
@@ -277,9 +288,10 @@ public class CalendarioAcademico {
                                 + "alterado");
                         String nomePesquisa = scan.nextLine();
                         try {
-                            repositorio.alterarEvento(eventos, nomePesquisa);
+                            RepositorioEvento.alterarEvento(eventos, nomePesquisa);
                             Collections.sort(eventos);
-                        } catch (EventoDuplicadoException | EventoNaoLocalizadoException ex) {
+                        } catch (EventoDuplicadoException
+                                | EventoNaoLocalizadoException ex) {
                             System.out.println(ex.getMessage());
                         }
                     }
@@ -326,8 +338,8 @@ public class CalendarioAcademico {
         System.out.println("O que deseja alterar?");
         System.out.println("0 - Terminar as alterações");
         System.out.println("1 - Nome.");
-        System.out.println("2 - Data de inicio.");
-        System.out.println("3 - Data de término.");
+        System.out.println("2 - Data de inicio(dd/mm/aaaa - HH:mm).");
+        System.out.println("3 - Data de término(dd/mm/aaaa - HH:mm).");
         System.out.println("4 - Regional.");
         System.out.println("5 - Instituto.");
         System.out.println("6 - Descrição.");
@@ -348,10 +360,10 @@ public class CalendarioAcademico {
     public static Evento lerEvento() throws EventoDuplicadoException {
         String nome = cadastrarNome();
 
-        System.out.print("Data de início(dd/mm/aaaa): ");
+        System.out.print("Data de início(dd/mm/aaaa - HH:mm): ");
         GregorianCalendar dataI = cadastrarData();
 
-        System.out.print("Data de final(dd/mm/aaaa): ");
+        System.out.print("Data final(dd/mm/aaaa - HH:mm): ");
         GregorianCalendar dataFinal = cadastrarData();
 
         Evento evento = new Evento(nome, dataI, dataFinal,
@@ -477,13 +489,15 @@ public class CalendarioAcademico {
         dataInicial.setLenient(false);
         do {
             String data = scan.nextLine();
-            String[] dataValor = RepositorioEvento.parseData(data);
             try {
-                dataInicial.set(Integer.parseInt(dataValor[2]),
-                        Integer.parseInt(dataValor[1]) - 1,
-                        Integer.parseInt(dataValor[0]));
-            } catch (NumberFormatException | IndexOutOfBoundsException ex) {
-                dataInicial.set(-1, -1, -1);
+                List<String> dataValor = RepositorioEvento.parseData(data);
+                dataInicial.set(Integer.parseInt(dataValor.get(2)),
+                        Integer.parseInt(dataValor.get(1)) - 1,
+                        Integer.parseInt(dataValor.get(0)),
+                        Integer.parseInt(dataValor.get(3)),
+                        Integer.parseInt(dataValor.get(4)));
+            } catch (Exception ex) {
+                dataInicial.set(-1, -1, -1, -1, -1);
                 System.out.println("Reinsira a data.");
             }
         } while (!RepositorioEvento.testaData(dataInicial));
@@ -502,17 +516,18 @@ public class CalendarioAcademico {
 
         GregorianCalendar dataInicial = new GregorianCalendar();
         dataInicial.setLenient(false);
-        do {
-            String[] dataValor = RepositorioEvento.parseData(data);
-            try {
-                dataInicial.set(Integer.parseInt(dataValor[2]),
-                        Integer.parseInt(dataValor[1]) - 1,
-                        Integer.parseInt(dataValor[0]));
-            } catch (NumberFormatException | IndexOutOfBoundsException ex) {
-                dataInicial.set(-1, -1, -1);
-                System.out.println("Reinsira a data.");
-            }
-        } while (!RepositorioEvento.testaData(dataInicial));
+        List<String> dataValor = new ArrayList();
+        try {
+            dataValor = RepositorioEvento.parseData(data);
+        } catch (Exception ex) {
+            Logger.getLogger(CalendarioAcademico.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+        dataInicial.set(Integer.parseInt(dataValor.get(2)),
+                        Integer.parseInt(dataValor.get(1)) - 1,
+                        Integer.parseInt(dataValor.get(0)),
+                        Integer.parseInt(dataValor.get(3)),
+                        Integer.parseInt(dataValor.get(4)));
 
         return dataInicial;
     }

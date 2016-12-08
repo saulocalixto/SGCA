@@ -42,7 +42,7 @@ public class Evento implements Comparable<Evento> {
     private String instituto;
     private String descricao;
     private String identificacaounica;
-    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+    private SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
     /**
      * Adiciona os atributos necessarios a classe.

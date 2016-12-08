@@ -30,13 +30,16 @@ import com.github.speedcheetah.SGCA.enums.Regional;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.List;
 /**
  *
  * @author saulocalixto
  */
-public class RepositorioEvento {
+public final class RepositorioEvento {
 
-    public void addEvento(ArrayList<Evento> eventos, Evento newEvento)
+    private RepositorioEvento() { }
+
+    public static void addEvento(ArrayList<Evento> eventos, Evento newEvento)
             throws EventoDuplicadoException {
         if (eventos.contains(newEvento)) {
             throw new EventoDuplicadoException("Esse produto já foi adicionado."
@@ -56,16 +59,27 @@ public class RepositorioEvento {
         return true;
     }
 
-    public static String[] parseData(String data) {
+    public static List<String> parseData(String data) throws Exception {
         String[] valores;
 
-        valores = data.split("/");
+        valores = data.split("-");
+        String dia = valores[0].trim();
+        String hora = valores[1].trim();
 
-        return valores;
+        String paramDia[] = dia.split("/");
+        String paramHora[] = hora.split(":");
+
+        List<String> paramData = new ArrayList();
+        paramData.add(0, paramDia[0]);
+        paramData.add(1, paramDia[1]);
+        paramData.add(2, paramDia[2]);
+        paramData.add(3, paramHora[0]);
+        paramData.add(4, paramHora[1]);
+        return paramData;
     }
 
-    public ArrayList<Evento> pesquisarRegional(ArrayList eventos, String regPesq)
-            throws EventoNaoLocalizadoException {
+    public static ArrayList<Evento> pesquisarRegional(ArrayList eventos,
+            String regPesq) throws EventoNaoLocalizadoException {
         ArrayList<Evento> eventosRegionais = new ArrayList();
         for (Iterator itr = eventos.iterator(); itr.hasNext();) {
             Evento e = (Evento) itr.next();
@@ -79,7 +93,7 @@ public class RepositorioEvento {
         return eventosRegionais;
     }
 
-    public Evento pesquisarNome(ArrayList eventos, String nomePesquisa)
+    public static Evento pesquisarNome(ArrayList eventos, String nomePesquisa)
             throws EventoNaoLocalizadoException {
 
         for (Iterator itr = eventos.iterator(); itr.hasNext();) {
@@ -112,7 +126,7 @@ public class RepositorioEvento {
         return escolhido;
     }
 
-    public ArrayList<Evento> pesquisarData(ArrayList eventos,
+    public static ArrayList<Evento> pesquisarData(ArrayList eventos,
             GregorianCalendar dataPesquisa)
             throws EventoNaoLocalizadoException, IllegalArgumentException {
         if (!testaData(dataPesquisa)) {
@@ -132,24 +146,20 @@ public class RepositorioEvento {
         return eventosData;
     }
 
-    public ArrayList<Evento> pesquisarEventoperiodo(ArrayList eventos,
-            GregorianCalendar dataPeriodoinicio,
-            GregorianCalendar dataPeriodofim )
+    public static ArrayList<Evento> pesquisarEventoPeriodo(ArrayList eventos,
+            GregorianCalendar dataPeriodoInicio,
+            GregorianCalendar dataPeriodoFim )
             throws EventoNaoLocalizadoException, IllegalArgumentException {
-        if (!(testaData(dataPeriodoinicio) && testaData(dataPeriodofim))) {
+        if (!(testaData(dataPeriodoInicio) && testaData(dataPeriodoFim))) {
             throw new IllegalArgumentException("Data inválida.");
         }
         ArrayList<Evento> eventosData = new ArrayList();
         for (Iterator itr = eventos.iterator(); itr.hasNext();) {
             Evento p = (Evento) itr.next();
-            if (((dataPeriodoinicio.before(p.getDataInicial()))
-                    && (dataPeriodofim.after(p.getDataInicial()))) ||
-                    (dataPeriodoinicio.after(p.getDataInicial()) &&
-                    dataPeriodofim.before(p.getDataFinal())) ) {
+            if (!((dataPeriodoFim.before(p.getDataInicial()))
+                    || (dataPeriodoInicio.after(p.getDataFinal())))) {
                 eventosData.add(p);
-            }   
-            
-                                            
+            }                
         }
         if (eventosData.isEmpty()) {
             throw new EventoNaoLocalizadoException();
@@ -158,13 +168,13 @@ public class RepositorioEvento {
     }
 
     
-    public void removerEvento(ArrayList eventos, String nomePesquisa)
+    public static void removerEvento(ArrayList eventos, String nomePesquisa)
             throws EventoNaoLocalizadoException {
         Evento e = pesquisarNome(eventos, nomePesquisa);
         eventos.remove(e);
     }
 
-    public void alterarEvento(ArrayList eventos, String nomePesquisa)
+    public static void alterarEvento(ArrayList eventos, String nomePesquisa)
             throws EventoDuplicadoException, EventoNaoLocalizadoException {
         int opcao = -1;
         while (opcao != 0) {
